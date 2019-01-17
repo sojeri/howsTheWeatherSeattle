@@ -1,0 +1,301 @@
+:root {
+    --frame-width: 400px;
+    --half-frame-width: 200px;
+    --weather-background: #000;
+    --data-background: #ccc;
+    --clear-background: #69f;
+    --cloudy-background: #ccf;
+    --night-overlay: rgba(0,0,80,.4);
+    --light-position: 60px;
+    --light-size: 70px;
+}
+
+.frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--frame-width);
+    height: var(--frame-width);
+    margin-top: calc(-1 * var(--half-frame-width));
+    margin-left: calc(-1 * var(--half-frame-width));
+    border-radius: 2px;
+    box-shadow: 0 0 16px 0 rgba(0,0,0,0.2);
+    overflow: hidden;
+    font-family: 'Droid Sans', Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.center {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#loading {
+    z-index: 4;
+    height: var(--frame-width);
+    width: var(--frame-width);
+    background: #ccc;
+}
+
+.loaded {
+    display: none;
+}
+
+#spinner {
+    position: absolute;
+    top: calc(50% - .5 * var(--light-size));
+    left: calc(50% - .5 * var(--light-size));
+    
+    background: #00f;
+    height: var(--light-size);
+    width: var(--light-size);
+    animation: spinHorizontal 1s ease-in-out infinite alternate;
+}
+
+#drop {
+    height: calc(.5 * var(--light-size));
+    width: calc(.5 * var(--light-size));
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+    transform: rotate(-45deg);
+    background: #aff;
+}
+
+@keyframes spinHorizontal {
+    0% { transform: rotateY(0deg); }
+    100% { background: #fc0; transform: rotateY(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#weather {
+    height: calc(var(--frame-width) / 5 * 4);
+    width: var(--frame-width);
+    position: relative;
+}
+
+#sun, #moon {
+    position: absolute;
+    top: var(--light-position);
+    left: var(--light-position);
+    height: var(--light-size);
+    width:  var(--light-size);
+    border-radius: 50%;
+}
+
+#sun {
+    background: linear-gradient(yellow, #fc0);
+    box-shadow: 0 0 10px orange;
+}
+
+.night #sun {
+    visibility: hidden;
+}
+
+#moon {
+    background: #334;
+    box-shadow: 0 0 10px #aaa;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.night #moon {
+    visibility: visible;
+}
+
+.light-overlay {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    height: var(--light-size);
+    width:  var(--light-size);
+    border-radius: 50%;
+    background: rgba(255,255,255,.8);
+}
+
+.empty.light-overlay {
+    visibility: hidden;
+}
+
+.half .light-overlay {
+    border-radius: 0;
+}
+
+.right.half .light-overlay{
+    left: calc(.5 * var(--light-size));
+}
+
+.left.half .light-overlay{
+    left: calc(-.5 * var(--light-size));
+}
+
+.gibbous .light-overlay {
+    height: calc(1.2 * var(--light-size));
+    top:  calc(-.1 * var(--light-size));
+}
+
+.gibbous.left .light-overlay {
+    left: calc(-.25 * var(--light-size));
+}
+
+.gibbous.right .light-overlay {
+    left: calc(.25 * var(--light-size));
+}
+
+.dots {
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+}
+
+.dot {
+    background: #001;
+    position: absolute;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+}
+
+.dot.one {
+    height: 7px;
+    width: 7px;
+    top: 10px;
+    left: 16px;
+}
+
+.dot.two {
+    top: 40px;
+    left: 56px;
+}
+
+.dot.three {
+    top: 20px;
+    left: 16px;
+}
+
+.dot.four {
+    height: 7px;
+    width: 7px;
+    top: 50px;
+    left: 18px;
+}
+
+.dot.five {
+    height: 7px;
+    width: 7px;
+    top: 50px;
+    left: 36px;
+}
+
+.dot.six {
+    height: 10px;
+    width: 13px;
+    top: 23px;
+    left: 42px;
+}
+
+.dot.seven {
+    height: 10px;
+    width: 10px;
+    top: 53px;
+    left: 20px;
+}
+
+.clear, .mist {
+    background: var(--clear-background);
+}
+
+.clouds, .rain, .snow {
+    background: var(--cloudy-background);
+}
+
+.cloud, .puff {
+    visibility: hidden;
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.night .cloud, .night .puff {
+    background: #999;
+}
+
+.cloud {
+    height: 80px;
+    width: 250px;
+    filter: blur(10px);
+}
+
+.puff {
+    height: 60px;
+    width: 160px;
+    filter: blur(20px);
+}
+
+.cloud.one {
+    top: 0;
+    left: 80px;
+}
+
+.cloud.two {
+    top: 40px;
+    left: 180px;
+}
+
+.cloud.three {
+    top: 60px;
+    left: 0;
+}
+
+.puff.one {
+    top: 15px;
+    left: 230px;
+}
+
+.puff.two {
+    top: 100px;
+    left: 160px;
+}
+
+.puff.three {
+    top: 30px;
+    left: 15px;
+}
+
+.clouds .cloud, .clouds .puff {
+    visibility: visible;
+}
+
+.night {
+    background: var(--night-overlay);
+}
+
+#data {
+    height: calc(var(--frame-width) / 5);
+    width: var(--frame-width);
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    background: var(--data-background);
+}
+
+.temperatures {
+    flex-flow: column;
+}
+
+.temperatures h2 {
+    margin: 0;
+}
