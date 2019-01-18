@@ -1,73 +1,60 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const CARDINAL_WIND_DIRECTIONS = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
-function convertWindDegreesToCardinal(degrees) {
-    let cardinal = Math.floor((degrees/22.5) + 0.5);
-    return CARDINAL_WIND_DIRECTIONS[cardinal % 16];
+'use strict'
+/*eslint-env browser */
+
+module.exports = {
+  /**
+   * Create a <style>...</style> tag and add it to the document head
+   * @param {string} cssText
+   * @param {object?} options
+   * @return {Element}
+   */
+  createStyle: function (cssText, options) {
+    var container = document.head || document.getElementsByTagName('head')[0]
+    var style = document.createElement('style')
+    options = options || {}
+    style.type = 'text/css'
+    if (options.href) {
+      style.setAttribute('data-href', options.href)
+    }
+    if (style.sheet) { // for jsdom and IE9+
+      style.innerHTML = cssText
+      style.sheet.cssText = cssText
+    }
+    else if (style.styleSheet) { // for IE8 and below
+      style.styleSheet.cssText = cssText
+    }
+    else { // for Chrome, Firefox, and Safari
+      style.appendChild(document.createTextNode(cssText))
+    }
+    if (options.prepend) {
+      container.insertBefore(style, container.childNodes[0]);
+    } else {
+      container.appendChild(style);
+    }
+    return style
+  }
 }
 
-module.exports = convertWindDegreesToCardinal;
 },{}],2:[function(require,module,exports){
-const addMoonToDOM = require('../view/addMoonToDOM');
-const { MOON_ENDPOINT, REPLACE, FALLBACK_MOON } = require('./weatherAPIs');
-const fetchJsonResource = require('./fetchJsonResource');
-
-function getDateParam(date) {
-    const year = date.getUTCFullYear();
-    const month = date.getUTCMonth() + 1; // js 0 index month
-    const day = date.getUTCDate();
-
-    let param = year.toString();
-    if (month.length < 2) param += '0';
-    param += month;
-    if (day.length < 2) param += '0';
-    param += day;
-
-    return param;
+function subscribe(eventName, eventResponse, eventResponseLookupString) {
+    window.localStorage.setItem(eventResponseLookupString, eventResponse);
+    document.addEventListener(eventName, eventResponse);
 }
 
-function loadMoon() {
-    const date = getDateParam(new Date(Date.now()));
-    fetchJsonResource(
-        MOON_ENDPOINT.replace(REPLACE, date),
-        addMoonToDOM,
-        useFallbackMoon,
-        isSuccessfulReponseBody);
+function unsubscribe(eventName, eventResponseLookupString) {
+    const listenerToClear = window.localStorage.getItem(eventResponseLookupString);
+    document.removeEventListener(eventName, listenerToClear);
+    window.localStorage.removeItem(eventResponseLookupString);
 }
 
-function isSuccessfulReponseBody(blob) {
-    return blob && blob.moonPhase;
+module.exports = {
+    subscribe,
+    unsubscribe,
 }
-
-function useFallbackMoon() {
-    return addMoonToDOM(FALLBACK_MOON);
-}
-
-module.exports = loadMoon;
-},{"../view/addMoonToDOM":11,"./fetchJsonResource":4,"./weatherAPIs":6}],3:[function(require,module,exports){
-const addWeatherToDOM = require('../view/addWeatherToDOM');
-const { WEATHER_ENDPOINT, FALLBACK_WEATHER } = require('./weatherAPIs');
-const fetchJsonResource = require('./fetchJsonResource');
-
-function loadWeather() {
-    fetchJsonResource(
-        WEATHER_ENDPOINT,
-        addWeatherToDOM,
-        useFallbackWeather,
-        isSuccessfulReponseBody);
-}
-
-function isSuccessfulReponseBody(blob) {
-    return blob.cod && blob.cod == 200;
-}
-
-function useFallbackWeather() {
-    return addWeatherToDOM(FALLBACK_WEATHER);
-}
-
-module.exports = loadWeather;
-},{"../view/addWeatherToDOM":12,"./fetchJsonResource":4,"./weatherAPIs":6}],4:[function(require,module,exports){
-const logError = require('../logError');
-const { subscribe, unsubscribe } = require('../view/DOMutils');
+},{}],3:[function(require,module,exports){
+const logError = require('./utils/logError');
+const { subscribe, unsubscribe } = require('./DOMutils');
 
 function fetchJsonResource(URI, successCallback, failureCallback, isHealthyResponseCallback) {
     fetch(URI)
@@ -117,22 +104,72 @@ function getRandomIdentifier() {
 }
 
 module.exports = fetchJsonResource;
-},{"../logError":8,"../view/DOMutils":9}],5:[function(require,module,exports){
-function getWeatherToDraw(weatherCode) {
-    // https://openweathermap.org/weather-conditions
-    if (weatherCode >= 801 || weatherCode == 771) return 'clouds';
-    if (weatherCode == 701 || weatherCode == 741) return 'mist';
-    if (weatherCode >= 711 && weatherCode <= 762) return 'smoke';
-    if (weatherCode == 800 || weatherCode > 762) return 'clear';
-    if (weatherCode >= 600) return 'snow';
-    if (weatherCode >= 300) return 'rain'; // 300s drizzle 500s rain incl light
-    if (weatherCode >= 200) return 'thunder';
-    
-    throw new Error('unrecognized weather code!');
+},{"./DOMutils":2,"./utils/logError":6}],4:[function(require,module,exports){
+const addMoonToDOM = require('../view/addMoonToDOM');
+const { MOON_ENDPOINT, REPLACE, FALLBACK_MOON } = require('./weatherAPIs');
+const fetchJsonResource = require('./fetchJsonResource');
+
+function getDateParam(date) {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1; // js 0 index month
+    const day = date.getUTCDate();
+
+    let param = year.toString();
+    if (month.length < 2) param += '0';
+    param += month;
+    if (day.length < 2) param += '0';
+    param += day;
+
+    return param;
 }
 
-module.exports = getWeatherToDraw;
-},{}],6:[function(require,module,exports){
+function loadMoon() {
+    const date = getDateParam(new Date(Date.now()));
+    fetchJsonResource(
+        MOON_ENDPOINT.replace(REPLACE, date),
+        addMoonToDOM,
+        useFallbackMoon,
+        isSuccessfulReponseBody);
+}
+
+function isSuccessfulReponseBody(blob) {
+    return blob && blob.moonPhase;
+}
+
+function useFallbackMoon() {
+    return addMoonToDOM(FALLBACK_MOON);
+}
+
+module.exports = loadMoon;
+},{"../view/addMoonToDOM":11,"./fetchJsonResource":3,"./weatherAPIs":7}],5:[function(require,module,exports){
+const addWeatherToDOM = require('../view/addWeatherToDOM');
+const { WEATHER_ENDPOINT, FALLBACK_WEATHER } = require('./weatherAPIs');
+const fetchJsonResource = require('./fetchJsonResource');
+
+function loadWeather() {
+    fetchJsonResource(
+        WEATHER_ENDPOINT,
+        addWeatherToDOM,
+        useFallbackWeather,
+        isSuccessfulReponseBody);
+}
+
+function isSuccessfulReponseBody(blob) {
+    return blob.cod && blob.cod == 200;
+}
+
+function useFallbackWeather() {
+    return addWeatherToDOM(FALLBACK_WEATHER);
+}
+
+module.exports = loadWeather;
+},{"../view/addWeatherToDOM":12,"./fetchJsonResource":3,"./weatherAPIs":7}],6:[function(require,module,exports){
+function logError(error) {
+    console.error(error.message);
+}
+
+module.exports = logError;
+},{}],7:[function(require,module,exports){
 // https://openweathermap.org/current
 const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
 const FALLBACK_WEATHER = {
@@ -160,35 +197,17 @@ module.exports = {
     MOON_ENDPOINT,
     FALLBACK_MOON,
 }
-},{}],7:[function(require,module,exports){
-const loadWeather = require('./data/fetchAndUpdateWeather');
-const loadMoon = require('./data/fetchAndUpdateMoon');
+},{}],8:[function(require,module,exports){
+require('./index.scss');
+const loadWeather = require('./data/loadWeather');
+const loadMoon = require('./data/loadMoon');
 
 loadWeather();
 loadMoon();
-},{"./data/fetchAndUpdateMoon":2,"./data/fetchAndUpdateWeather":3}],8:[function(require,module,exports){
-function logError(error) {
-    console.error(error.message);
-}
-
-module.exports = logError;
-},{}],9:[function(require,module,exports){
-function subscribe(eventName, eventResponse, eventResponseLookupString) {
-    window.localStorage.setItem(eventResponseLookupString, eventResponse);
-    document.addEventListener(eventName, eventResponse);
-}
-
-function unsubscribe(eventName, eventResponseLookupString) {
-    const listenerToClear = window.localStorage.getItem(eventResponseLookupString);
-    document.removeEventListener(eventName, listenerToClear);
-    window.localStorage.removeItem(eventResponseLookupString);
-}
-
-module.exports = {
-    subscribe,
-    unsubscribe,
-}
-},{}],10:[function(require,module,exports){
+},{"./data/loadMoon":4,"./data/loadWeather":5,"./index.scss":9}],9:[function(require,module,exports){
+var css = "body{background:blue}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],10:[function(require,module,exports){
 function addClass(element, newClass) {
     element.classList.add(newClass);
 }
@@ -244,7 +263,7 @@ module.exports = addMoonToDOM;
 },{"./addClass":10}],12:[function(require,module,exports){
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
-const getWeatherToDraw = require('../data/getWeatherToDraw');
+const getWeatherClassName = require('./utils/getWeatherClassName');
 
 function addWeatherToDOM(blob) {
     let weatherElement = document.getElementById('weather');
@@ -254,7 +273,7 @@ function addWeatherToDOM(blob) {
         addClass(weatherElement, 'night');
     }
 
-    let baseWeatherType = getWeatherToDraw(blob.weather[0].id);
+    let baseWeatherType = getWeatherClassName(blob.weather[0].id);
     
     if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
         addClass(weatherElement, 'isFalling');
@@ -286,13 +305,13 @@ function addWeatherToDOM(blob) {
 }
 
 module.exports = addWeatherToDOM;
-},{"../data/getWeatherToDraw":5,"./addClass":10,"./addWindToDOM":13}],13:[function(require,module,exports){
+},{"./addClass":10,"./addWindToDOM":13,"./utils/getWeatherClassName":15}],13:[function(require,module,exports){
 const addClass = require('./addClass');
-const convertWindDegreesToCardinal = require('../data/convertWindDegreesToCardinal');
+const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
 function addWindToDOM(weatherElement, wind) {
     let windSpeed = wind.speed;
-    let windDirection = convertWindDegreesToCardinal(wind.deg);
+    let windDirection = getCardinalWindDirection(wind.deg);
 
     if (windSpeed > 30) {
         addClass(weatherElement, 'wind-high');
@@ -313,4 +332,27 @@ function addWindToDOM(weatherElement, wind) {
 }
 
 module.exports = addWindToDOM;
-},{"../data/convertWindDegreesToCardinal":1,"./addClass":10}]},{},[7]);
+},{"./addClass":10,"./utils/getCardinalWindDirection":14}],14:[function(require,module,exports){
+const CARDINAL_WIND_DIRECTIONS = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+function getCardinalWindDirection(degrees) {
+    let cardinal = Math.floor((degrees/22.5) + 0.5);
+    return CARDINAL_WIND_DIRECTIONS[cardinal % 16];
+}
+
+module.exports = getCardinalWindDirection;
+},{}],15:[function(require,module,exports){
+function getWeatherClassName(weatherCode) {
+    // https://openweathermap.org/weather-conditions
+    if (weatherCode >= 801 || weatherCode == 771) return 'clouds';
+    if (weatherCode == 701 || weatherCode == 741) return 'mist';
+    if (weatherCode >= 711 && weatherCode <= 762) return 'smoke';
+    if (weatherCode == 800 || weatherCode > 762) return 'clear';
+    if (weatherCode >= 600) return 'snow';
+    if (weatherCode >= 300) return 'rain'; // 300s drizzle 500s rain incl light
+    if (weatherCode >= 200) return 'thunder';
+    
+    throw new Error('unrecognized weather code!');
+}
+
+module.exports = getWeatherClassName;
+},{}]},{},[8]);
