@@ -197,7 +197,7 @@ module.exports = addClass;
 },{}],11:[function(require,module,exports){
 const addClass = require('./addClass');
 
-function addMoonToDOM(moonBlob, eventName, eventHandlerLookup) {
+function addMoonToDOM(moonBlob) {
     let shapeClass, lightStartClass;
     switch (moonBlob.moonPhase) {
         case 'New Moon':
@@ -245,9 +245,8 @@ module.exports = addMoonToDOM;
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
 const getWeatherToDraw = require('../data/getWeatherToDraw');
-const { unsubscribe } = require('./DOMutils');
 
-function addWeatherToDOM(blob, eventName, eventHandlerLookup) {
+function addWeatherToDOM(blob) {
     let weatherElement = document.getElementById('weather');
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
@@ -287,7 +286,7 @@ function addWeatherToDOM(blob, eventName, eventHandlerLookup) {
 }
 
 module.exports = addWeatherToDOM;
-},{"../data/getWeatherToDraw":5,"./DOMutils":9,"./addClass":10,"./addWindToDOM":13}],13:[function(require,module,exports){
+},{"../data/getWeatherToDraw":5,"./addClass":10,"./addWindToDOM":13}],13:[function(require,module,exports){
 const addClass = require('./addClass');
 const convertWindDegreesToCardinal = require('../data/convertWindDegreesToCardinal');
 

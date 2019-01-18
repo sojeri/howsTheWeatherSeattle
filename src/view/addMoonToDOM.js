@@ -1,6 +1,6 @@
 const addClass = require('./addClass');
 
-function addMoonToDOM(moonBlob, eventName, eventHandlerLookup) {
+function addMoonToDOM(moonBlob) {
     let shapeClass, lightStartClass;
     switch (moonBlob.moonPhase) {
         case 'New Moon':
