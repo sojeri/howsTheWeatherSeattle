@@ -1,4 +1,4 @@
-function getWeatherToDraw(weatherCode) {
+function getWeatherClassName(weatherCode) {
     // https://openweathermap.org/weather-conditions
     if (weatherCode >= 801 || weatherCode == 771) return 'clouds';
     if (weatherCode == 701 || weatherCode == 741) return 'mist';
@@ -11,4 +11,4 @@ function getWeatherToDraw(weatherCode) {
     throw new Error('unrecognized weather code!');
 }
 
-module.exports = getWeatherToDraw;
+module.exports = getWeatherClassName;

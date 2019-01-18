@@ -1,6 +1,6 @@
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
-const getWeatherToDraw = require('../data/getWeatherToDraw');
+const getWeatherClassName = require('./utils/getWeatherClassName');
 
 function addWeatherToDOM(blob) {
     let weatherElement = document.getElementById('weather');
@@ -10,7 +10,7 @@ function addWeatherToDOM(blob) {
         addClass(weatherElement, 'night');
     }
 
-    let baseWeatherType = getWeatherToDraw(blob.weather[0].id);
+    let baseWeatherType = getWeatherClassName(blob.weather[0].id);
     
     if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
         addClass(weatherElement, 'isFalling');

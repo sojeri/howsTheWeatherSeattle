@@ -1,5 +1,5 @@
-const logError = require('../logError');
-const { subscribe, unsubscribe } = require('../view/DOMutils');
+const logError = require('./utils/logError');
+const { subscribe, unsubscribe } = require('./DOMutils');
 
 function fetchJsonResource(URI, successCallback, failureCallback, isHealthyResponseCallback) {
     fetch(URI)

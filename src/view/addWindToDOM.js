@@ -1,9 +1,9 @@
 const addClass = require('./addClass');
-const convertWindDegreesToCardinal = require('../data/convertWindDegreesToCardinal');
+const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
 function addWindToDOM(weatherElement, wind) {
     let windSpeed = wind.speed;
-    let windDirection = convertWindDegreesToCardinal(wind.deg);
+    let windDirection = getCardinalWindDirection(wind.deg);
 
     if (windSpeed > 30) {
         addClass(weatherElement, 'wind-high');

@@ -1,5 +1,5 @@
-const loadWeather = require('./data/fetchAndUpdateWeather');
-const loadMoon = require('./data/fetchAndUpdateMoon');
+const loadWeather = require('./data/loadWeather');
+const loadMoon = require('./data/loadMoon');
 
 loadWeather();
 loadMoon();
