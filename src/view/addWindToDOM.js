@@ -1,4 +1,4 @@
-const addWeatherDescriptor = require('./addWeatherDescriptor');
+const addClass = require('./addClass');
 const convertWindDegreesToCardinal = require('../data/convertWindDegreesToCardinal');
 
 function addWindToDOM(weatherElement, wind) {
@@ -6,17 +6,17 @@ function addWindToDOM(weatherElement, wind) {
     let windDirection = convertWindDegreesToCardinal(wind.deg);
 
     if (windSpeed > 30) {
-        addWeatherDescriptor(weatherElement, 'wind-high');
+        addClass(weatherElement, 'wind-high');
     } else if (windSpeed > 15) {
-        addWeatherDescriptor(weatherElement, 'wind-medium');
+        addClass(weatherElement, 'wind-medium');
     } else if (windSpeed > 0) {
-        addWeatherDescriptor(weatherElement, 'wind-low');
+        addClass(weatherElement, 'wind-low');
     }
 
     if (windDirection.indexOf('W') > -1) {
-        addWeatherDescriptor(weatherElement, 'wind-west');
+        addClass(weatherElement, 'wind-west');
     } else if (windDirection.indexOf('E') > -1) {
-        addWeatherDescriptor(weatherElement, 'wind-east');
+        addClass(weatherElement, 'wind-east');
     }
 
     document.getElementById('wind-speed').innerHTML = windSpeed;
