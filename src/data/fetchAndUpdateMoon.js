@@ -1,39 +1,21 @@
-const addMoonToDOM = require('../view/addMoonToDOM'); 
-const logError = require('../logError');
-const { subscribe } = require('../view/DOMutils');
+const addMoonToDOM = require('../view/addMoonToDOM');
 const { MOON_ENDPOINT, FALLBACK_MOON } = require('./weatherAPIs');
+const fetchJsonResource = require('./fetchJsonResource');
 
 function loadMoon(unixTimestamp) {
-    fetch(MOON_ENDPOINT + unixTimestamp)
-        .then(handleMoonResponse)
-        .then(updateMoonOnGoodResponse)
-        .catch(logError);
+    fetchJsonResource(
+        MOON_ENDPOINT + unixTimestamp,
+        addMoonToDOM,
+        useFallbackMoon,
+        isSuccessfulReponseBody);
 }
 
-function handleMoonResponse(apiResponse) {
-    if (!apiResponse.ok) return useFallbackMoon();
-    
-    return apiResponse.json();
+function isSuccessfulReponseBody(blob) {
+    return blob[0] && blob[0].ErrorMsg == 'success';
 }
 
 function useFallbackMoon() {
-    return FALLBACK_MOON;
-}
-
-function updateMoonOnGoodResponse(jsonBlob) {
-    let fallbackBlob;
-
-    if (jsonBlob[0] && jsonBlob[0].ErrorMsg != 'success') fallbackBlob = FALLBACK_MOON;
-
-    
-    if (document.readyState != 'loading') {
-        return addMoonToDOM(fallbackBlob || jsonBlob);
-    }
-
-    subscribe(
-        'DOMContentLoaded',
-        () => { addMoonToDOM(fallbackBlob || jsonBlob, 'DOMContentLoaded', 'weatherEventListener') },
-        'weatherEventListener');
+    return addMoonToDOM(FALLBACK_MOON);
 }
 
 module.exports = loadMoon;

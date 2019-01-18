@@ -1,38 +1,21 @@
-const addWeatherToDOM = require('../view/addWeatherToDOM'); 
-const logError = require('../logError');
-const { subscribe } = require('../view/DOMutils');
+const addWeatherToDOM = require('../view/addWeatherToDOM');
 const { WEATHER_ENDPOINT, FALLBACK_WEATHER } = require('./weatherAPIs');
+const fetchJsonResource = require('./fetchJsonResource');
 
 function loadWeather() {
-    fetch(WEATHER_ENDPOINT)
-        .then(handleWeatherResponse)
-        .then(updateWeatherOnGoodResponse)
-        .catch(logError);
+    fetchJsonResource(
+        WEATHER_ENDPOINT,
+        addWeatherToDOM,
+        useFallbackWeather,
+        isSuccessfulReponseBody);
 }
 
-function handleWeatherResponse(apiResponse) {
-    if (!apiResponse.ok) return useFallbackWeather();
-    
-    return apiResponse.json();
+function isSuccessfulReponseBody(blob) {
+    return blob.cod && blob.cod == 200;
 }
 
 function useFallbackWeather() {
-    return FALLBACK_WEATHER;
-}
-
-function updateWeatherOnGoodResponse(jsonBlob) {
-    let fallbackBlob;
-
-    if (jsonBlob.cod != 200) fallbackBlob = FALLBACK_WEATHER;
-
-    if (document.readyState != 'loading') {
-        addWeatherToDOM(fallbackBlob || jsonBlob)
-    }
-
-    subscribe(
-        'DOMContentLoaded',
-        () => { addWeatherToDOM(fallbackBlob || jsonBlob, 'DOMContentLoaded', 'weatherEventListener') },
-        'weatherEventListener');
+    return addWeatherToDOM(FALLBACK_WEATHER);
 }
 
 module.exports = loadWeather;

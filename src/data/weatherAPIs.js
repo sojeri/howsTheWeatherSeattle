@@ -1,4 +1,4 @@
-const WEATHER_ENDPOINT = 'http://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
+const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
 const FALLBACK_WEATHER = {
     weather: { id: 501 },
     wind: { speed: 10, deg: 90 },

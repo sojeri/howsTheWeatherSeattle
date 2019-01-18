@@ -44,8 +44,6 @@ function addMoonToDOM(moonBlob, eventName, eventHandlerLookup) {
 
     addClass(moonElement, shapeClass);
     if (lightStartClass) addClass(moonElement, lightStartClass);
-
-    console.log(phase);
 }
 
 module.exports = addMoonToDOM;
