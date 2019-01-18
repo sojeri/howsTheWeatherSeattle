@@ -1,17 +1,32 @@
 const addMoonToDOM = require('../view/addMoonToDOM');
-const { MOON_ENDPOINT, FALLBACK_MOON } = require('./weatherAPIs');
+const { MOON_ENDPOINT, REPLACE, FALLBACK_MOON } = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
 
-function loadMoon(unixTimestamp) {
+function getDateParam(date) {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1; // js 0 index month
+    const day = date.getUTCDate();
+
+    let param = year.toString();
+    if (month.length < 2) param += '0';
+    param += month;
+    if (day.length < 2) param += '0';
+    param += day;
+
+    return param;
+}
+
+function loadMoon() {
+    const date = getDateParam(new Date(Date.now()));
     fetchJsonResource(
-        MOON_ENDPOINT + unixTimestamp,
+        MOON_ENDPOINT.replace(REPLACE, date),
         addMoonToDOM,
         useFallbackMoon,
         isSuccessfulReponseBody);
 }
 
 function isSuccessfulReponseBody(blob) {
-    return blob[0] && blob[0].ErrorMsg == 'success';
+    return blob && blob.moonPhase;
 }
 
 function useFallbackMoon() {

@@ -4,8 +4,6 @@ const getWeatherToDraw = require('../data/getWeatherToDraw');
 const { unsubscribe } = require('./DOMutils');
 
 function addWeatherToDOM(blob, eventName, eventHandlerLookup) {
-    if (eventName && eventHandlerLookup) unsubscribe(eventName, eventHandlerLookup);
-    
     let weatherElement = document.getElementById('weather');
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;

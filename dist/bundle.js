@@ -8,19 +8,34 @@ function convertWindDegreesToCardinal(degrees) {
 module.exports = convertWindDegreesToCardinal;
 },{}],2:[function(require,module,exports){
 const addMoonToDOM = require('../view/addMoonToDOM');
-const { MOON_ENDPOINT, FALLBACK_MOON } = require('./weatherAPIs');
+const { MOON_ENDPOINT, REPLACE, FALLBACK_MOON } = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
 
-function loadMoon(unixTimestamp) {
+function getDateParam(date) {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1; // js 0 index month
+    const day = date.getUTCDate();
+
+    let param = year.toString();
+    if (month.length < 2) param += '0';
+    param += month;
+    if (day.length < 2) param += '0';
+    param += day;
+
+    return param;
+}
+
+function loadMoon() {
+    const date = getDateParam(new Date(Date.now()));
     fetchJsonResource(
-        MOON_ENDPOINT + unixTimestamp,
+        MOON_ENDPOINT.replace(REPLACE, date),
         addMoonToDOM,
         useFallbackMoon,
         isSuccessfulReponseBody);
 }
 
 function isSuccessfulReponseBody(blob) {
-    return blob[0] && blob[0].ErrorMsg == 'success';
+    return blob && blob.moonPhase;
 }
 
 function useFallbackMoon() {
@@ -118,6 +133,7 @@ function getWeatherToDraw(weatherCode) {
 
 module.exports = getWeatherToDraw;
 },{}],6:[function(require,module,exports){
+// https://openweathermap.org/current
 const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
 const FALLBACK_WEATHER = {
     weather: { id: 501 },
@@ -131,41 +147,16 @@ const FALLBACK_WEATHER = {
     sys: { sunrise: 1, sunset: 3, },
     dt: 2,
 };
-/**
- * good response
- * {
- *   "coord": {"lon":-0.13,"lat":51.51},
- *   "weather":[{"id":300,"main":"Drizzle","description":"light intensity drizzle","icon":"09d"}],
- *   "base":"stations",
- *   "main":{
- *      "temp":32.94,
- *      "pressure":1012,
- *      "humidity":81,
- *      "temp_min":24.8,
- *      "temp_max":42.98},
- *   "visibility":10000,
- *   "wind":{"speed":4.1,"deg":80},
- *   "clouds":{"all":90},
- *   "dt":1485789600,
- *   "sys":{"type":1,"id":5091,"message":0.0103,"country":"GB","sunrise":1485762037,"sunset":1485794875},
- *   "id":2643743,
- *   "name":"London",
- *   "cod":200
- * }
- * 
- * bad response:
- * {
- *   "cod":401,
- *   "message": "Invalid API key. Please see http://openweathermap.org/faq#error401 for more info."
- * }
- */
 
-const MOON_ENDPOINT = 'http://api.farmsense.net/v1/moonphases/?d=';
-const FALLBACK_MOON = [{ Phase: 'Waxing Crescent' }];
+// https://solunar.org/#usage
+const REPLACE = '@@REPLACE@@';
+const MOON_ENDPOINT = `https://api.solunar.org/solunar/47.6062,122.3321,${REPLACE},-7`
+const FALLBACK_MOON = { phase: { trend: 'waning', shape: 'gibbous', }};
 
 module.exports = {
     WEATHER_ENDPOINT,
     FALLBACK_WEATHER,
+    REPLACE,
     MOON_ENDPOINT,
     FALLBACK_MOON,
 }
@@ -174,7 +165,7 @@ const loadWeather = require('./data/fetchAndUpdateWeather');
 const loadMoon = require('./data/fetchAndUpdateMoon');
 
 loadWeather();
-loadMoon(Math.floor(Date.now() / 1000));
+loadMoon();
 },{"./data/fetchAndUpdateMoon":2,"./data/fetchAndUpdateWeather":3}],8:[function(require,module,exports){
 function logError(error) {
     console.error(error.message);
@@ -207,11 +198,8 @@ module.exports = addClass;
 const addClass = require('./addClass');
 
 function addMoonToDOM(moonBlob, eventName, eventHandlerLookup) {
-    if (eventName && eventHandlerLookup) unsubscribe(eventName, eventHandlerLookup);
-
-    let phase = moonBlob[0].Phase;
     let shapeClass, lightStartClass;
-    switch (phase) {
+    switch (moonBlob.moonPhase) {
         case 'New Moon':
             shapeClass = 'empty';
             break;
@@ -260,8 +248,6 @@ const getWeatherToDraw = require('../data/getWeatherToDraw');
 const { unsubscribe } = require('./DOMutils');
 
 function addWeatherToDOM(blob, eventName, eventHandlerLookup) {
-    if (eventName && eventHandlerLookup) unsubscribe(eventName, eventHandlerLookup);
-    
     let weatherElement = document.getElementById('weather');
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
