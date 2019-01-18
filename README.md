@@ -1,5 +1,7 @@
 ## How's the weather, Seattle?
 
+[Live link.](https://sojeri.github.io/howsTheWeatherSeattle)
+
 ### What even is this?
 
 Inspired by the 100 days of CSS challenge -- specifically, inspired by day 9 -- I wanted to make a little widget that shows the current state of Seattle's weather.
