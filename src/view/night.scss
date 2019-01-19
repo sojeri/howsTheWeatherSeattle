@@ -1,0 +1,17 @@
+@import '../variables';
+
+#weather {
+    background: var(--night-overlay);
+
+    #sun {
+        visibility: hidden;
+    }
+
+    #moon {
+        visibility: visible;
+    }
+
+    .cloud, .puff {
+        background: #999;
+    }
+}

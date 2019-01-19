@@ -40,19 +40,11 @@
     box-shadow: 0 0 10px orange;
 }
 
-.night #sun {
-    visibility: hidden;
-}
-
 #moon {
     background: #334;
     box-shadow: 0 0 10px #aaa;
     overflow: hidden;
     visibility: hidden;
-}
-
-.night #moon {
-    visibility: visible;
 }
 
 .light-overlay {
@@ -171,10 +163,6 @@
     border-radius: 50%;
 }
 
-.night .cloud, .night .puff {
-    background: #999;
-}
-
 .cloud {
     height: 80px;
     width: 250px;
@@ -219,10 +207,6 @@
 
 .clouds .cloud, .clouds .puff {
     visibility: visible;
-}
-
-.night {
-    background: var(--night-overlay);
 }
 
 #data {

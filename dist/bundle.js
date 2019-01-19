@@ -270,7 +270,7 @@ function addWeatherToDOM(blob) {
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
-        addClass(weatherElement, 'night');
+        require('./night.scss');
     }
 
     let baseWeatherType = getWeatherClassName(blob.weather[0].id);
@@ -305,7 +305,7 @@ function addWeatherToDOM(blob) {
 }
 
 module.exports = addWeatherToDOM;
-},{"./addClass":10,"./addWindToDOM":13,"./utils/getWeatherClassName":15}],13:[function(require,module,exports){
+},{"./addClass":10,"./addWindToDOM":13,"./night.scss":14,"./utils/getWeatherClassName":16}],13:[function(require,module,exports){
 const addClass = require('./addClass');
 const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
@@ -332,7 +332,10 @@ function addWindToDOM(weatherElement, wind) {
 }
 
 module.exports = addWindToDOM;
-},{"./addClass":10,"./utils/getCardinalWindDirection":14}],14:[function(require,module,exports){
+},{"./addClass":10,"./utils/getCardinalWindDirection":15}],14:[function(require,module,exports){
+var css = "#weather{background:var(--night-overlay)}#weather #sun{visibility:hidden}#weather #moon{visibility:visible}#weather .cloud,#weather .puff{background:#999}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],15:[function(require,module,exports){
 const CARDINAL_WIND_DIRECTIONS = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
 function getCardinalWindDirection(degrees) {
     let cardinal = Math.floor((degrees/22.5) + 0.5);
@@ -340,7 +343,7 @@ function getCardinalWindDirection(degrees) {
 }
 
 module.exports = getCardinalWindDirection;
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 function getWeatherClassName(weatherCode) {
     // https://openweathermap.org/weather-conditions
     if (weatherCode >= 801 || weatherCode == 771) return 'clouds';

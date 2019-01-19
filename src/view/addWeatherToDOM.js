@@ -7,7 +7,7 @@ function addWeatherToDOM(blob) {
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
-        addClass(weatherElement, 'night');
+        require('./night.scss');
     }
 
     let baseWeatherType = getWeatherClassName(blob.weather[0].id);
