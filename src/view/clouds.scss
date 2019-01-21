@@ -1,61 +1,75 @@
 @import '../variables';
 
-.cloud, .puff {
-    visibility: hidden;
+.cloud, .puff, .cloud:after, .puff:after {
     position: absolute;
     background: $lightCloudDayColor;
     border-radius: 50%;
     z-index: $foregroundWeather;
 }
 
+.cloud:after, .puff:after {
+    content: '';
+    left: $eastWind;
+}
+
 .isFalling {
-    .cloud, .puff {
+    .cloud, .puff, .cloud:after, .puff:after {
         background: $cloudDayColor;
     }
 }
 
-.cloud {
-    height: 80px;
-    width: 250px;
+.cloud, .cloud:after {
+    height: 100px;
     filter: blur(10px);
 }
 
-.puff {
-    height: 60px;
-    width: 160px;
-    filter: blur(20px);
+.puff, .puff:after {
+    height: 80px;
+    width: 250px;
+    filter: blur(15px);
 }
 
-.cloud.one {
-    top: 0;
-    left: 80px;
+.cloud.one, {
+    top: -10px;
+    left: -30px;
+    width: 500px;
+
+    &:after {
+        width: 500px;
+    }
 }
 
 .cloud.two {
     top: 40px;
-    left: 180px;
+    left: 80px;
+    width: 300px;
+
+    &:after {
+        width: 300px;
+    }
 }
 
 .cloud.three {
-    top: 60px;
-    left: 0;
+    top: 80px;
+    left: 180px;
+    width: 400px;
+
+    &:after {
+        width: 400px;
+    }
 }
 
 .puff.one {
-    top: 15px;
-    left: 230px;
+    top: 120px;
+    left: 20px;
 }
 
 .puff.two {
-    top: 100px;
-    left: 160px;
+    top: 140px;
+    left: 120px;
 }
 
 .puff.three {
-    top: 30px;
-    left: 15px;
-}
-
-.clouds .cloud, .clouds .puff {
-    visibility: visible;
+    top: 50px;
+    left: 330px;
 }

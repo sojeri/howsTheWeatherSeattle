@@ -14,6 +14,7 @@ function addWeatherToDOM(blob) {
     
     if (isCloudyWeather(baseWeatherType)) {
         addCloudsToDOM(weatherElement);
+        addWindToDOM(weatherElement, blob.wind); // TODO: add something else to move in the wind in non-cloudy weather
     }
     
     if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
@@ -22,7 +23,6 @@ function addWeatherToDOM(blob) {
     
     addClass(weatherElement, baseWeatherType);
     
-    addWindToDOM(weatherElement, blob.wind);
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {

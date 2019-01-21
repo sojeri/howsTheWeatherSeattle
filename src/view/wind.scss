@@ -1,0 +1,61 @@
+@import '../variables';
+
+.wind-west {
+    .cloud:after, .puff:after {
+        left: $westWind;
+    }
+}
+
+.wind-low {
+    &.wind-east {
+        .cloud, .puff {
+            animation: eastWind 60s infinite linear;
+        }
+    }
+
+    &.wind-west {
+        .cloud, .puff {
+            animation: westWind 60s infinite linear;
+        }
+    }
+}
+
+.wind-med {
+    &.wind-east {
+        .cloud, .puff {
+            animation: eastWind 40s infinite linear;
+        }
+    }
+
+    &.wind-west {
+        .cloud, .puff {
+            animation: westWind 40s infinite linear;
+        }
+    }
+}
+
+.wind-high {
+    &.wind-east {
+        .cloud, .puff {
+            animation: eastWind 20s infinite linear;
+        }
+    }
+
+    &.wind-west {
+        .cloud, .puff {
+            animation: westWind 20s infinite linear;
+        }
+    }
+}
+
+@keyframes eastWind {
+    100% {
+        transform: translateX($eastWind);
+    }
+}
+
+@keyframes westWind {
+    100% {
+        transform: translateX($westWind);
+    }
+}

@@ -11,12 +11,12 @@
         visibility: visible;
     }
 
-    .cloud, .puff {
+    .cloud, .puff, .cloud:after, .puff:after {
         background: $lightCloudNightColor;
     }
 
     &.isFalling {
-        .cloud, .puff {
+        .cloud, .puff, .cloud:after, .puff:after {
             background: $cloudNightColor;
         }
     }
