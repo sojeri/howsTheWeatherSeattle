@@ -42,8 +42,8 @@ function addWeatherToDOM(blob) {
     
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
-        // require('./styles/night.scss');
-        // require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
+        require('./styles/night.scss');
+        require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
     }
     
     addWeatherDataToDOM(blob.main);
