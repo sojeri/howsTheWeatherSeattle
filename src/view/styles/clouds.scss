@@ -1,15 +1,14 @@
-@import '../variables';
+@import './variables';
+
+.cloud:after, .puff:after {
+    visibility: hidden;
+}
 
 .cloud, .puff, .cloud:after, .puff:after {
     position: absolute;
     background: $lightCloudDayColor;
     border-radius: 50%;
     z-index: $foregroundWeather;
-}
-
-.cloud:after, .puff:after {
-    content: '';
-    left: $eastWind;
 }
 
 .isFalling {

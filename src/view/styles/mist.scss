@@ -1,0 +1,9 @@
+@import './variables';
+@import './clouds.scss';
+
+.mist {
+    .cloud, .puff, .cloud:after, .puff:after {
+        background: $mistDayColor;
+        transform: translateY(120px) scaleY(.6);
+    }
+}

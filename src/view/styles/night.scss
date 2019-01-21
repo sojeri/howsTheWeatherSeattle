@@ -1,4 +1,4 @@
-@import '../variables';
+@import './variables';
 
 #weather {
     background: $nightBgColor;
@@ -13,6 +13,12 @@
 
     .cloud, .puff, .cloud:after, .puff:after {
         background: $lightCloudNightColor;
+    }
+
+    &.mist {
+        .cloud, .puff, .cloud:after, .puff:after {
+            background: $mistNightColor;
+        }
     }
 
     &.isFalling {

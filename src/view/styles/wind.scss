@@ -1,4 +1,10 @@
-@import '../variables';
+@import './variables';
+
+.cloud:after, .puff:after {
+    content: '';
+    left: $eastWind;
+    visibility: visible;
+}
 
 .wind-west {
     .cloud:after, .puff:after {
@@ -50,12 +56,12 @@
 
 @keyframes eastWind {
     100% {
-        transform: translateX($eastWind);
+        transform: translateX(-$eastWind);
     }
 }
 
 @keyframes westWind {
     100% {
-        transform: translateX($westWind);
+        transform: translateX(-$westWind);
     }
 }

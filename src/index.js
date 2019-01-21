@@ -1,4 +1,4 @@
-require('./index.scss');
+require('./styles/index.scss');
 const loadWeather = require('./data/loadWeather');
 const loadMoon = require('./data/loadMoon');
 

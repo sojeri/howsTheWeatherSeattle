@@ -2,7 +2,7 @@ const addClass = require('./addClass');
 
 function addClouds(weatherElement) {
     addClass(weatherElement, 'clouds');
-    require('./clouds.scss');
+    require('./styles/clouds.scss');
 }
 
 module.exports = addClouds;

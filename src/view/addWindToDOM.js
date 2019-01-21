@@ -25,7 +25,7 @@ function addWindToDOM(weatherElement, wind) {
         document.getElementById('wind-direction').innerHTML = windDirection;
     }
 
-    require('./wind.scss');
+    require('./styles/wind.scss');
 }
 
 module.exports = addWindToDOM;
