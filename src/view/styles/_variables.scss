@@ -23,12 +23,13 @@ $cloudDayColor: rgba(255, 255, 255, .9);
 $cloudNightColor: rgba(150, 150, 150, .9);
 
 // MIST
-$mistDayColor: rgba(200, 200, 255, .5);
-$mistNightColor: rgba(150, 150, 200, .6);
+$mistDayColor: rgba(200, 200, 255, .3);
+$mistNightColor: rgba(150, 150, 200, .4);
+$mistTransforms: translateY(140px) scaleY(.4);
 
 // SMOKE
-$smokeDayColor: rgba(200, 150, 100, .5);
-$smokeNightColor: rgba(150, 100, 50, .6);
+$smokeDayColor: rgba(200, 150, 100, .3);
+$smokeNightColor: rgba(150, 100, 50, .5);
 
 // SUN MOON
 $sunPrimaryColor: yellow;

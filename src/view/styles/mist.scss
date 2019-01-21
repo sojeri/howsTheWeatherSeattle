@@ -4,6 +4,7 @@
 .mist {
     .cloud, .puff, .cloud:after, .puff:after {
         background: $mistDayColor;
-        transform: translateY(120px) scaleY(.6);
+        transform: $mistTransforms;
+        filter: blur(30px);
     }
 }

@@ -1,5 +1,31 @@
 @import './variables';
 
+@mixin wind($speed) {
+    &.wind-east {
+        .cloud, .puff {
+            animation: eastWind $speed infinite linear;
+        }
+
+        &.mist {
+            .cloud, .puff {
+                animation: eastWindMist $speed infinite linear;
+            }
+        }
+    }
+
+    &.wind-west {
+        .cloud, .puff {
+            animation: westWind $speed infinite linear;
+        }
+
+        &.mist {
+            .cloud, .puff {
+                animation: westWindMist $speed infinite linear;
+            }
+        }
+    }
+}
+
 .cloud:after, .puff:after {
     content: '';
     left: $eastWind;
@@ -13,55 +39,30 @@
 }
 
 .wind-low {
-    &.wind-east {
-        .cloud, .puff {
-            animation: eastWind 60s infinite linear;
-        }
-    }
-
-    &.wind-west {
-        .cloud, .puff {
-            animation: westWind 60s infinite linear;
-        }
-    }
+    @include wind(60s);
 }
 
 .wind-med {
-    &.wind-east {
-        .cloud, .puff {
-            animation: eastWind 40s infinite linear;
-        }
-    }
-
-    &.wind-west {
-        .cloud, .puff {
-            animation: westWind 40s infinite linear;
-        }
-    }
+    @include wind(40s);
 }
 
 .wind-high {
-    &.wind-east {
-        .cloud, .puff {
-            animation: eastWind 20s infinite linear;
+    @include wind(20s);
+}
+
+@mixin windAnimation($name: '', $additionalTransforms: '') {
+    @keyframes #{eastWind + $name} {
+        100% {
+            transform: translateX(-$eastWind) $additionalTransforms;
         }
     }
 
-    &.wind-west {
-        .cloud, .puff {
-            animation: westWind 20s infinite linear;
+    @keyframes #{westWind + $name} {
+        100% {
+            transform: translateX(-$westWind) $additionalTransforms;
         }
     }
 }
 
-@keyframes eastWind {
-    100% {
-        transform: translateX(-$eastWind);
-    }
-}
-
-@keyframes westWind {
-    100% {
-        transform: translateX(-$westWind);
-    }
-}
+@include windAnimation();
+@include windAnimation(Mist, $mistTransforms);
