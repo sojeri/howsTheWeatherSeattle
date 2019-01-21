@@ -1,13 +1,13 @@
 // https://openweathermap.org/current
 const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
 const FALLBACK_WEATHER = {
-    weather: { id: 501 },
+    weather: [{ id: 501 }],
     wind: { speed: 10, deg: 90 },
     main: {
-        humidity: 87,
-        temp: 12,
-        temp_min: 9,
-        temp_max: 21,
+        humidity: 84,
+        temp: 52,
+        temp_min: 39,
+        temp_max: 61,
     },
     sys: { sunrise: 1, sunset: 3, },
     dt: 2,

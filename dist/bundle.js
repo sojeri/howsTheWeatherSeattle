@@ -141,7 +141,7 @@ function useFallbackMoon() {
 }
 
 module.exports = loadMoon;
-},{"../view/addMoonToDOM":11,"./fetchJsonResource":3,"./weatherAPIs":7}],5:[function(require,module,exports){
+},{"../view/addMoonToDOM":12,"./fetchJsonResource":3,"./weatherAPIs":7}],5:[function(require,module,exports){
 const addWeatherToDOM = require('../view/addWeatherToDOM');
 const { WEATHER_ENDPOINT, FALLBACK_WEATHER } = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
@@ -163,7 +163,7 @@ function useFallbackWeather() {
 }
 
 module.exports = loadWeather;
-},{"../view/addWeatherToDOM":12,"./fetchJsonResource":3,"./weatherAPIs":7}],6:[function(require,module,exports){
+},{"../view/addWeatherToDOM":13,"./fetchJsonResource":3,"./weatherAPIs":7}],6:[function(require,module,exports){
 function logError(error) {
     console.error(error.message);
 }
@@ -173,13 +173,13 @@ module.exports = logError;
 // https://openweathermap.org/current
 const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
 const FALLBACK_WEATHER = {
-    weather: { id: 501 },
+    weather: [{ id: 501 }],
     wind: { speed: 10, deg: 90 },
     main: {
-        humidity: 87,
-        temp: 12,
-        temp_min: 9,
-        temp_max: 21,
+        humidity: 84,
+        temp: 52,
+        temp_min: 39,
+        temp_max: 61,
     },
     sys: { sunrise: 1, sunset: 3, },
     dt: 2,
@@ -205,7 +205,7 @@ const loadMoon = require('./data/loadMoon');
 loadWeather();
 loadMoon();
 },{"./data/loadMoon":4,"./data/loadWeather":5,"./index.scss":9}],9:[function(require,module,exports){
-var css = ".frame{position:absolute;top:50%;left:50%;width:var(--frame-width);height:var(--frame-width);margin-top:calc(-1 * var(--half-frame-width));margin-left:calc(-1 * var(--half-frame-width));border-radius:2px;box-shadow:0 0 16px 0 rgba(0,0,0,0.2);overflow:hidden;font-family:'Droid Sans', Helvetica, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.center{position:relative;height:100%;width:100%}#loading{z-index:4;position:absolute;height:var(--frame-width);width:var(--frame-width);background:#ccc;opacity:1;top:0;transition:all 1s}#loading.loaded{opacity:0;top:calc(-1 * var(--frame-width))}#spinner{position:absolute;top:calc(50% - .5 * var(--light-size));left:calc(50% - .5 * var(--light-size));background:#fc6;height:var(--light-size);width:var(--light-size);animation:spinHorizontal 1s ease-in-out infinite alternate;opacity:1;transition:all .3s}.loaded #spinner{opacity:0}#drop{height:calc(.5 * var(--light-size));width:calc(.5 * var(--light-size));border-bottom-right-radius:50%;border-bottom-left-radius:50%;border-top-left-radius:50%;transform:rotate(-45deg);background:#acf}@keyframes spinHorizontal{0%{transform:rotateY(0deg)}100%{background:#69f;transform:rotateY(360deg)}}\n"
+var css = ":root{--frame-width: 400px;--half-frame-width: 200px;--light-position: 60px;--light-size: 70px}:root{--weather-height: calc(var(--frame-width) / 5 * 4);--weather-width: var(--frame-width)}.frame{position:absolute;top:50%;left:50%;width:var(--frame-width);height:var(--frame-width);margin-top:calc(-1 * var(--half-frame-width));margin-left:calc(-1 * var(--half-frame-width));border-radius:2px;box-shadow:0 0 16px 0 rgba(0,0,0,0.2);overflow:hidden;font-family:'Droid Sans', Helvetica, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.center{position:relative;height:100%;width:100%}#loading{z-index:5;position:absolute;height:var(--frame-width);width:var(--frame-width);background:#ccc;opacity:1;top:0;transition:all 1s}#loading.loaded{opacity:0;top:calc(-1 * var(--frame-width))}#spinner{position:absolute;top:calc(50% - .5 * var(--light-size));left:calc(50% - .5 * var(--light-size));background:#fc6;height:var(--light-size);width:var(--light-size);animation:spinHorizontal 1s ease-in-out infinite alternate;opacity:1;transition:all .3s}.loaded #spinner{opacity:0}#drop{height:calc(.5 * var(--light-size));width:calc(.5 * var(--light-size));border-bottom-right-radius:50%;border-bottom-left-radius:50%;border-top-left-radius:50%;transform:rotate(-45deg);background:#acf}@keyframes spinHorizontal{0%{transform:rotateY(0deg)}100%{background:#69f;transform:rotateY(360deg)}}#weather{height:var(--weather-height);width:var(--frame-width);position:relative;overflow:hidden}#sun,#moon{position:absolute;top:var(--light-position);left:var(--light-position);height:var(--light-size);width:var(--light-size);border-radius:50%}#sun{background:linear-gradient(#ff0, #fc0);box-shadow:0 0 10px orange}.hidden{display:none}.flex{display:flex;justify-content:center;align-items:center}.clear,.mist{background:#69f}.clouds,.rain,.snow{background:#ccf}#data{height:calc(var(--frame-width) / 5);width:var(--frame-width);flex-flow:row nowrap;justify-content:space-around;background:#ccc}.temperatures{flex-flow:column}.temperatures h2{margin:0}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],10:[function(require,module,exports){
 function addClass(element, newClass) {
@@ -214,6 +214,15 @@ function addClass(element, newClass) {
 
 module.exports = addClass;
 },{}],11:[function(require,module,exports){
+const addClass = require('./addClass');
+
+function addClouds(weatherElement) {
+    addClass(weatherElement, 'clouds');
+    require('./clouds.scss');
+}
+
+module.exports = addClouds;
+},{"./addClass":10,"./clouds.scss":15}],12:[function(require,module,exports){
 const addClass = require('./addClass');
 
 function addMoonToDOM(moonBlob) {
@@ -260,37 +269,48 @@ function addMoonToDOM(moonBlob) {
 }
 
 module.exports = addMoonToDOM;
-},{"./addClass":10}],12:[function(require,module,exports){
+},{"./addClass":10}],13:[function(require,module,exports){
+const addCloudsToDOM = require('./addCloudsToDOM');
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
 const getWeatherClassName = require('./utils/getWeatherClassName');
 
+const cloudyWeathertypes = ['clouds', 'snow', 'rain', 'thunder'];
+function isCloudyWeather(weather) {
+    return cloudyWeathertypes.indexOf(weather) > -1;
+}
+
 function addWeatherToDOM(blob) {
     let weatherElement = document.getElementById('weather');
+    let baseWeatherType = getWeatherClassName(blob.weather[0].id);
+    
+    if (isCloudyWeather(baseWeatherType)) {
+        addCloudsToDOM(weatherElement);
+    }
+    
+    if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
+        addClass(weatherElement, 'isFalling');
+        require('./isFalling.scss');
+    }
+    
+    addClass(weatherElement, baseWeatherType);
+    
+    addWindToDOM(weatherElement, blob.wind);
 
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
         require('./night.scss');
-    }
-
-    let baseWeatherType = getWeatherClassName(blob.weather[0].id);
-    
-    if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
-        addClass(weatherElement, 'isFalling');
+        require('./moon.scss'); // TODO: moon rise/set instead of night == moon
     }
     
-    addClass(weatherElement, baseWeatherType);
-
-    addWindToDOM(weatherElement, blob.wind);
-
     const humidity = blob.main.humidity;
     const temp = blob.main.temp;
     const minTemp = blob.main.temp_min;
     const maxTemp = blob.main.temp_max;
-
+    
     document.getElementById('humidity').innerHTML = humidity;
     document.getElementById('temp').innerHTML = temp;
-
+    
     // these properties are not guaranteed to be always returned by the API
     if (minTemp && maxTemp) {
         document.getElementById('temp-min').innerHTML = minTemp;
@@ -305,14 +325,12 @@ function addWeatherToDOM(blob) {
 }
 
 module.exports = addWeatherToDOM;
-},{"./addClass":10,"./addWindToDOM":13,"./night.scss":14,"./utils/getWeatherClassName":16}],13:[function(require,module,exports){
+},{"./addClass":10,"./addCloudsToDOM":11,"./addWindToDOM":14,"./isFalling.scss":16,"./moon.scss":17,"./night.scss":18,"./utils/getWeatherClassName":20}],14:[function(require,module,exports){
 const addClass = require('./addClass');
 const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
 function addWindToDOM(weatherElement, wind) {
     let windSpeed = wind.speed;
-    let windDirection = getCardinalWindDirection(wind.deg);
-
     if (windSpeed > 30) {
         addClass(weatherElement, 'wind-high');
     } else if (windSpeed > 15) {
@@ -321,21 +339,35 @@ function addWindToDOM(weatherElement, wind) {
         addClass(weatherElement, 'wind-low');
     }
 
-    if (windDirection.indexOf('W') > -1) {
-        addClass(weatherElement, 'wind-west');
-    } else if (windDirection.indexOf('E') > -1) {
-        addClass(weatherElement, 'wind-east');
-    }
-
     document.getElementById('wind-speed').innerHTML = windSpeed;
-    document.getElementById('wind-direction').innerHTML = windDirection;
+    
+    let windDirection = getCardinalWindDirection(wind.deg);
+    // this property is not guaranteed to be returned by the API
+    if (windDirection) {
+        if (windDirection.indexOf('W') > -1) {
+            addClass(weatherElement, 'wind-west');
+        } else if (windDirection.indexOf('E') > -1) {
+            addClass(weatherElement, 'wind-east');
+        }
+        
+        document.getElementById('wind-direction').innerHTML = windDirection;
+    }
 }
 
 module.exports = addWindToDOM;
-},{"./addClass":10,"./utils/getCardinalWindDirection":15}],14:[function(require,module,exports){
-var css = "#weather{background:var(--night-overlay)}#weather #sun{visibility:hidden}#weather #moon{visibility:visible}#weather .cloud,#weather .puff{background:#999}\n"
+},{"./addClass":10,"./utils/getCardinalWindDirection":19}],15:[function(require,module,exports){
+var css = ".cloud,.puff{visibility:hidden;position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff{background:rgba(255,255,255,0.9)}.cloud{height:80px;width:250px;filter:blur(10px)}.puff{height:60px;width:160px;filter:blur(20px)}.cloud.one{top:0;left:80px}.cloud.two{top:40px;left:180px}.cloud.three{top:60px;left:0}.puff.one{top:15px;left:230px}.puff.two{top:100px;left:160px}.puff.three{top:30px;left:15px}.clouds .cloud,.clouds .puff{visibility:visible}\n"
 module.exports = require('scssify').createStyle(css, {})
-},{"scssify":1}],15:[function(require,module,exports){
+},{"scssify":1}],16:[function(require,module,exports){
+var css = ""
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],17:[function(require,module,exports){
+var css = "#moon{background:#334;box-shadow:0 0 10px #aaa;overflow:hidden;visibility:hidden}.light-overlay{position:absolute;z-index:2;top:-1px;left:-1px;height:calc(var(--light-size) + 2px);width:calc(var(--light-size) + 2px);border-radius:50%;background:rgba(235,235,255,0.8)}.empty.light-overlay{visibility:hidden}.half .light-overlay{border-radius:0}.right.half .light-overlay{left:calc(.5 * var(--light-size))}.left.half .light-overlay{left:calc(-.5 * var(--light-size))}.gibbous .light-overlay{height:calc(1.2 * var(--light-size));top:calc(-.1 * var(--light-size))}.gibbous.left .light-overlay{left:calc(-.25 * var(--light-size))}.gibbous.right .light-overlay{left:calc(.25 * var(--light-size))}.crescent .light-overlay{border-radius:0}.crescent .light-overlay:after{content:'';position:absolute;z-index:2;top:calc(-.1 * var(--light-size));height:calc(1.2 * var(--light-size));width:var(--light-size);border-radius:50%;background:rgba(50,50,70,0.8)}.crescent.right .light-overlay:after{left:calc(-.25 * var(--light-size))}.crescent.left .light-overlay:after{left:calc(.25 * var(--light-size))}.dots{position:relative;z-index:1;border-radius:50%;height:100%;width:100%}.dot{background:#001;position:absolute;height:5px;width:5px;border-radius:50%}.dot.one{height:7px;width:7px;top:10px;left:16px}.dot.two{top:40px;left:56px}.dot.three{top:20px;left:16px}.dot.four{height:7px;width:7px;top:50px;left:18px}.dot.five{height:7px;width:7px;top:50px;left:36px}.dot.six{height:10px;width:13px;top:23px;left:42px}.dot.seven{height:10px;width:10px;top:53px;left:20px}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],18:[function(require,module,exports){
+var css = "#weather{background:#136}#weather #sun{visibility:hidden}#weather #moon{visibility:visible}#weather .cloud,#weather .puff{background:rgba(150,150,150,0.6)}#weather.isFalling .cloud,#weather.isFalling .puff{background:rgba(150,150,150,0.9)}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],19:[function(require,module,exports){
 const CARDINAL_WIND_DIRECTIONS = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
 function getCardinalWindDirection(degrees) {
     let cardinal = Math.floor((degrees/22.5) + 0.5);
@@ -343,7 +375,7 @@ function getCardinalWindDirection(degrees) {
 }
 
 module.exports = getCardinalWindDirection;
-},{}],16:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 function getWeatherClassName(weatherCode) {
     // https://openweathermap.org/weather-conditions
     if (weatherCode >= 801 || weatherCode == 771) return 'clouds';
