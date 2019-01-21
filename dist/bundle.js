@@ -110,9 +110,9 @@ const { MOON_ENDPOINT, REPLACE, FALLBACK_MOON } = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
 
 function getDateParam(date) {
-    const year = date.getUTCFullYear();
-    const month = date.getUTCMonth() + 1; // js 0 index month
-    const day = date.getUTCDate();
+    const year = date.getUTCFullYear().toString();
+    const month = (date.getUTCMonth() + 1).toString(); // js 0 index month
+    const day = date.getUTCDate().toString();
 
     let param = year.toString();
     if (month.length < 2) param += '0';
