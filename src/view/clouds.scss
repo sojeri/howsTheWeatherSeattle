@@ -1,0 +1,61 @@
+@import '../variables';
+
+.cloud, .puff {
+    visibility: hidden;
+    position: absolute;
+    background: $lightCloudDayColor;
+    border-radius: 50%;
+    z-index: $foregroundWeather;
+}
+
+.isFalling {
+    .cloud, .puff {
+        background: $cloudDayColor;
+    }
+}
+
+.cloud {
+    height: 80px;
+    width: 250px;
+    filter: blur(10px);
+}
+
+.puff {
+    height: 60px;
+    width: 160px;
+    filter: blur(20px);
+}
+
+.cloud.one {
+    top: 0;
+    left: 80px;
+}
+
+.cloud.two {
+    top: 40px;
+    left: 180px;
+}
+
+.cloud.three {
+    top: 60px;
+    left: 0;
+}
+
+.puff.one {
+    top: 15px;
+    left: 230px;
+}
+
+.puff.two {
+    top: 100px;
+    left: 160px;
+}
+
+.puff.three {
+    top: 30px;
+    left: 15px;
+}
+
+.clouds .cloud, .clouds .puff {
+    visibility: visible;
+}

@@ -3,8 +3,6 @@ const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
 function addWindToDOM(weatherElement, wind) {
     let windSpeed = wind.speed;
-    let windDirection = getCardinalWindDirection(wind.deg);
-
     if (windSpeed > 30) {
         addClass(weatherElement, 'wind-high');
     } else if (windSpeed > 15) {
@@ -13,14 +11,19 @@ function addWindToDOM(weatherElement, wind) {
         addClass(weatherElement, 'wind-low');
     }
 
-    if (windDirection.indexOf('W') > -1) {
-        addClass(weatherElement, 'wind-west');
-    } else if (windDirection.indexOf('E') > -1) {
-        addClass(weatherElement, 'wind-east');
-    }
-
     document.getElementById('wind-speed').innerHTML = windSpeed;
-    document.getElementById('wind-direction').innerHTML = windDirection;
+    
+    let windDirection = getCardinalWindDirection(wind.deg);
+    // this property is not guaranteed to be returned by the API
+    if (windDirection) {
+        if (windDirection.indexOf('W') > -1) {
+            addClass(weatherElement, 'wind-west');
+        } else if (windDirection.indexOf('E') > -1) {
+            addClass(weatherElement, 'wind-east');
+        }
+        
+        document.getElementById('wind-direction').innerHTML = windDirection;
+    }
 }
 
 module.exports = addWindToDOM;

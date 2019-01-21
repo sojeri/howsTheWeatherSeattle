@@ -1,7 +1,7 @@
 @import '../variables';
 
 #weather {
-    background: var(--night-overlay);
+    background: $nightBgColor;
 
     #sun {
         visibility: hidden;
@@ -12,6 +12,12 @@
     }
 
     .cloud, .puff {
-        background: #999;
+        background: $lightCloudNightColor;
+    }
+
+    &.isFalling {
+        .cloud, .puff {
+            background: $cloudNightColor;
+        }
     }
 }
