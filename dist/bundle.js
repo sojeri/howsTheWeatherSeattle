@@ -141,7 +141,7 @@ function useFallbackMoon() {
 }
 
 module.exports = loadMoon;
-},{"../view/addMoonToDOM":12,"./fetchJsonResource":3,"./weatherAPIs":7}],5:[function(require,module,exports){
+},{"../view/addMoonToDOM":11,"./fetchJsonResource":3,"./weatherAPIs":7}],5:[function(require,module,exports){
 const addWeatherToDOM = require('../view/addWeatherToDOM');
 const { WEATHER_ENDPOINT, FALLBACK_WEATHER } = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
@@ -198,22 +198,19 @@ module.exports = {
     FALLBACK_MOON,
 }
 },{}],8:[function(require,module,exports){
-require('./index.scss');
+require('./view/styles/index.scss');
 const loadWeather = require('./data/loadWeather');
 const loadMoon = require('./data/loadMoon');
 
 loadWeather();
 loadMoon();
-},{"./data/loadMoon":4,"./data/loadWeather":5,"./index.scss":9}],9:[function(require,module,exports){
-var css = ":root{--frame-width: 400px;--half-frame-width: 200px;--light-position: 60px;--light-size: 70px}:root{--weather-height: calc(var(--frame-width) / 5 * 4);--weather-width: var(--frame-width)}.frame{position:absolute;top:50%;left:50%;width:var(--frame-width);height:var(--frame-width);margin-top:calc(-1 * var(--half-frame-width));margin-left:calc(-1 * var(--half-frame-width));border-radius:2px;box-shadow:0 0 16px 0 rgba(0,0,0,0.2);overflow:hidden;font-family:'Droid Sans', Helvetica, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.center{position:relative;height:100%;width:100%}#loading{z-index:5;position:absolute;height:var(--frame-width);width:var(--frame-width);background:#ccc;opacity:1;top:0;transition:all 1s}#loading.loaded{opacity:0;top:calc(-1 * var(--frame-width))}#spinner{position:absolute;top:calc(50% - .5 * var(--light-size));left:calc(50% - .5 * var(--light-size));background:#fc6;height:var(--light-size);width:var(--light-size);animation:spinHorizontal 1s ease-in-out infinite alternate;opacity:1;transition:all .3s}.loaded #spinner{opacity:0}#drop{height:calc(.5 * var(--light-size));width:calc(.5 * var(--light-size));border-bottom-right-radius:50%;border-bottom-left-radius:50%;border-top-left-radius:50%;transform:rotate(-45deg);background:#acf}@keyframes spinHorizontal{0%{transform:rotateY(0deg)}100%{background:#69f;transform:rotateY(360deg)}}#weather{height:var(--weather-height);width:var(--frame-width);position:relative;overflow:hidden}#sun,#moon{position:absolute;top:var(--light-position);left:var(--light-position);height:var(--light-size);width:var(--light-size);border-radius:50%}#sun{background:linear-gradient(#ff0, #fc0);box-shadow:0 0 10px orange}.hidden{display:none}.flex{display:flex;justify-content:center;align-items:center}.clear,.mist{background:#69f}.clouds,.rain,.snow{background:#ccf}#data{height:calc(var(--frame-width) / 5);width:var(--frame-width);flex-flow:row nowrap;justify-content:space-around;background:#ccc}.temperatures{flex-flow:column}.temperatures h2{margin:0}\n"
-module.exports = require('scssify').createStyle(css, {})
-},{"scssify":1}],10:[function(require,module,exports){
+},{"./data/loadMoon":4,"./data/loadWeather":5,"./view/styles/index.scss":16}],9:[function(require,module,exports){
 function addClass(element, newClass) {
     element.classList.add(newClass);
 }
 
 module.exports = addClass;
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 const addClass = require('./addClass');
 
 function addClouds(weatherElement) {
@@ -222,7 +219,7 @@ function addClouds(weatherElement) {
 }
 
 module.exports = addClouds;
-},{"./addClass":10,"./styles/clouds.scss":16}],12:[function(require,module,exports){
+},{"./addClass":9,"./styles/clouds.scss":15}],11:[function(require,module,exports){
 const addClass = require('./addClass');
 
 function addMoonToDOM(moonBlob) {
@@ -269,8 +266,29 @@ function addMoonToDOM(moonBlob) {
 }
 
 module.exports = addMoonToDOM;
-},{"./addClass":10}],13:[function(require,module,exports){
+},{"./addClass":9}],12:[function(require,module,exports){
+function addWeatherDataToDOM(blob) {
+    const humidity = blob.humidity;
+    const temp = blob.temp;
+    const minTemp = blob.temp_min;
+    const maxTemp = blob.temp_max;
+    
+    document.getElementById('humidity').innerHTML = humidity;
+    document.getElementById('temp').innerHTML = temp;
+    
+    // these properties are not guaranteed to be always returned by the API
+    if (minTemp && maxTemp) {
+        document.getElementById('temp-min').innerHTML = minTemp;
+        document.getElementById('temp-max').innerHTML = maxTemp;
+    } else {
+        document.getElementById('min-max').classList.add('hidden');
+    }
+}
+
+module.exports = addWeatherDataToDOM;
+},{}],13:[function(require,module,exports){
 const addCloudsToDOM = require('./addCloudsToDOM');
+const addWeatherDataToDOM = require('./addWeatherDataToDOM');
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
 const getWeatherClassName = require('./utils/getWeatherClassName');
@@ -292,12 +310,17 @@ function addWeatherToDOM(blob) {
     
     if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
         addClass(weatherElement, 'isFalling');
-        require('./isFalling.scss');
+        require('./styles/isFalling.scss');
     }
     
     if (baseWeatherType == 'mist') {
         isCloudy = true;
         require('./styles/mist.scss');
+    }
+    
+    if (baseWeatherType == 'smoke') {
+        isCloudy = true;
+        require('./styles/smoke.scss');
     }
 
     if (isCloudy) {
@@ -307,28 +330,13 @@ function addWeatherToDOM(blob) {
     
     addClass(weatherElement, baseWeatherType);
     
-
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
-        require('./styles/night.scss');
-        require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
+        // require('./styles/night.scss');
+        // require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
     }
     
-    const humidity = blob.main.humidity;
-    const temp = blob.main.temp;
-    const minTemp = blob.main.temp_min;
-    const maxTemp = blob.main.temp_max;
-    
-    document.getElementById('humidity').innerHTML = humidity;
-    document.getElementById('temp').innerHTML = temp;
-    
-    // these properties are not guaranteed to be always returned by the API
-    if (minTemp && maxTemp) {
-        document.getElementById('temp-min').innerHTML = minTemp;
-        document.getElementById('temp-max').innerHTML = maxTemp;
-    } else {
-        document.getElementById('min-max').classList.add('hidden');
-    }
+    addWeatherDataToDOM(blob.main);
 
     setTimeout(
         () => { addClass(document.getElementById('loading'), 'loaded') },
@@ -336,7 +344,7 @@ function addWeatherToDOM(blob) {
 }
 
 module.exports = addWeatherToDOM;
-},{"./addClass":10,"./addCloudsToDOM":11,"./addWindToDOM":14,"./isFalling.scss":15,"./styles/mist.scss":17,"./styles/moon.scss":18,"./styles/night.scss":19,"./utils/getWeatherClassName":22}],14:[function(require,module,exports){
+},{"./addClass":9,"./addCloudsToDOM":10,"./addWeatherDataToDOM":12,"./addWindToDOM":14,"./styles/isFalling.scss":17,"./styles/mist.scss":18,"./styles/smoke.scss":19,"./utils/getWeatherClassName":22}],14:[function(require,module,exports){
 const addClass = require('./addClass');
 const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
@@ -368,20 +376,20 @@ function addWindToDOM(weatherElement, wind) {
 }
 
 module.exports = addWindToDOM;
-},{"./addClass":10,"./styles/wind.scss":20,"./utils/getCardinalWindDirection":21}],15:[function(require,module,exports){
-var css = ""
-module.exports = require('scssify').createStyle(css, {})
-},{"scssify":1}],16:[function(require,module,exports){
+},{"./addClass":9,"./styles/wind.scss":20,"./utils/getCardinalWindDirection":21}],15:[function(require,module,exports){
 var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}\n"
 module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],16:[function(require,module,exports){
+var css = ":root{--frame-width: 400px;--half-frame-width: 200px;--light-position: 60px;--light-size: 70px}:root{--weather-height: calc(var(--frame-width) / 5 * 4);--weather-width: var(--frame-width)}.frame{position:absolute;top:50%;left:50%;width:var(--frame-width);height:var(--frame-width);margin-top:calc(-1 * var(--half-frame-width));margin-left:calc(-1 * var(--half-frame-width));border-radius:2px;box-shadow:0 0 16px 0 rgba(0,0,0,0.2);overflow:hidden;font-family:'Droid Sans', Helvetica, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.center{position:relative;height:100%;width:100%}#loading{z-index:5;position:absolute;height:var(--frame-width);width:var(--frame-width);background:#ccc;opacity:1;top:0;transition:all 1s}#loading.loaded{opacity:0;top:calc(-1 * var(--frame-width))}#spinner{position:absolute;top:calc(50% - .5 * var(--light-size));left:calc(50% - .5 * var(--light-size));background:#fc6;height:var(--light-size);width:var(--light-size);animation:spinHorizontal 1s ease-in-out infinite alternate;opacity:1;transition:all .3s}.loaded #spinner{opacity:0}#drop{height:calc(.5 * var(--light-size));width:calc(.5 * var(--light-size));border-bottom-right-radius:50%;border-bottom-left-radius:50%;border-top-left-radius:50%;transform:rotate(-45deg);background:#acf}@keyframes spinHorizontal{0%{transform:rotateY(0deg)}100%{background:#69f;transform:rotateY(360deg)}}#weather{height:var(--weather-height);width:var(--frame-width);position:relative;overflow:hidden}#sun,#moon{position:absolute;top:var(--light-position);left:var(--light-position);height:var(--light-size);width:var(--light-size);border-radius:50%}#sun{background:linear-gradient(#ff0, #fc0);box-shadow:0 0 10px orange}.hidden{display:none}.flex{display:flex;justify-content:center;align-items:center}.clear,.mist{background:#69f}.clouds,.rain,.snow{background:#ccf}#data{height:calc(var(--frame-width) / 5);width:var(--frame-width);flex-flow:row nowrap;justify-content:space-around;background:#ccc}.temperatures{flex-flow:column}.temperatures h2{margin:0}\n"
+module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],17:[function(require,module,exports){
-var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.mist .cloud,.mist .puff,.mist .cloud:after,.mist .puff:after{background:rgba(200,200,255,0.5);transform:translateY(120px) scaleY(0.6)}\n"
+var css = ""
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],18:[function(require,module,exports){
-var css = "#moon{background:#334;box-shadow:0 0 10px #aaa;overflow:hidden;visibility:hidden}.light-overlay{position:absolute;z-index:2;top:-1px;left:-1px;height:calc(var(--light-size) + 2px);width:calc(var(--light-size) + 2px);border-radius:50%;background:rgba(235,235,255,0.8)}.empty.light-overlay{visibility:hidden}.half .light-overlay{border-radius:0}.right.half .light-overlay{left:calc(.5 * var(--light-size))}.left.half .light-overlay{left:calc(-.5 * var(--light-size))}.gibbous .light-overlay{height:calc(1.2 * var(--light-size));top:calc(-.1 * var(--light-size))}.gibbous.left .light-overlay{left:calc(-.25 * var(--light-size))}.gibbous.right .light-overlay{left:calc(.25 * var(--light-size))}.crescent .light-overlay{border-radius:0}.crescent .light-overlay:after{content:'';position:absolute;z-index:2;top:calc(-.1 * var(--light-size));height:calc(1.2 * var(--light-size));width:var(--light-size);border-radius:50%;background:rgba(50,50,70,0.8)}.crescent.right .light-overlay:after{left:calc(-.25 * var(--light-size))}.crescent.left .light-overlay:after{left:calc(.25 * var(--light-size))}.dots{position:relative;z-index:1;border-radius:50%;height:100%;width:100%}.dot{background:#001;position:absolute;height:5px;width:5px;border-radius:50%}.dot.one{height:7px;width:7px;top:10px;left:16px}.dot.two{top:40px;left:56px}.dot.three{top:20px;left:16px}.dot.four{height:7px;width:7px;top:50px;left:18px}.dot.five{height:7px;width:7px;top:50px;left:36px}.dot.six{height:10px;width:13px;top:23px;left:42px}.dot.seven{height:10px;width:10px;top:53px;left:20px}\n"
+var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.mist .cloud,.mist .puff,.mist .cloud:after,.mist .puff:after{background:rgba(200,200,255,0.5);transform:translateY(120px) scaleY(0.6)}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],19:[function(require,module,exports){
-var css = "#weather{background:#136}#weather #sun{visibility:hidden}#weather #moon{visibility:visible}#weather .cloud,#weather .puff,#weather .cloud:after,#weather .puff:after{background:rgba(150,150,150,0.6)}#weather.mist .cloud,#weather.mist .puff,#weather.mist .cloud:after,#weather.mist .puff:after{background:rgba(150,150,200,0.6)}#weather.isFalling .cloud,#weather.isFalling .puff,#weather.isFalling .cloud:after,#weather.isFalling .puff:after{background:rgba(150,150,150,0.9)}\n"
+var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.smoke .cloud,.smoke .puff,.smoke .cloud:after,.smoke .puff:after{background:rgba(200,150,100,0.5);transform:translateY(30px) scaleY(1.6)}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],20:[function(require,module,exports){
 var css = ".cloud:after,.puff:after{content:'';left:600px;visibility:visible}.wind-west .cloud:after,.wind-west .puff:after{left:-600px}.wind-low.wind-east .cloud,.wind-low.wind-east .puff{animation:eastWind 60s infinite linear}.wind-low.wind-west .cloud,.wind-low.wind-west .puff{animation:westWind 60s infinite linear}.wind-med.wind-east .cloud,.wind-med.wind-east .puff{animation:eastWind 40s infinite linear}.wind-med.wind-west .cloud,.wind-med.wind-west .puff{animation:westWind 40s infinite linear}.wind-high.wind-east .cloud,.wind-high.wind-east .puff{animation:eastWind 20s infinite linear}.wind-high.wind-west .cloud,.wind-high.wind-west .puff{animation:westWind 20s infinite linear}@keyframes eastWind{100%{transform:translateX(-600px)}}@keyframes westWind{100%{transform:translateX(600px)}}\n"
@@ -396,7 +404,7 @@ function getCardinalWindDirection(degrees) {
 module.exports = getCardinalWindDirection;
 },{}],22:[function(require,module,exports){
 function getWeatherClassName(weatherCode) {
-    // return 'rain';
+    return 'smoke';
 
     // https://openweathermap.org/weather-conditions
     if (weatherCode >= 801 || weatherCode == 771) return 'clouds';

@@ -1,0 +1,9 @@
+@import './variables';
+@import './clouds.scss';
+
+.smoke {
+    .cloud, .puff, .cloud:after, .puff:after {
+        background: $smokeDayColor;
+        transform: translateY(30px) scaleY(1.6);
+    }
+}

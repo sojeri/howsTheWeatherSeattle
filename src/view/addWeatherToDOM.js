@@ -1,4 +1,5 @@
 const addCloudsToDOM = require('./addCloudsToDOM');
+const addWeatherDataToDOM = require('./addWeatherDataToDOM');
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
 const getWeatherClassName = require('./utils/getWeatherClassName');
@@ -26,6 +27,11 @@ function addWeatherToDOM(blob) {
         isCloudy = true;
         require('./styles/mist.scss');
     }
+    
+    if (baseWeatherType == 'smoke') {
+        isCloudy = true;
+        require('./styles/smoke.scss');
+    }
 
     if (isCloudy) {
         // wind animation is currently only supported for cloud & cloud-like weathers
@@ -34,28 +40,13 @@ function addWeatherToDOM(blob) {
     
     addClass(weatherElement, baseWeatherType);
     
-
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
-        require('./styles/night.scss');
-        require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
+        // require('./styles/night.scss');
+        // require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
     }
     
-    const humidity = blob.main.humidity;
-    const temp = blob.main.temp;
-    const minTemp = blob.main.temp_min;
-    const maxTemp = blob.main.temp_max;
-    
-    document.getElementById('humidity').innerHTML = humidity;
-    document.getElementById('temp').innerHTML = temp;
-    
-    // these properties are not guaranteed to be always returned by the API
-    if (minTemp && maxTemp) {
-        document.getElementById('temp-min').innerHTML = minTemp;
-        document.getElementById('temp-max').innerHTML = maxTemp;
-    } else {
-        document.getElementById('min-max').classList.add('hidden');
-    }
+    addWeatherDataToDOM(blob.main);
 
     setTimeout(
         () => { addClass(document.getElementById('loading'), 'loaded') },

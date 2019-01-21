@@ -1,9 +1,10 @@
-// layers
+//== layers
 $backgroundWeather: 1;
 $backgroundWeatherForeground: 2;
 $weather: 3;
 $foregroundWeather: 4;
 $onTopOfWeather: 5;
+
 
 //== colors
 
@@ -24,6 +25,10 @@ $cloudNightColor: rgba(150, 150, 150, .9);
 // MIST
 $mistDayColor: rgba(200, 200, 255, .5);
 $mistNightColor: rgba(150, 150, 200, .6);
+
+// SMOKE
+$smokeDayColor: rgba(200, 150, 100, .5);
+$smokeNightColor: rgba(150, 100, 50, .6);
 
 // SUN MOON
 $sunPrimaryColor: yellow;
