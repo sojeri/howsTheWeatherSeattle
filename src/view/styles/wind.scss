@@ -11,6 +11,12 @@
                 animation: eastWindMist $speed infinite linear;
             }
         }
+
+        &.smoke {
+            .cloud, .puff {
+                animation: eastWindSmoke $speed infinite linear;
+            }
+        }
     }
 
     &.wind-west {
@@ -21,6 +27,12 @@
         &.mist {
             .cloud, .puff {
                 animation: westWindMist $speed infinite linear;
+            }
+        }
+
+        &.smoke {
+            .cloud, .puff {
+                animation: westWindSmoke $speed infinite linear;
             }
         }
     }
@@ -50,19 +62,33 @@
     @include wind(20s);
 }
 
-@mixin windAnimation($name: '', $additionalTransforms: '') {
-    @keyframes #{eastWind + $name} {
+@mixin windAnimationWithTransform($name, $additionalTransforms) {
+    $eastName: eastWind + $name;
+    @keyframes #{$eastName} {
         100% {
             transform: translateX(-$eastWind) $additionalTransforms;
         }
     }
 
-    @keyframes #{westWind + $name} {
+    $westName: westWind + $name;
+    @keyframes #{$westName} {
         100% {
             transform: translateX(-$westWind) $additionalTransforms;
         }
     }
 }
 
-@include windAnimation();
-@include windAnimation(Mist, $mistTransforms);
+@keyframes eastWind {
+    100% {
+        transform: translateX(-$eastWind);
+    }
+}
+
+@keyframes westWind {
+    100% {
+        transform: translateX(-$westWind);
+    }
+}
+
+@include windAnimationWithTransform(Mist, $mistTransforms);
+@include windAnimationWithTransform(Smoke, $smokeTransforms);

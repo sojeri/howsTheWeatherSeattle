@@ -1,9 +1,16 @@
 @import './variables';
 @import './clouds.scss';
 
+
+// TODO: add poison symbols? ☣︎ ☠️
 .smoke {
     .cloud, .puff, .cloud:after, .puff:after {
         background: $smokeDayColor;
-        transform: translateY(30px) scaleY(1.6);
+        transform: $smokeTransforms;
+        filter: blur(30px);
+    }
+
+    #sun {
+        opacity: .8;
     }
 }
