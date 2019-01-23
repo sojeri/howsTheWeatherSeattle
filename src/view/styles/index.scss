@@ -1,5 +1,8 @@
 @import './variables';
 
+// TODO: consider fallback values for native CSS vars
+// TODO: refactor positions & sizing to support media queries
+// TODO: linter for hard-coded values outside variables & :root selector? is necessary?
 :root {
     --frame-width: 400px;
     --half-frame-width: 200px;

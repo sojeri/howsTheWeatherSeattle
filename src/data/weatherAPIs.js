@@ -19,7 +19,7 @@ const FALLBACK_WEATHER = {
 // https://solunar.org/#usage
 const REPLACE = '@@REPLACE@@';
 const MOON_ENDPOINT = `https://api.solunar.org/solunar/${SEATTLE_LAT},${SEATTLE_LONG},${REPLACE},-7`
-const FALLBACK_MOON = { phase: { trend: 'waning', shape: 'gibbous', }};
+const FALLBACK_MOON = { moonPhase: 'Waxing Crescent', };
 
 module.exports = {
     WEATHER_ENDPOINT,

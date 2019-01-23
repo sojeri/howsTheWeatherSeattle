@@ -1,0 +1,59 @@
+@import './lightFalling.scss';
+
+.small {
+    &.weather {
+        height: 26px;
+        width: 13px;
+        background: $mediumRainColor;
+    }
+
+    &.one {
+        @include falling(one, $one, $defaultDrift);
+        animation: falling-one $mediumFallingDuration infinite linear $longOffset;
+    }
+
+    &.two {
+        @include falling(two, $two, $defaultDrift);
+        animation: falling-two $tinyFallingDuration infinite linear $noOffset;
+    }
+
+    &.three {
+        @include falling(three, $three, $defaultDrift);
+        animation: falling-three $mediumFallingDuration infinite linear $tinyOffset;
+    }
+
+    &.four {
+        @include falling(four, $four, $defaultDrift);
+        animation: falling-four $longFallingDuration infinite linear $shortOffset;
+    }
+
+    &.five {
+        @include falling(five, $five, $defaultDrift);
+        animation: falling-five $shortFallingDuration infinite linear $mediumOffset;
+    }
+
+    &.six {
+        @include falling(six, $six, $defaultDrift);
+        animation: falling-six $tinyFallingDuration infinite linear $longOffset;
+    }
+
+    &.seven {
+        @include falling(seven, $seven, $defaultDrift);
+        animation: falling-seven $shortFallingDuration infinite linear $noOffset;
+    }
+
+    &.eight {
+        @include falling(eight, $eight, $defaultDrift);
+        animation: falling-eight $mediumFallingDuration infinite linear $tinyOffset;
+    }
+
+    &.nine {
+        @include falling(nine, $nine, $defaultDrift);
+        animation: falling-nine $longFallingDuration infinite linear $shortOffset;
+    }
+
+    &.ten {
+        @include falling(ten, $ten, $defaultDrift);
+        animation: falling-ten $tinyFallingDuration infinite linear $mediumOffset;
+    }
+}

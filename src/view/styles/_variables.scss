@@ -22,10 +22,20 @@ $lightCloudNightColor: rgba(150, 150, 150, .6);
 $cloudDayColor: rgba(255, 255, 255, .9);
 $cloudNightColor: rgba(150, 150, 150, .9);
 
+// LEAVES BECAUSE REASONS???
+$leafBrownColor: #836;
+$leafGreenColor: #386;
+$leafOrangeColor: #f86;
+
 // MIST
 $mistDayColor: rgba(200, 200, 255, .5);
 $mistNightColor: rgba(150, 150, 200, .4);
 $mistTransforms: translateY(140px) scaleY(.4);
+
+// THE RAIN IS COMING
+$lightRainColor: rgba(100, 130, 255, .6);
+$mediumRainColor: rgba(100, 130, 255, .75);
+$heavyRainColor: rgba(100, 130, 255, .9);
 
 // SMOKE
 $smokeDayColor: rgba(200, 160, 120, .3);

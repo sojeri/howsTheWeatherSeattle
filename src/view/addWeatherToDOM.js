@@ -2,25 +2,32 @@ const addCloudsToDOM = require('./addCloudsToDOM');
 const addWeatherDataToDOM = require('./addWeatherDataToDOM');
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
+const addRainToDOM = require('./addRainToDOM');
 const getWeatherClassName = require('./utils/getWeatherClassName');
 
-const cloudyWeathertypes = ['clouds', 'snow', 'rain', 'thunder'];
+const cloudyWeatherTypes = ['clouds', 'snow', 'rain', 'thunder'];
 function isCloudyWeather(weather) {
-    return cloudyWeathertypes.indexOf(weather) > -1;
+    return cloudyWeatherTypes.indexOf(weather) > -1;
+}
+
+const rainyWeatherTypes = ['snow', 'rain', 'thunder'];
+function isRainLikeWeather(weather) {
+    return rainyWeatherTypes.indexOf(weather) > -1;
 }
 
 function addWeatherToDOM(blob) {
     let weatherElement = document.getElementById('weather');
-    let baseWeatherType = getWeatherClassName(blob.weather[0].id);
-
+    let { baseWeatherType, weatherModifier } = getWeatherClassName(blob.weather[0].id);
     let isCloudy = isCloudyWeather(baseWeatherType);
     
     if (isCloudy) {
         addCloudsToDOM(weatherElement);
     }
     
-    if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
+    if (isRainLikeWeather(baseWeatherType)) {
+        console.log(baseWeatherType);
         addClass(weatherElement, 'isFalling');
+        addRainToDOM(weatherModifier);
     }
     
     if (baseWeatherType == 'mist') {

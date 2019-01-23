@@ -163,7 +163,7 @@ function useFallbackWeather() {
 }
 
 module.exports = loadWeather;
-},{"../view/addWeatherToDOM":13,"./fetchJsonResource":3,"./weatherAPIs":7}],6:[function(require,module,exports){
+},{"../view/addWeatherToDOM":14,"./fetchJsonResource":3,"./weatherAPIs":7}],6:[function(require,module,exports){
 function logError(error) {
     console.error(error.message);
 }
@@ -191,7 +191,7 @@ const FALLBACK_WEATHER = {
 // https://solunar.org/#usage
 const REPLACE = '@@REPLACE@@';
 const MOON_ENDPOINT = `https://api.solunar.org/solunar/${SEATTLE_LAT},${SEATTLE_LONG},${REPLACE},-7`
-const FALLBACK_MOON = { phase: { trend: 'waning', shape: 'gibbous', }};
+const FALLBACK_MOON = { moonPhase: 'Waxing Crescent', };
 
 module.exports = {
     WEATHER_ENDPOINT,
@@ -208,7 +208,7 @@ const loadMoon = require('./data/loadMoon');
 
 loadWeather();
 loadMoon();
-},{"./data/loadMoon":4,"./data/loadWeather":5,"./view/styles/index.scss":16}],9:[function(require,module,exports){
+},{"./data/loadMoon":4,"./data/loadWeather":5,"./view/styles/index.scss":18}],9:[function(require,module,exports){
 function addClass(element, newClass) {
     element.classList.add(newClass);
 }
@@ -223,7 +223,7 @@ function addClouds(weatherElement) {
 }
 
 module.exports = addClouds;
-},{"./addClass":9,"./styles/clouds.scss":15}],11:[function(require,module,exports){
+},{"./addClass":9,"./styles/clouds.scss":16}],11:[function(require,module,exports){
 const addClass = require('./addClass');
 
 function addMoonToDOM(moonBlob) {
@@ -271,6 +271,24 @@ function addMoonToDOM(moonBlob) {
 
 module.exports = addMoonToDOM;
 },{"./addClass":9}],12:[function(require,module,exports){
+function addRainToDOM(rainLevel) {
+    console.log(rainLevel);
+    switch (rainLevel) {
+        case 'medium':
+            require('./styles/mediumFalling.scss');
+            break;
+        case 'heavy':
+            require('./styles/heavyFalling.scss');
+            break;
+        case 'light':
+        default:
+            require('./styles/lightFalling.scss');
+            break;
+    }
+}
+
+module.exports = addRainToDOM;
+},{"./styles/heavyFalling.scss":17,"./styles/lightFalling.scss":19,"./styles/mediumFalling.scss":20}],13:[function(require,module,exports){
 function addWeatherDataToDOM(blob) {
     const humidity = blob.humidity;
     const temp = blob.temp;
@@ -290,31 +308,37 @@ function addWeatherDataToDOM(blob) {
 }
 
 module.exports = addWeatherDataToDOM;
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 const addCloudsToDOM = require('./addCloudsToDOM');
 const addWeatherDataToDOM = require('./addWeatherDataToDOM');
 const addWindToDOM = require('./addWindToDOM');
 const addClass = require('./addClass');
+const addRainToDOM = require('./addRainToDOM');
 const getWeatherClassName = require('./utils/getWeatherClassName');
 
-const cloudyWeathertypes = ['clouds', 'snow', 'rain', 'thunder'];
+const cloudyWeatherTypes = ['clouds', 'snow', 'rain', 'thunder'];
 function isCloudyWeather(weather) {
-    return cloudyWeathertypes.indexOf(weather) > -1;
+    return cloudyWeatherTypes.indexOf(weather) > -1;
+}
+
+const rainyWeatherTypes = ['snow', 'rain', 'thunder'];
+function isRainLikeWeather(weather) {
+    return rainyWeatherTypes.indexOf(weather) > -1;
 }
 
 function addWeatherToDOM(blob) {
     let weatherElement = document.getElementById('weather');
-    let baseWeatherType = getWeatherClassName(blob.weather[0].id);
-
+    let { baseWeatherType, weatherModifier } = getWeatherClassName(blob.weather[0].id);
     let isCloudy = isCloudyWeather(baseWeatherType);
     
     if (isCloudy) {
         addCloudsToDOM(weatherElement);
     }
     
-    if (baseWeatherType == 'snow' || baseWeatherType == 'rain' || baseWeatherType == 'thunder') {
+    if (isRainLikeWeather(baseWeatherType)) {
+        console.log(baseWeatherType);
         addClass(weatherElement, 'isFalling');
-        require('./styles/isFalling.scss');
+        addRainToDOM(weatherModifier);
     }
     
     if (baseWeatherType == 'mist') {
@@ -348,7 +372,7 @@ function addWeatherToDOM(blob) {
 }
 
 module.exports = addWeatherToDOM;
-},{"./addClass":9,"./addCloudsToDOM":10,"./addWeatherDataToDOM":12,"./addWindToDOM":14,"./styles/isFalling.scss":17,"./styles/mist.scss":18,"./styles/moon.scss":19,"./styles/night.scss":20,"./styles/smoke.scss":21,"./utils/getWeatherClassName":24}],14:[function(require,module,exports){
+},{"./addClass":9,"./addCloudsToDOM":10,"./addRainToDOM":12,"./addWeatherDataToDOM":13,"./addWindToDOM":15,"./styles/mist.scss":21,"./styles/moon.scss":22,"./styles/night.scss":23,"./styles/smoke.scss":24,"./utils/getWeatherClassName":27}],15:[function(require,module,exports){
 const addClass = require('./addClass');
 const getCardinalWindDirection = require('./utils/getCardinalWindDirection');
 
@@ -380,31 +404,37 @@ function addWindToDOM(weatherElement, wind) {
 }
 
 module.exports = addWindToDOM;
-},{"./addClass":9,"./styles/wind.scss":22,"./utils/getCardinalWindDirection":23}],15:[function(require,module,exports){
+},{"./addClass":9,"./styles/wind.scss":25,"./utils/getCardinalWindDirection":26}],16:[function(require,module,exports){
 var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}\n"
 module.exports = require('scssify').createStyle(css, {})
-},{"scssify":1}],16:[function(require,module,exports){
-var css = ":root{--frame-width: 400px;--half-frame-width: 200px;--light-position: 60px;--light-size: 70px}:root{--weather-height: calc(var(--frame-width) / 5 * 4);--weather-width: var(--frame-width)}.frame{position:absolute;top:50%;left:50%;width:var(--frame-width);height:var(--frame-width);margin-top:calc(-1 * var(--half-frame-width));margin-left:calc(-1 * var(--half-frame-width));border-radius:2px;box-shadow:0 0 16px 0 rgba(0,0,0,0.2);overflow:hidden;font-family:'Droid Sans', Helvetica, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.center{position:relative;height:100%;width:100%}#loading{z-index:5;position:absolute;height:var(--frame-width);width:var(--frame-width);background:#ccc;opacity:1;top:0;transition:all 1s}#loading.loaded{opacity:0;top:calc(-1 * var(--frame-width))}#spinner{position:absolute;top:calc(50% - .5 * var(--light-size));left:calc(50% - .5 * var(--light-size));background:#fc6;height:var(--light-size);width:var(--light-size);animation:spinHorizontal 1s ease-in-out infinite alternate;opacity:1;transition:all .3s}.loaded #spinner{opacity:0}#drop{height:calc(.5 * var(--light-size));width:calc(.5 * var(--light-size));border-bottom-right-radius:50%;border-bottom-left-radius:50%;border-top-left-radius:50%;transform:rotate(-45deg);background:#acf}@keyframes spinHorizontal{0%{transform:rotateY(0deg)}100%{background:#69f;transform:rotateY(360deg)}}#weather{height:var(--weather-height);width:var(--frame-width);position:relative;overflow:hidden}#sun,#moon{position:absolute;top:var(--light-position);left:var(--light-position);height:var(--light-size);width:var(--light-size);border-radius:50%}#sun{background:linear-gradient(#ff0, #fc0);box-shadow:0 0 10px orange}.hidden{display:none}.flex{display:flex;justify-content:center;align-items:center}.clear,.mist,.smoke{background:#69f}.clouds,.rain,.snow{background:#ccf}#data{height:calc(var(--frame-width) / 5);width:var(--frame-width);flex-flow:row nowrap;justify-content:space-around;background:#ccc}.temperatures{flex-flow:column}.temperatures h2{margin:0}\n"
-module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],17:[function(require,module,exports){
-var css = ""
+var css = ".isFalling .weather{z-index:3;position:absolute;top:-10px;opacity:.2;border-radius:50%}.isFalling .weather.one{left:5px}.isFalling .weather.two{left:25px}.isFalling .weather.three{left:75px}.isFalling .weather.four{left:100px}.isFalling .weather.five{left:150px}.isFalling .weather.six{left:205px}.isFalling .weather.seven{left:235px}.isFalling .weather.eight{left:280px}.isFalling .weather.nine{left:315px}.isFalling .weather.ten{left:360px}.tiny.weather{height:16px;width:8px;background:rgba(100,130,255,0.6)}.tiny.one{animation:falling-one 3s infinite linear .5s}@keyframes falling-one{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:30px}}.tiny.two{animation:falling-two 1.5s infinite linear .8s}@keyframes falling-two{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:50px}}.tiny.three{animation:falling-three 2.5s infinite linear 1.3s}@keyframes falling-three{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:100px}}.tiny.four{animation:falling-four 1s infinite linear 0s}@keyframes falling-four{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:125px}}.tiny.five{animation:falling-five 3s infinite linear .2s}@keyframes falling-five{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:175px}}.tiny.six{animation:falling-six 3s infinite linear .5s}@keyframes falling-six{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:230px}}.tiny.seven{animation:falling-seven 1.5s infinite linear .8s}@keyframes falling-seven{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:260px}}.tiny.eight{animation:falling-eight 2.5s infinite linear 1.3s}@keyframes falling-eight{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:305px}}.tiny.nine{animation:falling-nine 1s infinite linear 0s}@keyframes falling-nine{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:340px}}.tiny.ten{animation:falling-ten 3s infinite linear .2s}@keyframes falling-ten{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:385px}}.small.weather{height:26px;width:13px;background:rgba(100,130,255,0.75)}.small.one{animation:falling-one 2.5s infinite linear 1.3s}@keyframes falling-one{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:30px}}.small.two{animation:falling-two 1s infinite linear 0s}@keyframes falling-two{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:50px}}.small.three{animation:falling-three 2.5s infinite linear .2s}@keyframes falling-three{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:100px}}.small.four{animation:falling-four 3s infinite linear .5s}@keyframes falling-four{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:125px}}.small.five{animation:falling-five 1.5s infinite linear .8s}@keyframes falling-five{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:175px}}.small.six{animation:falling-six 1s infinite linear 1.3s}@keyframes falling-six{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:230px}}.small.seven{animation:falling-seven 1.5s infinite linear 0s}@keyframes falling-seven{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:260px}}.small.eight{animation:falling-eight 2.5s infinite linear .2s}@keyframes falling-eight{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:305px}}.small.nine{animation:falling-nine 3s infinite linear .5s}@keyframes falling-nine{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:340px}}.small.ten{animation:falling-ten 1s infinite linear .8s}@keyframes falling-ten{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:385px}}.large.weather{height:40px;width:20px;background:rgba(100,130,255,0.9)}.large.one{animation:falling-one 1.5s infinite linear 0s}@keyframes falling-one{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:30px}}.large.two{animation:falling-two 1s infinite linear .2s}@keyframes falling-two{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:50px}}.large.three{animation:falling-three 1s infinite linear .5s}@keyframes falling-three{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:100px}}.large.four{animation:falling-four 2.5s infinite linear .8s}@keyframes falling-four{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:125px}}.large.five{animation:falling-five 1.5s infinite linear 1.3s}@keyframes falling-five{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:175px}}.large.six{animation:falling-six 1.5s infinite linear 0s}@keyframes falling-six{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:230px}}.large.seven{animation:falling-seven 2.5s infinite linear .2s}@keyframes falling-seven{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:260px}}.large.eight{animation:falling-eight 1s infinite linear .5s}@keyframes falling-eight{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:305px}}.large.nine{animation:falling-nine 1.5s infinite linear .8s}@keyframes falling-nine{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:340px}}.large.ten{animation:falling-ten 2.5s infinite linear 1.3s}@keyframes falling-ten{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:385px}}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],18:[function(require,module,exports){
-var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.mist .cloud,.mist .puff,.mist .cloud:after,.mist .puff:after{background:rgba(200,200,255,0.5);transform:translateY(140px) scaleY(0.4);filter:blur(30px)}\n"
+var css = ":root{--frame-width: 400px;--half-frame-width: 200px;--light-position: 60px;--light-size: 70px}:root{--weather-height: calc(var(--frame-width) / 5 * 4);--weather-width: var(--frame-width)}.frame{position:absolute;top:50%;left:50%;width:var(--frame-width);height:var(--frame-width);margin-top:calc(-1 * var(--half-frame-width));margin-left:calc(-1 * var(--half-frame-width));border-radius:2px;box-shadow:0 0 16px 0 rgba(0,0,0,0.2);overflow:hidden;font-family:'Droid Sans', Helvetica, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.center{position:relative;height:100%;width:100%}#loading{z-index:5;position:absolute;height:var(--frame-width);width:var(--frame-width);background:#ccc;opacity:1;top:0;transition:all 1s}#loading.loaded{opacity:0;top:calc(-1 * var(--frame-width))}#spinner{position:absolute;top:calc(50% - .5 * var(--light-size));left:calc(50% - .5 * var(--light-size));background:#fc6;height:var(--light-size);width:var(--light-size);animation:spinHorizontal 1s ease-in-out infinite alternate;opacity:1;transition:all .3s}.loaded #spinner{opacity:0}#drop{height:calc(.5 * var(--light-size));width:calc(.5 * var(--light-size));border-bottom-right-radius:50%;border-bottom-left-radius:50%;border-top-left-radius:50%;transform:rotate(-45deg);background:#acf}@keyframes spinHorizontal{0%{transform:rotateY(0deg)}100%{background:#69f;transform:rotateY(360deg)}}#weather{height:var(--weather-height);width:var(--frame-width);position:relative;overflow:hidden}#sun,#moon{position:absolute;top:var(--light-position);left:var(--light-position);height:var(--light-size);width:var(--light-size);border-radius:50%}#sun{background:linear-gradient(#ff0, #fc0);box-shadow:0 0 10px orange}.hidden{display:none}.flex{display:flex;justify-content:center;align-items:center}.clear,.mist,.smoke{background:#69f}.clouds,.rain,.snow{background:#ccf}#data{height:calc(var(--frame-width) / 5);width:var(--frame-width);flex-flow:row nowrap;justify-content:space-around;background:#ccc}.temperatures{flex-flow:column}.temperatures h2{margin:0}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],19:[function(require,module,exports){
-var css = "#moon{background:#334;box-shadow:0 0 10px #aaa;overflow:hidden;visibility:hidden}.light-overlay{position:absolute;z-index:2;top:-1px;left:-1px;height:calc(var(--light-size) + 2px);width:calc(var(--light-size) + 2px);border-radius:50%;background:rgba(235,235,255,0.8)}.empty.light-overlay{visibility:hidden}.half .light-overlay{border-radius:0}.right.half .light-overlay{left:calc(.5 * var(--light-size))}.left.half .light-overlay{left:calc(-.5 * var(--light-size))}.gibbous .light-overlay{height:calc(1.2 * var(--light-size));top:calc(-.1 * var(--light-size))}.gibbous.left .light-overlay{left:calc(-.25 * var(--light-size))}.gibbous.right .light-overlay{left:calc(.25 * var(--light-size))}.crescent .light-overlay{border-radius:0}.crescent .light-overlay:after{content:'';position:absolute;z-index:2;top:calc(-.1 * var(--light-size));height:calc(1.2 * var(--light-size));width:var(--light-size);border-radius:50%;background:rgba(50,50,70,0.8)}.crescent.right .light-overlay:after{left:calc(-.25 * var(--light-size))}.crescent.left .light-overlay:after{left:calc(.25 * var(--light-size))}.dots{position:relative;z-index:1;border-radius:50%;height:100%;width:100%}.dot{background:#001;position:absolute;height:5px;width:5px;border-radius:50%}.dot.one{height:7px;width:7px;top:10px;left:16px}.dot.two{top:40px;left:56px}.dot.three{top:20px;left:16px}.dot.four{height:7px;width:7px;top:50px;left:18px}.dot.five{height:7px;width:7px;top:50px;left:36px}.dot.six{height:10px;width:13px;top:23px;left:42px}.dot.seven{height:10px;width:10px;top:53px;left:20px}\n"
+var css = ".isFalling .weather{z-index:3;position:absolute;top:-10px;opacity:.2;border-radius:50%}.isFalling .weather.one{left:5px}.isFalling .weather.two{left:25px}.isFalling .weather.three{left:75px}.isFalling .weather.four{left:100px}.isFalling .weather.five{left:150px}.isFalling .weather.six{left:205px}.isFalling .weather.seven{left:235px}.isFalling .weather.eight{left:280px}.isFalling .weather.nine{left:315px}.isFalling .weather.ten{left:360px}.tiny.weather{height:16px;width:8px;background:rgba(100,130,255,0.6)}.tiny.one{animation:falling-one 3s infinite linear .5s}@keyframes falling-one{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:30px}}.tiny.two{animation:falling-two 1.5s infinite linear .8s}@keyframes falling-two{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:50px}}.tiny.three{animation:falling-three 2.5s infinite linear 1.3s}@keyframes falling-three{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:100px}}.tiny.four{animation:falling-four 1s infinite linear 0s}@keyframes falling-four{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:125px}}.tiny.five{animation:falling-five 3s infinite linear .2s}@keyframes falling-five{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:175px}}.tiny.six{animation:falling-six 3s infinite linear .5s}@keyframes falling-six{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:230px}}.tiny.seven{animation:falling-seven 1.5s infinite linear .8s}@keyframes falling-seven{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:260px}}.tiny.eight{animation:falling-eight 2.5s infinite linear 1.3s}@keyframes falling-eight{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:305px}}.tiny.nine{animation:falling-nine 1s infinite linear 0s}@keyframes falling-nine{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:340px}}.tiny.ten{animation:falling-ten 3s infinite linear .2s}@keyframes falling-ten{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:385px}}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],20:[function(require,module,exports){
-var css = "#weather{background:#136}#weather #sun{visibility:hidden}#weather #moon{visibility:visible}#weather .cloud,#weather .puff,#weather .cloud:after,#weather .puff:after{background:rgba(150,150,150,0.6)}#weather.mist .cloud,#weather.mist .puff,#weather.mist .cloud:after,#weather.mist .puff:after{background:rgba(150,150,200,0.4)}#weather.smoke .cloud,#weather.smoke .puff,#weather.smoke .cloud:after,#weather.smoke .puff:after{background:rgba(150,100,50,0.2)}#weather.isFalling .cloud,#weather.isFalling .puff,#weather.isFalling .cloud:after,#weather.isFalling .puff:after{background:rgba(150,150,150,0.9)}\n"
+var css = ".isFalling .weather{z-index:3;position:absolute;top:-10px;opacity:.2;border-radius:50%}.isFalling .weather.one{left:5px}.isFalling .weather.two{left:25px}.isFalling .weather.three{left:75px}.isFalling .weather.four{left:100px}.isFalling .weather.five{left:150px}.isFalling .weather.six{left:205px}.isFalling .weather.seven{left:235px}.isFalling .weather.eight{left:280px}.isFalling .weather.nine{left:315px}.isFalling .weather.ten{left:360px}.tiny.weather{height:16px;width:8px;background:rgba(100,130,255,0.6)}.tiny.one{animation:falling-one 3s infinite linear .5s}@keyframes falling-one{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:30px}}.tiny.two{animation:falling-two 1.5s infinite linear .8s}@keyframes falling-two{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:50px}}.tiny.three{animation:falling-three 2.5s infinite linear 1.3s}@keyframes falling-three{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:100px}}.tiny.four{animation:falling-four 1s infinite linear 0s}@keyframes falling-four{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:125px}}.tiny.five{animation:falling-five 3s infinite linear .2s}@keyframes falling-five{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:175px}}.tiny.six{animation:falling-six 3s infinite linear .5s}@keyframes falling-six{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:230px}}.tiny.seven{animation:falling-seven 1.5s infinite linear .8s}@keyframes falling-seven{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:260px}}.tiny.eight{animation:falling-eight 2.5s infinite linear 1.3s}@keyframes falling-eight{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:305px}}.tiny.nine{animation:falling-nine 1s infinite linear 0s}@keyframes falling-nine{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:340px}}.tiny.ten{animation:falling-ten 3s infinite linear .2s}@keyframes falling-ten{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:385px}}.small.weather{height:26px;width:13px;background:rgba(100,130,255,0.75)}.small.one{animation:falling-one 2.5s infinite linear 1.3s}@keyframes falling-one{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:30px}}.small.two{animation:falling-two 1s infinite linear 0s}@keyframes falling-two{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:50px}}.small.three{animation:falling-three 2.5s infinite linear .2s}@keyframes falling-three{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:100px}}.small.four{animation:falling-four 3s infinite linear .5s}@keyframes falling-four{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:125px}}.small.five{animation:falling-five 1.5s infinite linear .8s}@keyframes falling-five{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:175px}}.small.six{animation:falling-six 1s infinite linear 1.3s}@keyframes falling-six{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:230px}}.small.seven{animation:falling-seven 1.5s infinite linear 0s}@keyframes falling-seven{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:260px}}.small.eight{animation:falling-eight 2.5s infinite linear .2s}@keyframes falling-eight{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:305px}}.small.nine{animation:falling-nine 3s infinite linear .5s}@keyframes falling-nine{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:340px}}.small.ten{animation:falling-ten 1s infinite linear .8s}@keyframes falling-ten{100%{opacity:.4;top:calc(var(--weather-height) + var(--weather-height) / 4);left:385px}}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],21:[function(require,module,exports){
-var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.smoke .cloud,.smoke .puff,.smoke .cloud:after,.smoke .puff:after{background:rgba(200,160,120,0.3);transform:translateX(-80px) translateY(30px) scaleY(2.5);filter:blur(30px)}.smoke #sun{opacity:.8}\n"
+var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.mist .cloud,.mist .puff,.mist .cloud:after,.mist .puff:after{background:rgba(200,200,255,0.5);transform:translateY(140px) scaleY(0.4);filter:blur(30px)}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],22:[function(require,module,exports){
-var css = ".cloud:after,.puff:after{content:'';left:600px;visibility:visible}.wind-west .cloud:after,.wind-west .puff:after{left:-600px}.wind-low.wind-east .cloud,.wind-low.wind-east .puff{animation:eastWind 60s infinite linear}.wind-low.wind-east.mist .cloud,.wind-low.wind-east.mist .puff{animation:eastWindMist 60s infinite linear}.wind-low.wind-east.smoke .cloud,.wind-low.wind-east.smoke .puff{animation:eastWindSmoke 60s infinite linear}.wind-low.wind-west .cloud,.wind-low.wind-west .puff{animation:westWind 60s infinite linear}.wind-low.wind-west.mist .cloud,.wind-low.wind-west.mist .puff{animation:westWindMist 60s infinite linear}.wind-low.wind-west.smoke .cloud,.wind-low.wind-west.smoke .puff{animation:westWindSmoke 60s infinite linear}.wind-med.wind-east .cloud,.wind-med.wind-east .puff{animation:eastWind 40s infinite linear}.wind-med.wind-east.mist .cloud,.wind-med.wind-east.mist .puff{animation:eastWindMist 40s infinite linear}.wind-med.wind-east.smoke .cloud,.wind-med.wind-east.smoke .puff{animation:eastWindSmoke 40s infinite linear}.wind-med.wind-west .cloud,.wind-med.wind-west .puff{animation:westWind 40s infinite linear}.wind-med.wind-west.mist .cloud,.wind-med.wind-west.mist .puff{animation:westWindMist 40s infinite linear}.wind-med.wind-west.smoke .cloud,.wind-med.wind-west.smoke .puff{animation:westWindSmoke 40s infinite linear}.wind-high.wind-east .cloud,.wind-high.wind-east .puff{animation:eastWind 20s infinite linear}.wind-high.wind-east.mist .cloud,.wind-high.wind-east.mist .puff{animation:eastWindMist 20s infinite linear}.wind-high.wind-east.smoke .cloud,.wind-high.wind-east.smoke .puff{animation:eastWindSmoke 20s infinite linear}.wind-high.wind-west .cloud,.wind-high.wind-west .puff{animation:westWind 20s infinite linear}.wind-high.wind-west.mist .cloud,.wind-high.wind-west.mist .puff{animation:westWindMist 20s infinite linear}.wind-high.wind-west.smoke .cloud,.wind-high.wind-west.smoke .puff{animation:westWindSmoke 20s infinite linear}@keyframes eastWind{100%{transform:translateX(-600px)}}@keyframes westWind{100%{transform:translateX(600px)}}@keyframes eastWindMist{100%{transform:translateX(-600px) translateY(140px) scaleY(0.4)}}@keyframes westWindMist{100%{transform:translateX(600px) translateY(140px) scaleY(0.4)}}@keyframes eastWindSmoke{100%{transform:translateX(-600px) translateX(-80px) translateY(30px) scaleY(2.5)}}@keyframes westWindSmoke{100%{transform:translateX(600px) translateX(-80px) translateY(30px) scaleY(2.5)}}\n"
+var css = "#moon{background:#334;box-shadow:0 0 10px #aaa;overflow:hidden;visibility:hidden}.light-overlay{position:absolute;z-index:2;top:-1px;left:-1px;height:calc(var(--light-size) + 2px);width:calc(var(--light-size) + 2px);border-radius:50%;background:rgba(235,235,255,0.8)}.empty.light-overlay{visibility:hidden}.half .light-overlay{border-radius:0}.right.half .light-overlay{left:calc(.5 * var(--light-size))}.left.half .light-overlay{left:calc(-.5 * var(--light-size))}.gibbous .light-overlay{height:calc(1.2 * var(--light-size));top:calc(-.1 * var(--light-size))}.gibbous.left .light-overlay{left:calc(-.25 * var(--light-size))}.gibbous.right .light-overlay{left:calc(.25 * var(--light-size))}.crescent .light-overlay{border-radius:0}.crescent .light-overlay:after{content:'';position:absolute;z-index:2;top:calc(-.1 * var(--light-size));height:calc(1.2 * var(--light-size));width:var(--light-size);border-radius:50%;background:rgba(50,50,70,0.8)}.crescent.right .light-overlay:after{left:calc(-.25 * var(--light-size))}.crescent.left .light-overlay:after{left:calc(.25 * var(--light-size))}.dots{position:relative;z-index:1;border-radius:50%;height:100%;width:100%}.dot{background:#001;position:absolute;height:5px;width:5px;border-radius:50%}.dot.one{height:7px;width:7px;top:10px;left:16px}.dot.two{top:40px;left:56px}.dot.three{top:20px;left:16px}.dot.four{height:7px;width:7px;top:50px;left:18px}.dot.five{height:7px;width:7px;top:50px;left:36px}.dot.six{height:10px;width:13px;top:23px;left:42px}.dot.seven{height:10px;width:10px;top:53px;left:20px}\n"
 module.exports = require('scssify').createStyle(css, {})
 },{"scssify":1}],23:[function(require,module,exports){
+var css = "#weather{background:#136}#weather #sun{visibility:hidden}#weather #moon{visibility:visible}#weather .cloud,#weather .puff,#weather .cloud:after,#weather .puff:after{background:rgba(150,150,150,0.6)}#weather.mist .cloud,#weather.mist .puff,#weather.mist .cloud:after,#weather.mist .puff:after{background:rgba(150,150,200,0.4)}#weather.smoke .cloud,#weather.smoke .puff,#weather.smoke .cloud:after,#weather.smoke .puff:after{background:rgba(150,100,50,0.2)}#weather.isFalling .cloud,#weather.isFalling .puff,#weather.isFalling .cloud:after,#weather.isFalling .puff:after{background:rgba(150,150,150,0.9)}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],24:[function(require,module,exports){
+var css = ".cloud:after,.puff:after{visibility:hidden}.cloud,.puff,.cloud:after,.puff:after{position:absolute;background:rgba(255,255,255,0.7);border-radius:50%;z-index:4}.isFalling .cloud,.isFalling .puff,.isFalling .cloud:after,.isFalling .puff:after{background:rgba(255,255,255,0.9)}.cloud,.cloud:after{height:100px;filter:blur(10px)}.puff,.puff:after{height:80px;width:250px;filter:blur(15px)}.cloud.one{top:-10px;left:-30px;width:500px}.cloud.one:after{width:500px}.cloud.two{top:40px;left:80px;width:300px}.cloud.two:after{width:300px}.cloud.three{top:80px;left:180px;width:400px}.cloud.three:after{width:400px}.puff.one{top:120px;left:20px}.puff.two{top:140px;left:120px}.puff.three{top:50px;left:330px}.smoke .cloud,.smoke .puff,.smoke .cloud:after,.smoke .puff:after{background:rgba(200,160,120,0.3);transform:translateX(-80px) translateY(30px) scaleY(2.5);filter:blur(30px)}.smoke #sun{opacity:.8}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],25:[function(require,module,exports){
+var css = ".cloud:after,.puff:after{content:'';left:600px;visibility:visible}.wind-west .cloud:after,.wind-west .puff:after{left:-600px}.wind-low.wind-east .cloud,.wind-low.wind-east .puff{animation:eastWind 60s infinite linear}.wind-low.wind-east.mist .cloud,.wind-low.wind-east.mist .puff{animation:eastWindMist 60s infinite linear}.wind-low.wind-east.smoke .cloud,.wind-low.wind-east.smoke .puff{animation:eastWindSmoke 60s infinite linear}.wind-low.wind-west .cloud,.wind-low.wind-west .puff{animation:westWind 60s infinite linear}.wind-low.wind-west.mist .cloud,.wind-low.wind-west.mist .puff{animation:westWindMist 60s infinite linear}.wind-low.wind-west.smoke .cloud,.wind-low.wind-west.smoke .puff{animation:westWindSmoke 60s infinite linear}.wind-med.wind-east .cloud,.wind-med.wind-east .puff{animation:eastWind 40s infinite linear}.wind-med.wind-east.mist .cloud,.wind-med.wind-east.mist .puff{animation:eastWindMist 40s infinite linear}.wind-med.wind-east.smoke .cloud,.wind-med.wind-east.smoke .puff{animation:eastWindSmoke 40s infinite linear}.wind-med.wind-west .cloud,.wind-med.wind-west .puff{animation:westWind 40s infinite linear}.wind-med.wind-west.mist .cloud,.wind-med.wind-west.mist .puff{animation:westWindMist 40s infinite linear}.wind-med.wind-west.smoke .cloud,.wind-med.wind-west.smoke .puff{animation:westWindSmoke 40s infinite linear}.wind-high.wind-east .cloud,.wind-high.wind-east .puff{animation:eastWind 20s infinite linear}.wind-high.wind-east.mist .cloud,.wind-high.wind-east.mist .puff{animation:eastWindMist 20s infinite linear}.wind-high.wind-east.smoke .cloud,.wind-high.wind-east.smoke .puff{animation:eastWindSmoke 20s infinite linear}.wind-high.wind-west .cloud,.wind-high.wind-west .puff{animation:westWind 20s infinite linear}.wind-high.wind-west.mist .cloud,.wind-high.wind-west.mist .puff{animation:westWindMist 20s infinite linear}.wind-high.wind-west.smoke .cloud,.wind-high.wind-west.smoke .puff{animation:westWindSmoke 20s infinite linear}@keyframes eastWind{100%{transform:translateX(-600px)}}@keyframes westWind{100%{transform:translateX(600px)}}@keyframes eastWindMist{100%{transform:translateX(-600px) translateY(140px) scaleY(0.4)}}@keyframes westWindMist{100%{transform:translateX(600px) translateY(140px) scaleY(0.4)}}@keyframes eastWindSmoke{100%{transform:translateX(-600px) translateX(-80px) translateY(30px) scaleY(2.5)}}@keyframes westWindSmoke{100%{transform:translateX(600px) translateX(-80px) translateY(30px) scaleY(2.5)}}\n"
+module.exports = require('scssify').createStyle(css, {})
+},{"scssify":1}],26:[function(require,module,exports){
 const CARDINAL_WIND_DIRECTIONS = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
 function getCardinalWindDirection(degrees) {
     let cardinal = Math.floor((degrees/22.5) + 0.5);
@@ -412,18 +442,17 @@ function getCardinalWindDirection(degrees) {
 }
 
 module.exports = getCardinalWindDirection;
-},{}],24:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 function getWeatherClassName(weatherCode) {
-    // return 'smoke';
-
     // https://openweathermap.org/weather-conditions
-    if (weatherCode >= 801 || weatherCode == 771) return 'clouds';
-    if (weatherCode == 701 || weatherCode == 741) return 'mist';
-    if (weatherCode >= 711 && weatherCode <= 762) return 'smoke';
-    if (weatherCode == 800 || weatherCode > 762) return 'clear';
-    if (weatherCode >= 600) return 'snow';
-    if (weatherCode >= 300) return 'rain'; // 300s drizzle 500s rain incl light
-    if (weatherCode >= 200) return 'thunder';
+    if (weatherCode >= 801 || weatherCode == 771) return { baseWeatherType: 'clouds', };
+    if (weatherCode == 701 || weatherCode == 741) return { baseWeatherType: 'mist', };
+    if (weatherCode >= 711 && weatherCode <= 762) return { baseWeatherType: 'smoke', };
+    if (weatherCode == 800 || weatherCode > 762) return { baseWeatherType: 'clear', };
+    if (weatherCode >= 600) return { baseWeatherType: 'snow', };
+    if (weatherCode >= 500) return { baseWeatherType: 'rain', weatherModifier: 'medium', }; // 500s rain incl light
+    if (weatherCode >= 300) return { baseWeatherType: 'rain', weatherModifier: 'light', }; // drizzle
+    if (weatherCode >= 200) return { baseWeatherType: 'thunder', weatherModifier: 'heavy' };
     
     throw new Error('unrecognized weather code!');
 }
