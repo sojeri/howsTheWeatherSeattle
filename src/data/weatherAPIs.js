@@ -1,5 +1,8 @@
+const SEATTLE_LAT = '47.5922116';
+const SEATTLE_LONG = '-122.3205388';
+
 // https://openweathermap.org/current
-const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather?id=5809844&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d';
+const WEATHER_ENDPOINT = `https://api.openweathermap.org/data/2.5/weather?lat=${SEATTLE_LAT}&lon=${SEATTLE_LONG}&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d`;
 const FALLBACK_WEATHER = {
     weather: [{ id: 501 }],
     wind: { speed: 10, deg: 90 },
@@ -15,7 +18,7 @@ const FALLBACK_WEATHER = {
 
 // https://solunar.org/#usage
 const REPLACE = '@@REPLACE@@';
-const MOON_ENDPOINT = `https://api.solunar.org/solunar/47.6062,122.3321,${REPLACE},-7`
+const MOON_ENDPOINT = `https://api.solunar.org/solunar/${SEATTLE_LAT},${SEATTLE_LONG},${REPLACE},-7`
 const FALLBACK_MOON = { phase: { trend: 'waning', shape: 'gibbous', }};
 
 module.exports = {
