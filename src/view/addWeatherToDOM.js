@@ -25,9 +25,11 @@ function addWeatherToDOM(blob) {
     }
     
     if (isRainLikeWeather(baseWeatherType)) {
-        console.log(baseWeatherType);
-        addClass(weatherElement, 'isFalling');
-        addRainToDOM(weatherModifier);
+        addRainToDOM(weatherElement, weatherModifier);
+
+        if (baseWeatherType == 'thunder') {
+            require('./styles/lightning.scss');
+        }
     }
     
     if (baseWeatherType == 'mist') {
@@ -49,6 +51,7 @@ function addWeatherToDOM(blob) {
     
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;
     if (isNight) {
+        addClass(weatherElement, 'night');
         require('./styles/night.scss');
         require('./styles/moon.scss'); // TODO: moon rise/set instead of night == moon
     }

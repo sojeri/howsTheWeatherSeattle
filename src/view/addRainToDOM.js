@@ -1,5 +1,8 @@
-function addRainToDOM(rainLevel) {
-    console.log(rainLevel);
+const addClass = require('./addClass');
+
+function addRainToDOM(weatherElement, rainLevel) {
+    addClass(weatherElement, 'isFalling');
+
     switch (rainLevel) {
         case 'medium':
             require('./styles/mediumFalling.scss');

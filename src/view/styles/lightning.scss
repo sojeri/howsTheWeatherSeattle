@@ -1,0 +1,31 @@
+@import './variables';
+
+$lightningDuration: 10s;
+$lightningOffset: -6s;
+
+#lightning {
+    z-index: $absoluteForegroundLayer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: var(--weather-height);
+    width: var(--frame-width);
+    opacity: 0;
+    animation: lightningDay $lightningDuration linear infinite $lightningOffset;
+}
+
+.night #lightning {
+    animation: lightningNight $lightningDuration linear infinite $lightningOffset;
+}
+
+@keyframes lightningDay {
+    98.5% { opacity: 0; }
+    99% { opacity: 1; background: $lightningDayFlashColor; }
+    100% { opacity: 0; }
+}
+
+@keyframes lightningNight {
+    98.5% { opacity: 0; }
+    99% { opacity: 1; background: $lightningNightFlashColor; }
+    100% { opacity: 0; }
+}

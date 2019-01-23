@@ -4,6 +4,7 @@ $backgroundWeatherForeground: 2;
 $weather: 3;
 $foregroundWeather: 4;
 $onTopOfWeather: 5;
+$absoluteForegroundLayer: $onTopOfWeather;
 
 
 //== colors
@@ -26,6 +27,10 @@ $cloudNightColor: rgba(150, 150, 150, .9);
 $leafBrownColor: #836;
 $leafGreenColor: #386;
 $leafOrangeColor: #f86;
+
+// LIGHTNING
+$lightningDayFlashColor: rgba(255, 255, 230, 1);
+$lightningNightFlashColor: rgba(255, 255, 200, 1);
 
 // MIST
 $mistDayColor: rgba(200, 200, 255, .5);
