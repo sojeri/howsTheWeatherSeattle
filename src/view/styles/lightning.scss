@@ -1,7 +1,10 @@
 @import './variables';
 
-$lightningDuration: 10s;
-$lightningOffset: -6s;
+// IMPORTANT: be careful when modifying these values & animation defs below.
+//            less than 3 flashes per second is the max threshhold.
+//            https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html
+$lightningDuration: 6s;
+$lightningOffset: -4s;
 
 #lightning {
     z-index: $absoluteForegroundLayer;
