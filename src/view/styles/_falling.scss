@@ -1,0 +1,29 @@
+$spacing: 400px / 11;
+$offset: $spacing / 4;
+$defaultDrift: $spacing / 2;
+
+@mixin drop($name, $initial, $translateY) {
+    @keyframes #{$name} {
+        100% {
+            opacity: .4;
+            top: calc(var(--weather-height) + var(--weather-height) / 4);
+            left: $initial + $translateY + $translateY / 4;
+        }
+    }
+}
+
+@mixin falling($baseClass) {
+    @for $i from 1 through 10 {
+        $name: weather + '-' + $i;
+        $leftOffset: $offset + $spacing * ($i - 1);
+        $animationName: falling + '-' + $i;
+        $animationOffset: random(15)/10 + s;
+        $fallDuration: 1 + random(20)/10 + s;
+    
+        .#{$baseClass}.#{$name} {
+            left: $leftOffset;
+            @include drop($animationName, $leftOffset, $defaultDrift);
+            animation: $animationName $fallDuration infinite linear $animationOffset;
+        }
+    }
+}

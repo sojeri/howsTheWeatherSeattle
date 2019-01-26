@@ -1,16 +1,5 @@
 @import './variables';
-@import './fallingVariables';
-
-@mixin falling($name, $initial, $translateY) {
-    $fullName: falling + '-' + $name;
-    @keyframes #{$fullName} {
-        100% {
-            opacity: .4;
-            top: calc(var(--weather-height) + var(--weather-height) / 4);
-            left: $initial + $translateY + $translateY / 4;
-        }
-    }
-}
+@import './falling';
 
 .isFalling .weather {
     z-index: $weather;
@@ -18,106 +7,12 @@
     top: -10px;
     opacity: .2;
     border-radius: 50%;
-
-    &.one {
-        left: $one;
-    }
-
-    &.two {
-        left: $two;
-    }
-
-    &.three {
-        left: $three;
-    }
-
-    &.four {
-        left: $four;
-    }
-
-    &.five {
-        left: $five;
-    }
-
-    &.six {
-        left: $six;
-    }
-
-    &.seven {
-        left: $seven;
-    }
-
-    &.eight {
-        left: $eight;
-    }
-
-    &.nine {
-        left: $nine;
-    }
-
-    &.ten {
-        left: $ten;
-    }
-
 }
 
-
-// FIXME: refactor all this to loop/mixin!
-// TODO: support rain + wind after refactor described above
-.tiny {
-    &.weather {
-        height: 16px;
-        width: 8px;
-        background: $lightRainColor;
-    }
-
-    &.one {
-        @include falling(one, $one, $defaultDrift);
-        animation: falling-one $longFallingDuration infinite linear $shortOffset;
-    }
-
-    &.two {
-        @include falling(two, $two, $defaultDrift);
-        animation: falling-two $shortFallingDuration infinite linear $mediumOffset;
-    }
-
-    &.three {
-        @include falling(three, $three, $defaultDrift);
-        animation: falling-three $mediumFallingDuration infinite linear $longOffset;
-    }
-
-    &.four {
-        @include falling(four, $four, $defaultDrift);
-        animation: falling-four $tinyFallingDuration infinite linear $noOffset;
-    }
-
-    &.five {
-        @include falling(five, $five, $defaultDrift);
-        animation: falling-five $longFallingDuration infinite linear $tinyOffset;
-    }
-
-    &.six {
-        @include falling(six, $six, $defaultDrift);
-        animation: falling-six $longFallingDuration infinite linear $shortOffset;
-    }
-
-    &.seven {
-        @include falling(seven, $seven, $defaultDrift);
-        animation: falling-seven $shortFallingDuration infinite linear $mediumOffset;
-    }
-
-    &.eight {
-        @include falling(eight, $eight, $defaultDrift);
-        animation: falling-eight $mediumFallingDuration infinite linear $longOffset;
-    }
-
-    &.nine {
-        @include falling(nine, $nine, $defaultDrift);
-        animation: falling-nine $tinyFallingDuration infinite linear $noOffset;
-    }
-
-    &.ten {
-        @include falling(ten, $ten, $defaultDrift);
-        animation: falling-ten $longFallingDuration infinite linear $tinyOffset;
-    }
+.tiny.weather {
+    height: 16px;
+    width: 8px;
+    background: $lightRainColor;
 }
+
+@include falling(tiny);
