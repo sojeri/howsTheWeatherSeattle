@@ -25,6 +25,11 @@ To bundle the scripts every time you change a file eventually imported through `
 npm run build:watch
 ```
 
+To see random notes I've left for myself
+```
+npm run todo
+```
+
 To run the tests, you'll have to write some first. Poor choices that will come back to haunt me include.... @_@
 
 To see my loose to do list:

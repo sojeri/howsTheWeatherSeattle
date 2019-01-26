@@ -1,11 +1,13 @@
 {
     "devDependencies": {
         "browserify": "16.2.3",
+        "notes": "0.0.4",
         "scssify": "3.0.1",
         "watchify": "3.11.0"
     },
     "scripts": {
         "build": "./node_modules/browserify/bin/cmd.js ./src/index.js -t scssify -o ./dist/bundle.js",
-        "build:watch": "./node_modules/watchify/bin/cmd.js ./src/index.js -t scssify -o ./dist/bundle.js -v"
+        "build:watch": "./node_modules/watchify/bin/cmd.js ./src/index.js -t scssify -o ./dist/bundle.js -v",
+        "todo": "./node_modules/notes/bin/notes"
     }
 }
