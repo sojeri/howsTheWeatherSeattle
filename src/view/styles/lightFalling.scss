@@ -5,7 +5,7 @@
     z-index: $weather;
     position: absolute;
     top: -10px;
-    opacity: .2;
+    opacity: 0;
     border-radius: 50%;
 }
 
@@ -15,4 +15,5 @@
     background: $lightRainColor;
 }
 
+@include baseAnimations();
 @include falling(tiny);

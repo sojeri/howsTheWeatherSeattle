@@ -1,29 +1,118 @@
-$spacing: 400px / 11;
-$offset: $spacing / 4;
-$defaultDrift: $spacing / 2;
+$spacing: 400px / 11; // FIXME: use css var base value here & refactor css vars to use same bases
 
-@mixin drop($name, $initial, $translateY) {
-    @keyframes #{$name} {
+// wind names
+$east: '-east';
+$eastMed: $east + '-med';
+$eastHigh: $east + '-high';
+$west: '-west';
+$westMed: $west + '-med';
+$westHigh: $west + '-high';
+
+// wind drift / translate
+$noWindDrift: 10px;
+$westWindDrift: $spacing / 2;
+$eastWindDrift: -$westWindDrift;
+$eastOffsetModifier: $westWindDrift;
+$westOffsetModifier: $eastWindDrift;
+$highWindInitialModifier: 5;
+$highWindDriftModifier: 8;
+$medWindInitialModifier: $highWindInitialModifier / 2;
+$medWindDriftModifier: $highWindDriftModifier / 2;
+
+
+@mixin generateDropAnimation($dropName, $windName, $windTranslate, $initial, $initialTranslate) {
+    $id: $dropName + $windName;
+    $left: $initial + $initialTranslate;
+    
+    left: $left;
+    @keyframes #{$id} {
         100% {
             opacity: .4;
             top: calc(var(--weather-height) + var(--weather-height) / 4);
-            left: $initial + $translateY + $translateY / 4;
+            left: $left + $windTranslate + $windTranslate / 4;
         }
     }
 }
 
+
+@mixin baseAnimations() {
+    @for $i from 1 through 10 {
+        $name: weather + '-' + $i;
+        $dropName: falling + '-' + $i;
+        $baseOffset: $spacing * $i;
+        $offset: 0;
+        $leftOffset: $offset + $baseOffset;
+
+        .#{$name} {
+            @include generateDropAnimation($dropName, '', $noWindDrift, $leftOffset, 0px);
+        }
+        
+        .wind-east .#{$name} {
+            @include generateDropAnimation($dropName, $east, $eastWindDrift, $leftOffset, 0px);
+        }
+
+        .wind-east.wind-med .#{$name} {
+            @include generateDropAnimation($dropName, $eastMed, $eastWindDrift * $medWindDriftModifier, $leftOffset, $eastOffsetModifier * $medWindInitialModifier);
+            }
+            
+        .wind-east.wind-high .#{$name} {
+            @include generateDropAnimation($dropName, $eastHigh, $eastWindDrift * $highWindDriftModifier, $leftOffset, $eastOffsetModifier * $highWindInitialModifier);
+        }
+
+        .wind-west .#{$name} {
+            @include generateDropAnimation($dropName, $westMed, $westWindDrift * $highWindDriftModifier, $leftOffset, $westOffsetModifier * $highWindInitialModifier);
+        }
+
+        .wind-west.wind-med .#{$name} {
+            @include generateDropAnimation($dropName, $westMed, $westWindDrift * $medWindDriftModifier, $leftOffset, $westOffsetModifier * $medWindInitialModifier);
+        }
+
+        .wind-west.wind-high .#{$name} {
+            @include generateDropAnimation($dropName, $westHigh, $westWindDrift * $highWindDriftModifier, $leftOffset, $westOffsetModifier * $highWindInitialModifier);
+        }
+    }
+}
+
+
+@mixin drop($dropName, $windName, $fallDuration, $animationOffset) {
+    $id: $dropName + $windName;
+    animation: $id $fallDuration infinite linear $animationOffset;
+}
+
+
 @mixin falling($baseClass) {
     @for $i from 1 through 10 {
         $name: weather + '-' + $i;
-        $leftOffset: $offset + $spacing * ($i - 1);
-        $animationName: falling + '-' + $i;
+        $dropName: falling + '-' + $i;
         $animationOffset: random(15)/10 + s;
         $fallDuration: 1 + random(20)/10 + s;
     
         .#{$baseClass}.#{$name} {
-            left: $leftOffset;
-            @include drop($animationName, $leftOffset, $defaultDrift);
-            animation: $animationName $fallDuration infinite linear $animationOffset;
+            @include drop($dropName, '', $fallDuration, $animationOffset);
+        }
+
+        .wind-east .#{$baseClass}.#{$name} {
+            @include drop($dropName, $east, $fallDuration, $animationOffset);
+        }
+
+        .wind-east.wind-med .#{$baseClass}.#{$name} {
+            @include drop($dropName, $eastMed, $fallDuration, $animationOffset);
+        }
+
+        .wind-east.wind-high .#{$baseClass}.#{$name} {
+            @include drop($dropName, $eastHigh, $fallDuration, $animationOffset);
+        }
+
+        .wind-west .#{$baseClass}.#{$name} {
+            @include drop($dropName, $west, $fallDuration, $animationOffset);
+        }
+
+        .wind-west.wind-med .#{$baseClass}.#{$name} {
+            @include drop($dropName, $westMed, $fallDuration, $animationOffset);
+        }
+
+        .wind-west.wind-high .#{$baseClass}.#{$name} {
+            @include drop($dropName, $westHigh, $fallDuration, $animationOffset);
         }
     }
 }
