@@ -1,19 +1,25 @@
+$buildingDayColor: #456;
+$buildingNightColor: #012;
 $lightColor: #e2f;
-$buildingColor: #012;
+$lightGlow: 0 0 4px 1px $lightColor;
 
 .columbia-tower {
-    background: $buildingColor;
+    background: $buildingDayColor;
     position: absolute;
     top: 65%;
     left: 42%;
-    
-    &:before {
+}
+
+.night .columbia-tower {
+    background: $buildingNightColor;
+
+    &:after {
         content: '';
         position: absolute;
         height: 1px;
         width: 100%;
         background: $lightColor;
-        box-shadow: 0 0 4px 1px $lightColor;
+        box-shadow: $lightGlow;
     }
 }
 
@@ -25,16 +31,12 @@ $buildingColor: #012;
 .columbia-tower-2 {
     height: 30%;
     width: 5%;
-    background: $buildingColor;
-    position: absolute;
     top: 70%;
 }
 
 .columbia-tower-3 {
     height: 20%;
     width: 1%;
-    background: $buildingColor;
-    position: absolute;
     top: 80%;
     left: 46.5%;
 }

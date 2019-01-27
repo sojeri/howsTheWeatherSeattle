@@ -37,10 +37,8 @@
     width: 40px;
     border-radius: 50%;
     box-sizing: border-box;
-    border: 2px solid #3f6;
-    box-shadow: 0 0 8px 1px #3f6;
     overflow: hidden;
-    animation: wheel 60s ease-in-out infinite;
+    border: 2px solid #333;
 
     .spoke {
         position: absolute;
@@ -48,8 +46,7 @@
         left: -22px;
         height: 50px;
         width: 80px;
-        background: radial-gradient(ellipse at 50%, #96f, #96f 10%, #fff 20%, #000 35%, #3f6 90%);
-        animation: spoke 100s linear infinite alternate;
+        background: #444;
     }
 
     .spoke-1 {
@@ -78,5 +75,16 @@
     
     .spoke-7 {
         clip-path: polygon(0 64%, 0 68%, 100% 36%, 100% 32%);
+    }
+}
+
+.night #great-wheel {
+    animation: wheel 60s ease-in-out infinite;
+    border-color: #3f6;
+    box-shadow: 0 0 8px 1px #3f6;
+
+    .spoke {
+        background: radial-gradient(ellipse at 50%, #96f, #96f 10%, #fff 20%, #000 35%, #3f6 90%);
+        animation: spoke 100s linear infinite alternate;
     }
 }

@@ -1,4 +1,6 @@
 function getWeatherClassName(weatherCode) {
+    // return { baseWeatherType: 'thunder', weatherModifier: 'heavy' };
+
     // https://openweathermap.org/weather-conditions
     if (weatherCode >= 801 || weatherCode == 771) return { baseWeatherType: 'clouds', };
     if (weatherCode == 701 || weatherCode == 741) return { baseWeatherType: 'mist', };
