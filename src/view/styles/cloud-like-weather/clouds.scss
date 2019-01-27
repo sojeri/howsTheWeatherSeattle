@@ -1,9 +1,5 @@
 @import '../variables';
 
-.cloud:after, .puff:after {
-    visibility: hidden;
-}
-
 .cloud, .puff, .cloud:after, .puff:after {
     position: absolute;
     background: $lightCloudDayColor;

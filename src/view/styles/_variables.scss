@@ -1,3 +1,10 @@
+//== pseudo element
+%pseudoElement {
+    content: '';
+    position: absolute;
+}
+
+
 //== layers
 $backgroundWeather: 1;
 $backgroundWeatherForeground: 2;

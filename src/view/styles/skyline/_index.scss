@@ -1,5 +1,16 @@
-$dayColor: #666;
-$nightColor: #123;
+@import '../variables';
+
+$buildingDayColor: #666;
+$buildingNightColor: #123;
+$wamuRoofDayColor: rgba(255,255,255,.2);
+$wamuRoofNightColor: rgba(51,204,255,.4);
+$greenRoofColor: rgba(100,200,200,.5);
+
+%skylineElement {
+    @extend %pseudoElement;
+    height: 100%;
+    width: 100%;
+}
 
 #generic-skyline {
     position: absolute;
@@ -7,7 +18,7 @@ $nightColor: #123;
     height: 40%;
     width: 80%;
     left: 20%;
-    background: $dayColor;
+    background: $buildingDayColor;
     clip-path: polygon(
         0% 100%, 0% 70%, 17% 70%, 17% 47%, 22% 46%, 22% 68%, 23% 68%, 24% 63%,
         25% 57%, 27% 63%, 28% 35%, 31% 35%, 34% 30%, 36% 35%, 38% 35%, 38% 48%,
@@ -15,6 +26,18 @@ $nightColor: #123;
         57% 22%, 58% 17%, 63% 17%, 64% 57%, 67% 57%, 68% 43%, 72% 43%, 73% 25%,
         77% 24%, 78% 50%, 80% 54%, 84% 54%, 84% 48%, 88% 48%, 89% 39%, 94% 39%,
         94% 30%, 100% 29%, 100% 100%);
+    
+    &:before { // old wamu building, not sure what it's called now :)
+        @extend %skylineElement;
+        background: $wamuRoofDayColor;
+        clip-path: polygon(28% 35%, 31% 35%, 34% 30%, 36% 35%);
+    }
+
+    &:after { // no idea who this building is at all, but I enjoy the roof 😂
+        @extend %skylineElement;
+        background: $greenRoofColor;
+        clip-path: polygon(57% 22%, 58% 17%, 63% 17%, 61% 23%);
+    }
 }
 
 #extra-skyline {
@@ -22,14 +45,22 @@ $nightColor: #123;
     top: 94%;
     height: 8%;
     width: 20%;
-    background: $dayColor;
+    background: $buildingDayColor;
 }
 
-.night #generic-skyline {
-    background: $nightColor;
+.night {
+    #generic-skyline, #extra-skyline {
+        background: $buildingNightColor;
+    }
 
-    &:after {
-        background: $nightColor;
+    #generic-skyline {
+        &:before {
+            background: $wamuRoofNightColor;
+        }
+
+        &:after {
+            background: $buildingNightColor;
+        }
     }
 }
 
