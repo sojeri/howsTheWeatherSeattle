@@ -1,5 +1,26 @@
 @import './variables';
 
+#sun, #moon {
+    position: absolute;
+    top: var(--light-position);
+    left: var(--light-position);
+    height: var(--light-size);
+    width: var(--light-size);
+    border-radius: 50%;
+}
+
+#weather:not(.night) #moon {
+    top: calc(100% - var(--light-position));
+    left: calc(100% - var(--light-position));
+    height: calc(var(--light-size) / 2);
+    width: calc(var(--light-size) / 2);
+}
+
+#sun {
+    background: linear-gradient($sunPrimaryColor, $sunSecondaryColor);
+    box-shadow: 0 0 10px $sunTertiaryColor;
+}
+
 #moon {
     background: $moonPrimaryColor;
     box-shadow: 0 0 10px $moonSecondaryColor;

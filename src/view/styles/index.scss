@@ -93,20 +93,6 @@
     overflow: hidden;
 }
 
-#sun, #moon {
-    position: absolute;
-    top: var(--light-position);
-    left: var(--light-position);
-    height: var(--light-size);
-    width:  var(--light-size);
-    border-radius: 50%;
-}
-
-#sun {
-    background: linear-gradient($sunPrimaryColor, $sunSecondaryColor);
-    box-shadow: 0 0 10px $sunTertiaryColor;
-}
-
 .hidden {
     display: none;
 }

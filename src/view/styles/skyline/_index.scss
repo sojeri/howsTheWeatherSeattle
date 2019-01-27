@@ -1,9 +1,13 @@
+$dayColor: #666;
+$nightColor: #123;
+
 #generic-skyline {
     position: absolute;
     top: 65%;
     height: 40%;
-    width: 100%;
-    background: #666;
+    width: 80%;
+    left: 20%;
+    background: $dayColor;
     clip-path: polygon(
         0% 100%, 0% 70%, 17% 70%, 17% 47%, 22% 46%, 22% 68%, 23% 68%, 24% 63%,
         25% 57%, 27% 63%, 28% 35%, 31% 35%, 34% 30%, 36% 35%, 38% 35%, 38% 48%,
@@ -13,8 +17,20 @@
         94% 30%, 100% 29%, 100% 100%);
 }
 
+#extra-skyline {
+    position: absolute;
+    top: 94%;
+    height: 8%;
+    width: 20%;
+    background: $dayColor;
+}
+
 .night #generic-skyline {
-    background: #123;
+    background: $nightColor;
+
+    &:after {
+        background: $nightColor;
+    }
 }
 
 @import './greatWheel';
