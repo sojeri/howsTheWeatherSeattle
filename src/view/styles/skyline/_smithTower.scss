@@ -1,0 +1,40 @@
+// colors
+$buildingDayColor: #ccc;
+$buildingNightColor: #345;
+$globeDayColor: #fff;
+$globeDayGlow: 0 0 0 0 $globeDayColor;
+$globeNightColor: #3cf;
+$globeNightGlow: 0 0 8px 1px $globeNightColor;
+
+#smith-tower {
+    position: absolute;
+    top: 80%;
+    left: 15%;
+    height: 22%;
+    width: 10%;
+    background: $buildingDayColor;
+    clip-path: polygon(0% 100%, 0% 20%, 15% 0, 30% 20%, 30% 60%, 100% 60%, 100% 100%);
+}
+
+#smith-tower-globe {
+    content: '';
+    position: absolute;
+    top: 79.5%;
+    left: 16.2%;
+    height: 2px;
+    width: 2px;
+    border-radius: 50%;
+    background: $globeDayColor;
+    box-shadow: $globeDayGlow;
+}
+
+.night {
+    #smith-tower {
+        background: $buildingNightColor;
+    }
+
+    #smith-tower-globe {
+        background: $globeNightColor;
+        box-shadow: $globeNightGlow;
+    }
+}

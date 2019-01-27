@@ -1,4 +1,5 @@
 @import './variables';
+@import './skyline/index';
 
 // TODO: consider fallback values for native CSS vars
 // TODO: refactor positions & sizing to support media queries
@@ -84,7 +85,6 @@
     0% { transform: rotateY(0deg); }
     100% { background: #69f; transform: rotateY(360deg); }
 }
-
 
 #weather {
     height: var(--weather-height);

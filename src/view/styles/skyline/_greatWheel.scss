@@ -1,0 +1,82 @@
+@keyframes wheel {
+    25% {
+        transform: rotate(360deg);
+        border-color: #f36;
+        box-shadow: 0 0 8px 1px #f36;
+    }
+    50% {
+        transform: rotate(720deg);
+        border-color: #fff;
+        box-shadow: 0 0 8px 1px #fff;
+    }
+    75% {
+        transform: rotate(1080deg);
+        border-color: #fc6;
+        box-shadow: 0 0 8px 1px #fc6;
+    }
+    100% {
+        transform: rotate(1440deg);
+        border-color: #3cf;
+        box-shadow: 0 0 8px 1px #3cf;
+    }
+}
+
+@keyframes spoke {
+    20% { background: #f36; }
+    40% { background: #fc6; }
+    60% { background: radial-gradient(ellipse at 50%, #3cf, #3cf 10%, #29c 20%, #000 35%, #fc6 90%) }
+    80% { background: #3cf; }
+    100% { background: #3f6; }
+}
+
+#great-wheel {
+    position: absolute;
+    top: 88%;
+    left: 1%;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 2px solid #3f6;
+    box-shadow: 0 0 8px 1px #3f6;
+    overflow: hidden;
+    animation: wheel 60s ease-in-out infinite;
+
+    .spoke {
+        position: absolute;
+        top: -6px;
+        left: -22px;
+        height: 50px;
+        width: 80px;
+        background: radial-gradient(ellipse at 50%, #96f, #96f 10%, #fff 20%, #000 35%, #3f6 90%);
+        animation: spoke 100s linear infinite alternate;
+    }
+
+    .spoke-1 {
+        clip-path: polygon(48% 0, 51% 0, 51% 100%, 48% 100%);
+    }
+    
+    .spoke-2 {
+        clip-path: polygon(3% 0, 0 3%, 97% 100%, 100% 97%);
+    }
+    
+    .spoke-3 {
+        clip-path: polygon(97% 0, 100% 3%, 3% 100%, 0 97%);
+    }
+    
+    .spoke-4 {
+        clip-path: polygon(30% 100%, 33% 100%, 70% 0, 67% 0);
+    }
+    
+    .spoke-5 {
+        clip-path: polygon(67% 100%, 70% 100%, 33% 0, 30% 0);
+    }
+    
+    .spoke-6 {
+        clip-path: polygon(100% 62%, 100% 66%, 0 38%, 0 34%);
+    }
+    
+    .spoke-7 {
+        clip-path: polygon(0 64%, 0 68%, 100% 36%, 100% 32%);
+    }
+}
