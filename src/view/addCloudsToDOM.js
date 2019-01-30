@@ -11,11 +11,10 @@ function addCloudLikeWeather(weatherElement, weatherType) {
         case weather.smoke:
             require('./styles/cloud-like-weather/smoke.scss');
             break;
+        case weather.storm:
+            require('./styles/cloud-like-weather/lightning.scss');
         case weather.clouds:
             require('./styles/cloud-like-weather/clouds.scss');
-            break;
-        case weather.lightning:
-            require('./styles/cloud-like-weather/lightning.scss');
             break;
     }
 }

@@ -9,16 +9,19 @@ const weather = require('./utils/weatherTypes');
 const LOADING_THRESHOLD = 500;
 function addWeatherToDOM(blob, fetchStartTime) {
     let weatherElement = document.getElementById('weather');
-    require('./styles/sun-and-moon.scss'); // TODO: moon rise/set instead of night == moon
+    require('./styles/sun-and-moon.scss');
 
     let { baseWeatherType, weatherModifier } = getWeatherClassName(blob.weather[0].id);
 
     addClass(weatherElement, baseWeatherType);
     
+    let isWindSupported = false;
     if (weather.isCloudy(baseWeatherType)) {
         addCloudsToDOM(weatherElement, baseWeatherType);
-        addWindToDOM(weatherElement, blob.wind); // wind animation is currently only supported for cloud-like weathers
+        isWindSupported = true; // wind animation is currently only supported for cloud-like weathers
     }
+
+    addWindToDOM(weatherElement, blob.wind, !isWindSupported);
     
     if (weather.isRainy(baseWeatherType)) {
         addRainToDOM(weatherElement, weatherModifier);

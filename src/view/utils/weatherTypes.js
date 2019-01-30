@@ -1,26 +1,27 @@
 let supportedWeather = {
-    clear: 1,
-    clouds: 2,
-    lightning: 3,
-    mist: 4,
-    night: 5,
-    rain: 6,
-    smoke: 7,
-    snow: 8,
-    wind: 9,
+    clear: 'clear',
+    clouds: 'clouds',
+    storm: 'storm',
+    mist: 'mist',
+    night: 'night',
+    rain: 'rain',
+    smoke: 'smoke',
+    snow: 'eight',
+    wind: 'wind',
 }
 
 let rainyTypes = [
     supportedWeather.rain,
     supportedWeather.snow,
-    supportedWeather.lightning
+    supportedWeather.storm
 ]
 
 let cloudyTypes = [
-    supportedWeather.cloudyTypes,
+    supportedWeather.clouds,
     supportedWeather.mist,
     supportedWeather.smoke,
-    supportedWeather.lightning
+    supportedWeather.storm,
+    ...rainyTypes
 ]
 
 let severity = {
