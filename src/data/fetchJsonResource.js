@@ -2,9 +2,10 @@ const logError = require('./utils/logError');
 const { subscribe, unsubscribe } = require('./DOMutils');
 
 function fetchJsonResource(URI, successCallback, failureCallback, isHealthyResponseCallback) {
+    let startTime = Date.now();
     fetch(URI)
         .then(res => handleResponse(res, failureCallback))
-        .then(blob => checkResponseBody(blob, isHealthyResponseCallback, successCallback, failureCallback))
+        .then(blob => checkResponseBody(blob, isHealthyResponseCallback, successCallback, failureCallback, startTime))
         .catch(err => handleFailure(err, failureCallback));
 }
 
@@ -13,10 +14,10 @@ function handleResponse(apiResponse, failureCallback) {
     return apiResponse.json();
 }
 
-function checkResponseBody(apiResponseBlob, isHealthyApiResponseCallback, successCallback, failureCallback) {
+function checkResponseBody(apiResponseBlob, isHealthyApiResponseCallback, successCallback, failureCallback, startTime) {
     const next = () => {
         return isHealthyApiResponseCallback(apiResponseBlob) ?
-            successCallback(apiResponseBlob) :
+            successCallback(apiResponseBlob, startTime) :
             failureCallback();
     };
 

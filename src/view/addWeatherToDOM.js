@@ -6,7 +6,8 @@ const addWindToDOM = require('./addWindToDOM');
 const getWeatherClassName = require('./utils/getWeatherClassName');
 const weather = require('./utils/weatherTypes');
 
-function addWeatherToDOM(blob) {
+const LOADING_THRESHOLD = 500;
+function addWeatherToDOM(blob, fetchStartTime) {
     let weatherElement = document.getElementById('weather');
     require('./styles/sun-and-moon.scss'); // TODO: moon rise/set instead of night == moon
 
@@ -31,9 +32,13 @@ function addWeatherToDOM(blob) {
     
     addWeatherDataToDOM(blob.main);
 
-    setTimeout( // TODO: check if 500ms since PLT and call immediately instead of using timeout (use diff for timeout)
-        () => { addClass(document.getElementById('loading'), 'loaded') },
-        500);
+    let next = () => { addClass(document.getElementById('loading'), 'loaded') };
+    let msSinceFetchStart = Date.now() - fetchStartTime;
+    if (msSinceFetchStart >= LOADING_THRESHOLD) {
+        next();
+    } else {
+        setTimeout(next, LOADING_THRESHOLD - msSinceFetchStart);
+    }
 }
 
 module.exports = addWeatherToDOM;
