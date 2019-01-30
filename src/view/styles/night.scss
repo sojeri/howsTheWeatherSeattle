@@ -3,14 +3,6 @@
 #weather {
     background: $nightBgColor;
 
-    #sun {
-        visibility: hidden;
-    }
-
-    #moon {
-        visibility: visible;
-    }
-
     .cloud, .puff, .cloud:after, .puff:after {
         background: $lightCloudNightColor;
     }

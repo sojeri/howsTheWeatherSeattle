@@ -1,5 +1,16 @@
 @import './variables';
 
+$sunPrimaryColor: yellow;
+$sunSecondaryColor: #fc0;
+$sunTertiaryColor: orange;
+
+$moonPrimaryColor: #334;
+$moonSecondaryColor: #aaa;
+$moonCraterColor: #001;
+$moonPhaseLightOverlay: rgba(235, 235, 255, 0.8);
+$moonPhaseDarkOverlay: rgba(50, 50, 70, 0.8);
+$moonDefaultTransform: rotate(5deg);
+
 #sun, #moon {
     position: absolute;
     top: var(--light-position);
@@ -7,13 +18,22 @@
     height: var(--light-size);
     width: var(--light-size);
     border-radius: 50%;
+    transform: $moonDefaultTransform;
 }
 
-#weather:not(.night) #moon {
-    top: calc(100% - var(--light-position));
-    left: calc(100% - var(--light-position));
-    height: calc(var(--light-size) / 2);
-    width: calc(var(--light-size) / 2);
+#weather.night #sun {
+    visibility: hidden;
+}
+
+
+#weather:not(.night) {
+    #moon {
+        top: var(--light-position);
+        left: calc(100% - 2 * var(--light-position));
+        transform: scale(.3) $moonDefaultTransform;
+        box-shadow: 0 0 0 0;
+        opacity: .5;
+    }
 }
 
 #sun {
@@ -23,9 +43,13 @@
 
 #moon {
     background: $moonPrimaryColor;
-    box-shadow: 0 0 10px $moonSecondaryColor;
+    box-shadow: 0 0 10px 1px $moonSecondaryColor;
     overflow: hidden;
     visibility: hidden;
+
+    &.visible {
+        visibility: visible;
+    }
 }
 
 .light-overlay {
@@ -39,20 +63,22 @@
     background: $moonPhaseLightOverlay;
 }
 
-.empty.light-overlay {
+.new .light-overlay {
     visibility: hidden;
 }
 
 .half .light-overlay {
-    border-radius: 0;
+    height: calc(3 * var(--light-size));
+    top: calc(-1 * var(--light-size));
+    width: calc(1.2 * var(--light-size));
 }
 
 .right.half .light-overlay{
-    left: calc(.5 * var(--light-size));
+    left: calc(.45 * var(--light-size));
 }
 
 .left.half .light-overlay{
-    left: calc(-.5 * var(--light-size));
+    left: calc(-.65 * var(--light-size));
 }
 
 .gibbous .light-overlay {
