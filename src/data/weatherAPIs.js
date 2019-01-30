@@ -4,7 +4,7 @@ const SEATTLE_LONG = '-122.3205388';
 // https://openweathermap.org/current
 const WEATHER_ENDPOINT = `https://api.openweathermap.org/data/2.5/weather?lat=${SEATTLE_LAT}&lon=${SEATTLE_LONG}&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d`;
 const FALLBACK_WEATHER = {
-    weather: [{ id: 301 }],
+    weather: [{ id: 800 }],
     wind: { speed: 10, deg: 90 },
     main: {
         humidity: 84,
@@ -13,7 +13,7 @@ const FALLBACK_WEATHER = {
         temp_max: 61,
     },
     sys: { sunrise: 1, sunset: 3, },
-    dt: 2,
+    dt: 4,
 };
 
 // https://solunar.org/#usage
@@ -23,7 +23,7 @@ const FALLBACK_MOON = {
     moonPhase: 'Waning Gibbous',
     moonRise: '01:04',
     moonSet: '16:53',
-}; 
+};
 
 module.exports = {
     WEATHER_ENDPOINT,

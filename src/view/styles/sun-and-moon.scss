@@ -12,6 +12,7 @@ $moonPhaseDarkOverlay: rgba(50, 50, 70, 0.8);
 $moonDefaultTransform: rotate(5deg);
 
 #sun, #moon {
+    z-index: $backgroundWeatherForeground;
     position: absolute;
     top: var(--light-position);
     left: var(--light-position);

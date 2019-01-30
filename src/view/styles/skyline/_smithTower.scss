@@ -7,6 +7,7 @@ $globeNightColor: #3cf;
 $globeNightGlow: 0 0 8px 1px $globeNightColor;
 
 #smith-tower {
+    @extend %skylineForeground;
     position: absolute;
     top: 80%;
     left: 34%;
@@ -17,8 +18,7 @@ $globeNightGlow: 0 0 8px 1px $globeNightColor;
 }
 
 #smith-tower-globe {
-    content: '';
-    position: absolute;
+    @extend %skylinePseudo;
     top: 79.5%;
     left: 35.2%;
     height: 2px;

@@ -4,6 +4,7 @@ $lightColor: #e2f;
 $lightGlow: 0 0 4px 1px $lightColor;
 
 .columbia-tower {
+    @extend %skylineForeground;
     background: $buildingDayColor;
     position: absolute;
     top: 65%;

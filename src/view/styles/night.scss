@@ -25,3 +25,22 @@
         }
     }
 }
+
+@mixin stars() {
+    @for $i from 1 through 30 {
+        $name: star + '-' + $i;
+    
+        .#{$name} {
+            top: random(100) * 1%;
+            left: random(100) * 1%;
+        }
+    }
+}
+
+.star {
+    z-index: $backgroundWeather;
+    position: absolute;
+    box-shadow: 0 0 1px 1px #fff;
+}
+
+@include stars();

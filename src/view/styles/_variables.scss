@@ -9,9 +9,18 @@
 $backgroundWeather: 1;
 $backgroundWeatherForeground: 2;
 $weather: 3;
-$foregroundWeather: 4;
-$onTopOfWeather: 5;
-$absoluteForegroundLayer: $onTopOfWeather;
+$skylineBackground: 4;
+$skylineForeground: 5;
+$foregroundWeather: 6;
+$absoluteForegroundLayer: 7;
+
+%skylineBackground {
+    z-index: $skylineBackground;
+}
+
+%skylineForeground {
+    z-index: $skylineForeground;
+}
 
 
 //== colors

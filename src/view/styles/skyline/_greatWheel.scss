@@ -30,6 +30,7 @@
 }
 
 #great-wheel {
+    @extend %skylineForeground;
     position: absolute;
     top: 88%;
     left: 1%;

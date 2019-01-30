@@ -39,7 +39,7 @@
 }
 
 #loading {
-    z-index: $onTopOfWeather;
+    z-index: $absoluteForegroundLayer;
     position: absolute;
     height: var(--frame-width);
     width: var(--frame-width);
@@ -103,12 +103,12 @@
     align-items: center;
 }
 
-.clear, .mist, .smoke {
-    background: $clearDayBgColor;
-}
-
 .clouds, .rain, .snow {
     background: $cloudyDayBgColor;
+}
+
+.clear, .mist, .smoke {
+    background: $clearDayBgColor;
 }
 
 #data {
