@@ -1,32 +1,34 @@
+@import '../variables';
+
 @keyframes wheel {
     25% {
         transform: rotate(360deg);
-        border-color: #f36;
-        box-shadow: 0 0 8px 1px #f36;
+        border-color: $red;
+        box-shadow: 0 0 8px 1px $red;
     }
     50% {
         transform: rotate(720deg);
-        border-color: #fff;
-        box-shadow: 0 0 8px 1px #fff;
+        border-color: $white;
+        box-shadow: 0 0 8px 1px $white;
     }
     75% {
         transform: rotate(1080deg);
-        border-color: #fc6;
-        box-shadow: 0 0 8px 1px #fc6;
+        border-color: $yellow;
+        box-shadow: 0 0 8px 1px $yellow;
     }
     100% {
         transform: rotate(1440deg);
-        border-color: #3cf;
-        box-shadow: 0 0 8px 1px #3cf;
+        border-color: $brightLightBlue;
+        box-shadow: 0 0 8px 1px $brightLightBlue;
     }
 }
 
 @keyframes spoke {
-    20% { background: #f36; }
-    40% { background: #fc6; }
-    60% { background: radial-gradient(ellipse at 50%, #3cf, #3cf 10%, #29c 20%, #000 35%, #fc6 90%) }
-    80% { background: #3cf; }
-    100% { background: #3f6; }
+    20% { background: $red; }
+    40% { background: $yellow; }
+    60% { background: radial-gradient(ellipse at 50%, $brightLightBlue, $brightLightBlue 10%, $dullBlue 20%, $black 35%, $yellow 90%) }
+    80% { background: $brightLightBlue; }
+    100% { background: $green; }
 }
 
 #great-wheel {
@@ -34,20 +36,20 @@
     position: absolute;
     top: 88%;
     left: 1%;
-    height: 40px;
-    width: 40px;
+    height: calc(var(--frame-width) / 10);
+    width: calc(var(--frame-width) / 10);
     border-radius: 50%;
     box-sizing: border-box;
     overflow: hidden;
-    border: 2px solid #333;
+    border: 2px solid $darkGrey;
 
     .spoke {
         position: absolute;
-        top: -6px;
-        left: -22px;
-        height: 50px;
-        width: 80px;
-        background: #444;
+        left: calc(var(--frame-width) / -20 - 2px);
+        top: -2px;
+        height: calc(var(--frame-width) / 10);
+        width: calc(var(--frame-width) / 5);
+        background: $lessDarkGrey;
     }
 
     .spoke-1 {
@@ -81,11 +83,11 @@
 
 .night #great-wheel {
     animation: wheel 60s ease-in-out infinite;
-    border-color: #3f6;
-    box-shadow: 0 0 8px 1px #3f6;
+    border-color: $green;
+    box-shadow: 0 0 8px 1px $green;
 
     .spoke {
-        background: radial-gradient(ellipse at 50%, #96f, #96f 10%, #fff 20%, #000 35%, #3f6 90%);
+        background: radial-gradient(ellipse at 50%, $lightPurple, $lightPurple 10%, $white 20%, $black 35%, $green 90%);
         animation: spoke 100s linear infinite alternate;
     }
 }

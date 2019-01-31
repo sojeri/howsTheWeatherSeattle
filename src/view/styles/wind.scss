@@ -40,13 +40,13 @@
 
 .cloud:after, .puff:after {
     content: '';
-    left: $eastWind;
+    left: var(--wind-frame-size);
     visibility: visible;
 }
 
 .wind-west {
     .cloud:after, .puff:after {
-        left: $westWind;
+        left: calc(-1 * var(--wind-frame-size));
     }
 }
 
@@ -66,27 +66,27 @@
     $eastName: eastWind + $name;
     @keyframes #{$eastName} {
         100% {
-            transform: translateX(-$eastWind) $additionalTransforms;
+            transform: translateX(calc(-1 * var(--wind-frame-size))) $additionalTransforms;
         }
     }
 
     $westName: westWind + $name;
     @keyframes #{$westName} {
         100% {
-            transform: translateX(-$westWind) $additionalTransforms;
+            transform: translateX(var(--wind-frame-size)) $additionalTransforms;
         }
     }
 }
 
 @keyframes eastWind {
     100% {
-        transform: translateX(-$eastWind);
+        transform: translateX(calc(-1 * var(--wind-frame-size)));
     }
 }
 
 @keyframes westWind {
     100% {
-        transform: translateX(-$westWind);
+        transform: translateX(var(--wind-frame-size));
     }
 }
 

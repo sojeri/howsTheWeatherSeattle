@@ -3,7 +3,7 @@
 @import './falling';
 
 .isFalling .weather {
-    z-index: $weather;
+    z-index: $foregroundBackgroundWeather;
     position: absolute;
     top: -10px;
     opacity: 0;

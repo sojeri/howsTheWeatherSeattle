@@ -1,6 +1,8 @@
-$buildingDayColor: #456;
-$buildingNightColor: #012;
-$lightColor: #e2f;
+@import '../variables';
+
+$buildingDayColor: $lessDarkGreyGreen;
+$buildingNightColor: $veryDarkGreyGreen;
+$lightColor: $purplePink;
 $lightGlow: 0 0 4px 1px $lightColor;
 
 .columbia-tower {

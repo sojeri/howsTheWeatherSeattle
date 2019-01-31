@@ -4,15 +4,15 @@
     position: absolute;
 }
 
-
 //== layers
 $backgroundWeather: 1;
 $backgroundWeatherForeground: 2;
 $weather: 3;
 $skylineBackground: 4;
 $skylineForeground: 5;
-$foregroundWeather: 6;
-$absoluteForegroundLayer: 7;
+$foregroundBackgroundWeather: 6;
+$foregroundWeather: 7;
+$absoluteForegroundLayer: 8;
 
 %skylineBackground {
     z-index: $skylineBackground;
@@ -25,24 +25,44 @@ $absoluteForegroundLayer: 7;
 
 //== colors
 
+// raw colors
+$darkBrown: #836; // TODO: consider color for falling sideways objects
+$red: #f36;
+$orange: #f86; // TODO: consider color for falling sideways objects
+$yellow: #fc6;
+$green: #3f6;
+$darkGreen: #386; // TODO: consider color for falling sideways objects
+$brightLightBlue: #3cf;
+$dullLightBlue: #69f;
+$dullBlue: #29c;
+$lightPurple: #96f;
+$purplePink: #e2f;
+$black: #000;
+$veryDarkGreyGreen: #012;
+$veryDarkGreyBlue: #136;
+$darkGrey: #333;
+$darkGreyGreen: #345;
+$lessDarkGrey: #444;
+$lessDarkGreyGreen: #456;
+$mediumGrey: #aaa;
+$lightGrey: #ccc;
+$lightGreyBlue: #ccf;
+$transparentLightGrey: rgba(150, 150, 150, .6);
+$white: #fff;
+
 // DAY
-$dataBgColor: #ccc;
-$clearDayBgColor: #69f;
-$cloudyDayBgColor: #ccf;
+$dataBgColor: $lightGrey;
+$clearDayBgColor: $dullLightBlue;
+$cloudyDayBgColor: $lightGreyBlue;
 
 // NIGHT
-$nightBgColor: #136;
+$nightBgColor: $veryDarkGreyBlue;
 
 // CLOUDS
 $lightCloudDayColor: rgba(255, 255, 255, .7);
 $lightCloudNightColor: rgba(150, 150, 150, .6);
 $cloudDayColor: rgba(255, 255, 255, .9);
 $cloudNightColor: rgba(150, 150, 150, .9);
-
-// LEAVES BECAUSE REASONS???
-$leafBrownColor: #836;
-$leafGreenColor: #386;
-$leafOrangeColor: #f86;
 
 // LIGHTNING
 $lightningDayFlashColor: rgba(255, 255, 230, 1);
@@ -62,11 +82,3 @@ $heavyRainColor: rgba(100, 130, 255, .9);
 $smokeDayColor: rgba(200, 160, 120, .3);
 $smokeNightColor: rgba(150, 100, 50, .2);
 $smokeTransforms: translateX(-80px) translateY(30px) scaleY(2.5);
-
-// SUN MOON
-
-
-//== positions & sizes
-// NOTE: more sizes in index.scss due to using native CSS variables for runtime calcs :)
-$eastWind: 600px;
-$westWind: -$eastWind;

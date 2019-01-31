@@ -4,8 +4,8 @@ const SEATTLE_LONG = '-122.3205388';
 // https://openweathermap.org/current
 const WEATHER_ENDPOINT = `https://api.openweathermap.org/data/2.5/weather?lat=${SEATTLE_LAT}&lon=${SEATTLE_LONG}&units=imperial&appid=231512774f62e8fcb7d1a19af041b94d`;
 const FALLBACK_WEATHER = {
-    weather: [{ id: 800 }],
-    wind: { speed: 10, deg: 90 },
+    weather: [{ id: 201 }],
+    wind: { speed: 25, deg: 90 },
     main: {
         humidity: 84,
         temp: 52,

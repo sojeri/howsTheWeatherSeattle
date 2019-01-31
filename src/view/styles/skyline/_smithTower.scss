@@ -1,9 +1,11 @@
+@import '../variables';
+
 // colors
-$buildingDayColor: #aaa;
-$buildingNightColor: #345;
-$globeDayColor: #fff;
+$buildingDayColor: $mediumGrey;
+$buildingNightColor: $darkGreyGreen;
+$globeDayColor: $white;
 $globeDayGlow: 0 0 0 0 $globeDayColor;
-$globeNightColor: #3cf;
+$globeNightColor: $brightLightBlue;
 $globeNightGlow: 0 0 8px 1px $globeNightColor;
 
 #smith-tower {
@@ -21,8 +23,8 @@ $globeNightGlow: 0 0 8px 1px $globeNightColor;
     @extend %skylinePseudo;
     top: 79.5%;
     left: 35.2%;
-    height: 2px;
-    width: 2px;
+    height: calc(var(--frame-width) / 200);
+    width: calc(var(--frame-width) / 200);
     border-radius: 50%;
     background: $globeDayColor;
     box-shadow: $globeDayGlow;
