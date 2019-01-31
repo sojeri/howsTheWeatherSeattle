@@ -60,9 +60,13 @@ $nightBgColor: $veryDarkGreyBlue;
 
 // CLOUDS
 $lightCloudDayColor: rgba(255, 255, 255, .7);
-$lightCloudNightColor: rgba(150, 150, 150, .6);
-$cloudDayColor: rgba(255, 255, 255, .9);
-$cloudNightColor: rgba(150, 150, 150, .9);
+$lightCloudNightColor: rgba(150, 150, 150, .7);
+$lightCloudTransforms:  scale(.7) translateY(-30%);
+$cloudDayColor: rgba(255, 255, 255, .8);
+$cloudNightColor: rgba(150, 150, 150, .8);
+$heavyCloudDayColor: rgba(255, 255, 255, .9);
+$heavyCloudNightColor: rgba(150, 150, 150, .9);
+$heavyCloudTransforms: scale(1.6) translateY(-30%);
 
 // LIGHTNING
 $lightningDayFlashColor: rgba(255, 255, 230, 1);

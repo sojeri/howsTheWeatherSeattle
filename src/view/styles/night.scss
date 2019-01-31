@@ -1,10 +1,22 @@
 @import './variables';
 
-#weather {
+.night {
     background: $nightBgColor;
 
     .cloud, .puff, .cloud:after, .puff:after {
-        background: $lightCloudNightColor;
+        background: $cloudNightColor;
+    }
+
+    &.light {
+        .cloud, .puff, .cloud:after, .puff:after {
+            background: $lightCloudNightColor;
+        }
+    }
+    
+    &.heavy {
+        .cloud, .puff, .cloud:after, .puff:after {
+            background: $heavyCloudNightColor;
+        }
     }
 
     &.mist {
@@ -16,12 +28,6 @@
     &.smoke {
         .cloud, .puff, .cloud:after, .puff:after {
             background: $smokeNightColor;
-        }
-    }
-
-    &.isFalling {
-        .cloud, .puff, .cloud:after, .puff:after {
-            background: $cloudNightColor;
         }
     }
 }

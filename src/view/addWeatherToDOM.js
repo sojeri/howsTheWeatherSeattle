@@ -17,7 +17,7 @@ function addWeatherToDOM(blob, fetchStartTime) {
     
     let isWindSupported = false;
     if (weather.isCloudy(baseWeatherType)) {
-        addCloudsToDOM(weatherElement, baseWeatherType);
+        addCloudsToDOM(weatherElement, baseWeatherType, weatherModifier);
         isWindSupported = true; // wind animation is currently only supported for cloud-like weathers
     }
 

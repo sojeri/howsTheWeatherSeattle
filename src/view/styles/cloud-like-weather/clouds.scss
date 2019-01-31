@@ -2,9 +2,23 @@
 
 .cloud, .puff, .cloud:after, .puff:after {
     position: absolute;
-    background: $lightCloudDayColor;
+    background: $cloudDayColor;
     border-radius: 50%;
     z-index: $foregroundWeather;
+}
+
+.light { // TODO: can has pseudo selector usage here instead of repeated cloud puff forever?
+    .cloud, .puff, .cloud:after, .puff:after {
+        background: $lightCloudDayColor;
+        transform: $lightCloudTransforms;
+    }
+}
+
+.heavy {
+    .cloud, .puff, .cloud:after, .puff:after {
+        background: $heavyCloudDayColor;
+        transform: $heavyCloudTransforms;
+    }
 }
 
 .isFalling {
