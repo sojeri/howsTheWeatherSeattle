@@ -6,7 +6,7 @@ let supportedWeather = {
     night: 'night',
     rain: 'rain',
     smoke: 'smoke',
-    snow: 'eight',
+    snow: 'snow',
     wind: 'wind',
 }
 

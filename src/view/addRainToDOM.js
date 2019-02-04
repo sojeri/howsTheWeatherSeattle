@@ -1,8 +1,13 @@
 const addClass = require('./addClass');
 const weather = require('./utils/weatherTypes');
 
-function addRainToDOM(weatherElement, rainLevel) {
+function addRainToDOM(weatherElement, baseWeatherType, rainLevel) {
     addClass(weatherElement, 'isFalling');
+
+    if (baseWeatherType == weather.snow) {
+        require('./styles/rain-like-weather/snowFalling.scss');
+        return; // no need to add rain
+    }
 
     switch (rainLevel) {
         case weather.severity.medium:

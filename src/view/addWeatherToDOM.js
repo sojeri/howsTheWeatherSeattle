@@ -24,7 +24,7 @@ function addWeatherToDOM(blob, fetchStartTime) {
     addWindToDOM(weatherElement, blob.wind, !isWindSupported);
     
     if (weather.isRainy(baseWeatherType)) {
-        addRainToDOM(weatherElement, weatherModifier);
+        addRainToDOM(weatherElement, baseWeatherType, weatherModifier);
     }
     
     const isNight = blob.dt < blob.sys.sunrise || blob.dt > blob.sys.sunset;

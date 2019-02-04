@@ -1,0 +1,78 @@
+@import '../variables';
+
+$spacing: 400px / 11; // FIXME: use css var base value here & refactor css vars to use same bases
+$defaultDrift: 20px;
+
+@mixin generateFlake($name, $left) {
+    left: $left;
+
+    @keyframes #{$name} {
+        25% {
+            opacity: .1;
+            left: $left - $defaultDrift;
+            top: calc(var(--weather-height) * .2);
+        }
+        50% {
+            opacity: .4;
+            left: $left - ($defaultDrift * 2);
+            top: calc(var(--weather-height) * .5);
+        }
+        75% {
+            opacity: .4;
+            left: $left;
+            top: calc(var(--weather-height) * .8);
+        }
+        100% {
+            opacity: .4;
+            top: calc(var(--weather-height) * 1.1);
+            left: $left + $defaultDrift;
+        }
+    }
+}
+
+
+@mixin generateSnow() {
+    @for $i from 1 through 10 {
+        $name: weather + '-' + $i;
+        $flake: falling + '-' + $i;
+        $left: $spacing * $i;
+
+        @include generateFlake($flake, $left);
+    }
+}
+
+
+@mixin snowflake($dropName, $fallDuration, $animationOffset) {
+    animation: $dropName $fallDuration infinite linear $animationOffset;
+}
+
+
+@mixin snow($baseClass) {
+    @for $i from 1 through 10 {
+        $name: weather + '-' + $i;
+        $dropName: falling + '-' + $i;
+        $animationOffset: random(40)/10 + s;
+        $fallDuration: 3 + random(40)/10 + s;
+    
+        .#{$baseClass}.#{$name} {
+            @include snowflake($dropName, $fallDuration, $animationOffset);
+        }
+    }
+}
+
+.snow .weather {
+    z-index: $foregroundBackgroundWeather;
+    position: absolute;
+    top: calc(var(--frame-width) / -40);
+    opacity: 0;
+    border-radius: 50%;
+    height: 2px;
+    width: 2px;
+    background: #fff;
+
+    @include generateSnow();
+}
+
+@include snow(tiny);
+@include snow(small);
+@include snow(large);
