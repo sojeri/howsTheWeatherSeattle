@@ -12,22 +12,22 @@ You'll need Node.js 8.0.0+ installed. I've been developing this on 11.4.0, but y
 
 To install dependencies:
 ```
-npm i
+yarn
 ```
 
 To bundle the scripts once:
 ```
-npm run build
+yarn build
 ```
 
 To bundle the scripts every time you change a file eventually imported through `src/index.js`:
 ```
-npm run build:watch
+yarn build:watch
 ```
 
 To see random notes I've left for myself
 ```
-npm run todo
+yarn todo
 ```
 
 To run the tests, you'll have to write some first. Poor choices that will come back to haunt me include.... @_@
