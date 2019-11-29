@@ -1,5 +1,10 @@
 const addMoonToDOM = require('../view/addMoonToDOM');
-const { MOON_ENDPOINT, REPLACE, FALLBACK_MOON } = require('./weatherAPIs');
+const {
+    MOON_ENDPOINT,
+    REPLACE,
+    FALLBACK_MOON,
+    getMoonUrl
+} = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
 
 function getDateParam(date) {
@@ -16,10 +21,25 @@ function getDateParam(date) {
     return param;
 }
 
+let moonURI = MOON_ENDPOINT
+
 function loadMoon() {
+    if (window.custom_location) {
+        if (window.location_saved) {
+            moonURI = getMoonUrl(window.latitude, window.longitude)
+            actuallyLoadMoon()
+        } else {
+            setTimeout(loadMoon, 200);
+        }
+    } else {
+        actuallyLoadMoon()
+    }
+}
+
+function actuallyLoadMoon() {
     const date = getDateParam(new Date(Date.now()));
     fetchJsonResource(
-        MOON_ENDPOINT.replace(REPLACE, date),
+        moonURI.replace(REPLACE, date),
         addMoonToDOM,
         useFallbackMoon,
         isSuccessfulReponseBody);

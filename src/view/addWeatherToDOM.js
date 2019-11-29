@@ -8,6 +8,13 @@ const weather = require('./utils/weatherTypes');
 
 const LOADING_THRESHOLD = 500;
 function addWeatherToDOM(blob, fetchStartTime) {
+    // extra handling for custom locations (via URL override)
+    if (window.custom_location) {
+        window.latitude = blob.coord.lat
+        window.longitude = blob.coord.lon
+        window.location_saved = true
+    }
+
     let weatherElement = document.getElementById('weather');
     require('./styles/sun-and-moon.scss');
 

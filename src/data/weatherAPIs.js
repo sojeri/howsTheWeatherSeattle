@@ -16,6 +16,10 @@ const FALLBACK_WEATHER = {
     dt: 4,
 };
 
+function getWeatherUrl(zip, units) {
+    return `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=${units}&appid=231512774f62e8fcb7d1a19af041b94d`
+}
+
 // https://solunar.org/#usage
 const REPLACE = '@@REPLACE@@';
 const MOON_ENDPOINT = `https://api.solunar.org/solunar/${SEATTLE_LAT},${SEATTLE_LONG},${REPLACE},-7`
@@ -25,10 +29,16 @@ const FALLBACK_MOON = {
     moonSet: '16:53',
 };
 
+function getMoonUrl(lat, long) {
+    return `https://api.solunar.org/solunar/${lat},${long},${REPLACE},-7`
+}
+
 module.exports = {
     WEATHER_ENDPOINT,
     FALLBACK_WEATHER,
     REPLACE,
     MOON_ENDPOINT,
     FALLBACK_MOON,
+    getWeatherUrl,
+    getMoonUrl,
 }

@@ -14,6 +14,11 @@ function addWeatherDataToDOM(blob) {
     } else {
         document.getElementById('min-max').classList.add('hidden');
     }
+
+    // handle units URL override (?units=metric)
+    if (window.is_metric) {
+        document.getElementById('units').innerHTML = 'C'
+    }
 }
 
 module.exports = addWeatherDataToDOM;
