@@ -3,7 +3,7 @@ const weather = require('./weatherTypes');
 function getWeatherClassName(weatherCode) {
     // https://openweathermap.org/weather-conditions
     if (weatherCode >= 801 || weatherCode == 771) return { baseWeatherType: weather.clouds, };
-    if (weatherCode == 701 || weatherCode == 741) return { baseWeatherType: weather.mist, };
+    if (weatherCode == 701 || weatherCode == 721 || weatherCode == 741) return { baseWeatherType: weather.mist, };
     if (weatherCode >= 711 && weatherCode <= 762) return { baseWeatherType: weather.smoke, };
     if (weatherCode == 800 || weatherCode > 762) return { baseWeatherType: weather.clear, };
     if (weatherCode >= 600) return { baseWeatherType: weather.snow, };
