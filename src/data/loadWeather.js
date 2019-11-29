@@ -5,17 +5,20 @@ const {
     getWeatherUrl
 } = require('./weatherAPIs');
 const fetchJsonResource = require('./fetchJsonResource');
-const getUnitsAndZipIfPresent = require('./getUnitsAndZipIfPresent');
+const getCustomParams = require('./getCustomParams');
 
 let weatherURI = WEATHER_ENDPOINT
 
 function handleUrlOverrides() {
-    const unitsAndZip = getUnitsAndZipIfPresent()
+    const customParams = getCustomParams()
 
-    if (unitsAndZip) {
-        weatherURI = getWeatherUrl(unitsAndZip.zip, unitsAndZip.units)
+    if (customParams) {
+        weatherURI = getWeatherUrl(
+            customParams.zip,
+            customParams.units,
+            customParams.country)
         window.custom_location = true
-        window.is_metric = unitsAndZip.units == 'metric'
+        window.is_metric = customParams.units == 'metric'
     }
 }
 

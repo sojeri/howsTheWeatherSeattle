@@ -16,8 +16,8 @@ const FALLBACK_WEATHER = {
     dt: 4,
 };
 
-function getWeatherUrl(zip, units) {
-    return `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=${units}&appid=231512774f62e8fcb7d1a19af041b94d`
+function getWeatherUrl(zip, units, country) {
+    return `https://api.openweathermap.org/data/2.5/weather?zip=${zip},${country}&units=${units}&appid=231512774f62e8fcb7d1a19af041b94d`
 }
 
 // https://solunar.org/#usage

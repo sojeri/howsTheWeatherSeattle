@@ -1,4 +1,4 @@
-function getUnitsAndZipIfPresent() {
+function getCustomParams() {
     const urlParams = getUrlParams()
     if (urlParams) {
         let zip = getZipIfPresent(urlParams)
@@ -7,7 +7,14 @@ function getUnitsAndZipIfPresent() {
         let units = getUnitsIfPresent(urlParams)
         units = units == 'metric' ? 'metric' : 'imperial'
 
-        return { zip: zip, units: units }
+        let country = getCountryIfPresent(urlParams)
+        country = country ? country : 'us'
+
+        return {
+            zip: zip,
+            units: units,
+            country: country,
+        }
     }
 }
 
@@ -15,7 +22,7 @@ function getUrlParams() {
     let urlParts = window.location.href.split('?')
     if (urlParts.length > 1) {
         urlParts = urlParts[1].split('&')
-        
+
         if (urlParts.length > 0) {
             let params = {}
     
@@ -31,7 +38,7 @@ function getUrlParams() {
 }
 
 function getZipIfPresent(params) {
-    if (params.zip && params.zip.length >= 5) {
+    if (params.zip) {
         return params.zip
     }
 }
@@ -44,5 +51,11 @@ function getUnitsIfPresent(params) {
     }
 }
 
+function getCountryIfPresent(params) {
+    if (params.country) {
+        return params.country
+    }
+}
 
-module.exports = getUnitsAndZipIfPresent
+
+module.exports = getCustomParams
