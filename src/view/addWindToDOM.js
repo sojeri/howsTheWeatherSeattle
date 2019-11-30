@@ -1,4 +1,4 @@
-const addClass = require('./addClass')
+const addClass = require('./utils/addClass')
 const getCardinalWindDirection = require('./utils/getCardinalWindDirection')
 
 function addWindSpeed(weatherElement, speed, noAnimations) {

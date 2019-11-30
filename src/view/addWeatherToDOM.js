@@ -1,4 +1,4 @@
-const addClass = require('./addClass')
+const addClass = require('./utils/addClass')
 const addCloudsToDOM = require('./addCloudsToDOM')
 const addRainToDOM = require('./addRainToDOM')
 const addWeatherDataToDOM = require('./addWeatherDataToDOM')
@@ -6,8 +6,8 @@ const addWindToDOM = require('./addWindToDOM')
 const getWeatherClassName = require('./utils/getWeatherClassName')
 const isGreatWheelOpen = require('./utils/isGreatWheelOpen')
 const weather = require('./utils/weatherTypes')
+const reportModuleLoaded = require('./utils/reportModuleLoaded')
 
-const LOADING_THRESHOLD = 500
 function addWeatherToDOM(blob, fetchStartTime) {
     handleCustomLocations(blob)
 
@@ -42,15 +42,7 @@ function addWeatherToDOM(blob, fetchStartTime) {
 
     addWeatherDataToDOM(blob.main)
 
-    let next = () => {
-        addClass(document.getElementById('loading'), 'loaded')
-    }
-    let msSinceFetchStart = Date.now() - fetchStartTime
-    if (msSinceFetchStart >= LOADING_THRESHOLD) {
-        next()
-    } else {
-        setTimeout(next, LOADING_THRESHOLD - msSinceFetchStart)
-    }
+    reportModuleLoaded('weather')
 }
 
 /**

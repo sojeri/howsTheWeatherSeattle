@@ -1,4 +1,5 @@
-const addClass = require('./addClass')
+const addClass = require('./utils/addClass')
+const reportModuleLoaded = require('./utils/reportModuleLoaded')
 
 const convertStringNumberToNumber = sn => Number(sn)
 
@@ -66,6 +67,8 @@ function addMoonToDOM(moonBlob) {
         addClass(moonElement, shapeClass)
         if (lightStartClass) addClass(moonElement, lightStartClass)
     }
+
+    reportModuleLoaded('moon')
 }
 
 module.exports = addMoonToDOM

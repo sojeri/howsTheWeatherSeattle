@@ -1,4 +1,4 @@
-const addClass = require('./addClass')
+const addClass = require('./utils/addClass')
 const weather = require('./utils/weatherTypes')
 
 function addCloudLikeWeather(weatherElement, weatherType, severity) {
