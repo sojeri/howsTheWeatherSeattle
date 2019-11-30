@@ -1,6 +1,6 @@
-require('./view/styles/index.scss');
-const loadWeather = require('./data/loadWeather');
-const loadMoon = require('./data/loadMoon');
+require('./view/styles/index.scss')
+const loadWeather = require('./data/loadWeather')
+const loadMoon = require('./data/loadMoon')
 
-loadWeather();
-loadMoon();
+loadWeather()
+loadMoon()

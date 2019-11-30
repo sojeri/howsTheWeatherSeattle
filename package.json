@@ -6,7 +6,7 @@
     "scripts": {
         "build": "browserify ./src/index.js -t scssify -o ./dist/bundle.js",
         "build:watch": "watchify ./src/index.js -t scssify -o ./dist/bundle.js -v",
-        "pretty": "prettier --single-quote --trailing-comma es5 --write '{src,test}/{,**/}*.js'",
+        "pretty": "prettier --single-quote --trailing-comma=es5 --tab-width 4 --no-semi --arrow-parens avoid --print-width 120 es5 --write '{src,test}/{,**/}*.js'",
         "todo": "notes"
     },
     "devDependencies": {

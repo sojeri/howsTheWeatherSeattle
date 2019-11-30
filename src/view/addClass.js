@@ -1,5 +1,5 @@
 function addClass(element, newClass) {
-  element.classList.add(newClass);
+    element.classList.add(newClass)
 }
 
-module.exports = addClass;
+module.exports = addClass
