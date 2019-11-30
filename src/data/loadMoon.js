@@ -29,7 +29,7 @@ function loadMoon() {
             moonURI = getMoonUrl(window.latitude, window.longitude)
             actuallyLoadMoon()
         } else {
-            setTimeout(loadMoon, 200);
+            setTimeout(loadMoon, 100);
         }
     } else {
         actuallyLoadMoon()

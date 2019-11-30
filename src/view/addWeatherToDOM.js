@@ -4,19 +4,19 @@ const addRainToDOM = require('./addRainToDOM');
 const addWeatherDataToDOM = require('./addWeatherDataToDOM');
 const addWindToDOM = require('./addWindToDOM');
 const getWeatherClassName = require('./utils/getWeatherClassName');
+const isGreatWheelOpen = require('./utils/isGreatWheelOpen');
 const weather = require('./utils/weatherTypes');
 
 const LOADING_THRESHOLD = 500;
 function addWeatherToDOM(blob, fetchStartTime) {
-    // extra handling for custom locations (via URL override)
-    if (window.custom_location) {
-        window.latitude = blob.coord.lat
-        window.longitude = blob.coord.lon
-        window.location_saved = true
-    }
+    handleCustomLocations(blob)
 
     let weatherElement = document.getElementById('weather');
     require('./styles/sun-and-moon.scss');
+
+    if (isGreatWheelOpen(blob.dt, blob.timezone)) {
+        addClass(weatherElement, 'greatWheelOpen')
+    }
 
     let { baseWeatherType, weatherModifier } = getWeatherClassName(blob.weather[0].id);
 
@@ -48,6 +48,19 @@ function addWeatherToDOM(blob, fetchStartTime) {
         next();
     } else {
         setTimeout(next, LOADING_THRESHOLD - msSinceFetchStart);
+    }
+}
+
+/**
+ * extra handling for custom locations (via URL override).
+ * the moon API request needs lat/long values, which aren't
+ * available until the weather API returns them.
+ */ 
+function handleCustomLocations(blob) {
+    if (window.custom_location) {
+        window.latitude = blob.coord.lat
+        window.longitude = blob.coord.lon
+        window.location_saved = true
     }
 }
 
