@@ -1,30 +1,45 @@
 {
-    "name": "hows-the-weather-seattle",
-    "description": "A widget that shows the current state of Seattle's weather. Supports query params to override weather location, but will always display Seattle skyline as viewed from N Beacon Hill (Dr. Jose Rizal park).",
-    "version": "0.1.0",
-    "main": "index.html",
-    "scripts": {
-        "build": "browserify ./src/index.js -t scssify -o ./dist/bundle.js",
-        "build:watch": "watchify ./src/index.js -t scssify -o ./dist/bundle.js -v",
-        "pretty": "prettier --single-quote --trailing-comma=es5 --tab-width 4 --no-semi --arrow-parens avoid --print-width 120 es5 --write '{src,test}/{,**/}*.js'",
-        "todo": "notes"
-    },
-    "devDependencies": {
-        "browserify": "^16.2.3",
-        "notes": "^0.0.4",
-        "prettier": "1.19.1",
-        "scssify": "^3.0.1",
-        "watchify": "^3.11.0"
-    },
-    "keywords": ["seattle", "weather", "css", "openweathermap", "solunar", "100days", "github-pages"],
-    "author": "Jeri Sommers <some.jeri@gmail.com>",
-    "license": "Apache-2.0",
-    "bugs": {
-        "url": "https://github.com/sojeri/howsTheWeatherSeattle/issues?q=is%3Aissue+is%3Aopen+label%3Abug"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/git@github.com:sojeri/howsTheWeatherSeattle.git"
-    },
-    "homepage": "https://sojeri.github.io/howsTheWeatherSeattle"
+  "name": "hows-the-weather-seattle",
+  "description": "A widget that shows the current state of Seattle's weather. Supports query params to override weather location, but will always display Seattle skyline as viewed from N Beacon Hill (Dr. Jose Rizal park).",
+  "version": "0.1.0",
+  "main": "index.html",
+  "scripts": {
+    "build": "browserify ./src/index.js -t scssify -o ./dist/bundle.js",
+    "build:watch": "watchify ./src/index.js -t scssify -o ./dist/bundle.js -v",
+    "pretty": "prettier --single-quote --trailing-comma=es5 --tab-width 4 --no-semi --arrow-parens avoid --print-width 120 es5 --write '{src,test}/{,**/}*.js'",
+    "todo": "notes"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "husky": "^3.1.0",
+    "notes": "^0.0.4",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1",
+    "scssify": "^3.0.1",
+    "watchify": "^3.11.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "keywords": [
+    "seattle",
+    "weather",
+    "css",
+    "openweathermap",
+    "solunar",
+    "100days",
+    "github-pages"
+  ],
+  "author": "Jeri Sommers <some.jeri@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/sojeri/howsTheWeatherSeattle/issues?q=is%3Aissue+is%3Aopen+label%3Abug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/git@github.com:sojeri/howsTheWeatherSeattle.git"
+  },
+  "homepage": "https://sojeri.github.io/howsTheWeatherSeattle"
 }
