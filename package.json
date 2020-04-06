@@ -1,7 +1,7 @@
 {
     "name": "hows-the-weather-seattle",
     "description": "A widget that shows the current state of Seattle's weather. Supports query params to override weather location, but will always display Seattle skyline as viewed from N Beacon Hill (Dr. Jose Rizal park).",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "main": "index.html",
     "scripts": {
         "build": "browserify ./src/index.js -t scssify -o ./dist/bundle.js",
