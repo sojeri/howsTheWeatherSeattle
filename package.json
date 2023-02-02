@@ -6,12 +6,15 @@
     "scripts": {
         "build": "browserify ./src/index.js -t scssify -o ./dist/bundle.js",
         "build:watch": "watchify ./src/index.js -t scssify -o ./dist/bundle.js -v",
+        "c": "cz",
+        "commit": "cz",
         "postinstall": "yarn build & yarn audit",
         "pretty": "prettier --write '{src,test}/{,**/}*.js'",
         "todo": "notes"
     },
     "devDependencies": {
         "browserify": "^16.2.3",
+        "cz-conventional-changelog": "^3.3.0",
         "husky": "^3.1.0",
         "notes": "^0.0.4",
         "prettier": "1.19.1",
@@ -46,5 +49,13 @@
         "type": "git",
         "url": "https://github.com/git@github.com:sojeri/howsTheWeatherSeattle.git"
     },
-    "homepage": "https://sojeri.github.io/howsTheWeatherSeattle"
+    "homepage": "https://sojeri.github.io/howsTheWeatherSeattle",
+    "dependencies": {
+        "commitizen": "^4.3.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
 }
