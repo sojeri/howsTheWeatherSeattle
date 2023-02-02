@@ -7,6 +7,7 @@
 :root {
     --frame-width: 800px;
     --half-frame-width: 400px;
+    --base-width: 200px;
     --light-position: 120px;
     --light-size: 70px;
 }
@@ -15,6 +16,7 @@
     :root {
         --frame-width: 400px;
         --half-frame-width: 200px;
+        --base-width: 100px;
         --light-position: 60px;
         --light-size: 50px;
     }
@@ -35,7 +37,7 @@
     margin-top: calc(-1 * var(--half-frame-width));
     margin-left: calc(-1 * var(--half-frame-width));
     border-radius: 2px;
-    box-shadow: 0 0 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
     overflow: hidden;
     font-family: 'Droid Sans', Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -66,15 +68,15 @@
 
 #spinner {
     position: absolute;
-    top: calc(50% - .5 * var(--light-size));
-    left: calc(50% - .5 * var(--light-size));
-    
+    top: calc(50% - 0.5 * var(--light-size));
+    left: calc(50% - 0.5 * var(--light-size));
+
     background: #fc6;
     height: var(--light-size);
     width: var(--light-size);
     animation: spinHorizontal 1s ease-in-out infinite alternate;
     opacity: 1;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .loaded #spinner {
@@ -82,8 +84,8 @@
 }
 
 #drop {
-    height: calc(.5 * var(--light-size));
-    width: calc(.5 * var(--light-size));
+    height: calc(0.5 * var(--light-size));
+    width: calc(0.5 * var(--light-size));
     border-bottom-right-radius: 50%;
     border-bottom-left-radius: 50%;
     border-top-left-radius: 50%;
@@ -92,8 +94,13 @@
 }
 
 @keyframes spinHorizontal {
-    0% { transform: rotateY(0deg); }
-    100% { background: #69f; transform: rotateY(360deg); }
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        background: #69f;
+        transform: rotateY(360deg);
+    }
 }
 
 #weather {
@@ -113,11 +120,15 @@
     align-items: center;
 }
 
-.clouds, .rain, .snow {
+.clouds,
+.rain,
+.snow {
     background: $cloudyDayBgColor;
 }
 
-.clear, .mist, .smoke {
+.clear,
+.mist,
+.smoke {
     background: $clearDayBgColor;
 }
 
