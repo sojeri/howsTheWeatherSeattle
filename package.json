@@ -18,6 +18,9 @@
         "scssify": "^3.0.1",
         "watchify": "^3.11.0"
     },
+    "resolutions": {
+        "node-sass": "^7.0.0"
+    },
     "husky": {
         "hooks": {
             "pre-commit": "pretty-quick --staged"
