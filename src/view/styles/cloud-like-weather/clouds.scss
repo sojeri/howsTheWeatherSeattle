@@ -1,84 +1,99 @@
 @import '../variables';
 
-.cloud, .puff, .cloud:after, .puff:after {
+.cloud,
+.puff,
+.cloud:after,
+.puff:after {
     position: absolute;
     background: $cloudDayColor;
     border-radius: 50%;
     z-index: $foregroundWeather;
 }
 
-.light { // TODO: can has pseudo selector usage here instead of repeated cloud puff forever?
-    .cloud, .puff, .cloud:after, .puff:after {
+.light {
+    // TODO: can has pseudo selector usage here instead of repeated cloud puff forever?
+    .cloud,
+    .puff,
+    .cloud:after,
+    .puff:after {
         background: $lightCloudDayColor;
         transform: $lightCloudTransforms;
     }
 }
 
 .heavy {
-    .cloud, .puff, .cloud:after, .puff:after {
+    .cloud,
+    .puff,
+    .cloud:after,
+    .puff:after {
         background: $heavyCloudDayColor;
         transform: $heavyCloudTransforms;
     }
 }
 
 .isFalling {
-    .cloud, .puff, .cloud:after, .puff:after {
+    .cloud,
+    .puff,
+    .cloud:after,
+    .puff:after {
         background: $cloudDayColor;
     }
 }
 
-.cloud, .cloud:after {
-    height: 100px;
-    filter: blur(10px);
+.cloud,
+.cloud:after {
+    height: var(--base-width);
+    filter: blur(calc(var(--base-width) * 0.1));
 }
 
-.puff, .puff:after {
-    height: 80px;
-    width: 250px;
-    filter: blur(15px);
+.puff,
+.puff:after {
+    height: calc(var(--base-width) * 0.8);
+    width: calc(var(--base-width) * 2.5);
+    filter: blur(calc(var(--base-width) * 0.15));
 }
 
-.cloud.one, {
-    top: -10px;
-    left: -30px;
-    width: 500px;
+.cloud.one {
+    top: calc(var(--base-width) * -0.1);
+    left: calc(var(--base-width) * -0.3);
+    width: calc(var(--base-width) * 5);
 
     &:after {
-        width: 500px;
+        width: calc(var(--base-width) * 5);
     }
 }
 
 .cloud.two {
-    top: 40px;
-    left: 80px;
-    width: 300px;
+    top: calc(var(--base-width) * 0.4);
+    left: calc(var(--base-width) * 0.8);
+    width: calc(var(--base-width) * 3);
 
     &:after {
-        width: 300px;
+        width: calc(var(--base-width) * 3);
     }
 }
 
 .cloud.three {
-    top: 80px;
-    left: 180px;
-    width: 400px;
+    top: calc(var(--base-width) * 0.8);
+    left: calc(var(--base-width) * 1.8);
+    width: calc(var(--base-width) * 4);
 
     &:after {
-        width: 400px;
+        width: calc(var(--base-width) * 4);
     }
 }
 
 .puff.one {
-    top: 120px;
-    left: 20px;
+    top: calc(var(--base-width) * 1.2);
+    left: calc(var(--base-width) * 0.2);
 }
 
 .puff.two {
-    top: 140px;
-    left: 120px;
+    top: calc(var(--base-width) * 1.4);
+    left: calc(var(--base-width) * 1.2);
 }
 
 .puff.three {
-    top: 50px;
-    left: 330px;
+    top: calc(var(--base-width) * 0.5);
+    left: calc(var(--base-width) * 3.3);
 }

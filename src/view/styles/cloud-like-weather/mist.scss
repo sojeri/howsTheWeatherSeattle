@@ -2,9 +2,12 @@
 @import './clouds.scss';
 
 .mist {
-    .cloud, .puff, .cloud:after, .puff:after {
+    .cloud,
+    .puff,
+    .cloud:after,
+    .puff:after {
         background: $mistDayColor;
         transform: $mistTransforms;
-        filter: blur(30px);
+        filter: blur(calc(var(--base-width) * 0.3));
     }
 }

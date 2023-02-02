@@ -3,13 +3,16 @@
 
 // TODO: add poison symbols? ☣︎ ☠️
 .smoke {
-    .cloud, .puff, .cloud:after, .puff:after {
+    .cloud,
+    .puff,
+    .cloud:after,
+    .puff:after {
         background: $smokeDayColor;
         transform: $smokeTransforms;
-        filter: blur(30px);
+        filter: blur(calc(var(--base-width) * 0.3));
     }
 
     #sun {
-        opacity: .8;
+        opacity: 0.8;
     }
 }
