@@ -6,6 +6,7 @@
     "scripts": {
         "build": "browserify ./src/index.js -t scssify -o ./dist/bundle.js",
         "build:watch": "watchify ./src/index.js -t scssify -o ./dist/bundle.js -v",
+        "postinstall": "yarn build & yarn audit",
         "pretty": "prettier --write '{src,test}/{,**/}*.js'",
         "todo": "notes"
     },
@@ -19,6 +20,7 @@
         "watchify": "^3.11.0"
     },
     "resolutions": {
+        "glob-parent": "^5.1.2",
         "node-sass": "^7.0.0"
     },
     "husky": {
