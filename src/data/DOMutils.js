@@ -9,7 +9,15 @@ function unsubscribe(eventName, eventResponseLookupString) {
     window.localStorage.removeItem(eventResponseLookupString)
 }
 
+function getRandomIdentifier() {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues
+    let array = new Uint32Array(2)
+    window.crypto.getRandomValues(array)
+    return array.join()
+}
+
 module.exports = {
     subscribe,
     unsubscribe,
+    getRandomIdentifier,
 }

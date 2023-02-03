@@ -1,0 +1,24 @@
+@import './variables';
+
+#about-links {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: $absoluteForegroundLayer;
+    background-color: $transparentLightGreen;
+    text-align: center;
+}
+
+#about-links a {
+    font-weight: bold;
+    font-family: 'Droid Sans', 'Verdana', sans-serif;
+    text-decoration: none;
+    color: $darkGreen;
+    display: block;
+    padding: 0.5rem;
+}
+
+#about-links a:hover,
+#about-links a:active {
+    color: $veryDarkGreyBlue;
+}

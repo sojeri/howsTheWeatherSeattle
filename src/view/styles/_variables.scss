@@ -22,7 +22,6 @@ $absoluteForegroundLayer: 8;
     z-index: $skylineForeground;
 }
 
-
 //== colors
 
 // raw colors
@@ -31,7 +30,7 @@ $red: #f36;
 $orange: #f86; // TODO: consider color for falling sideways objects
 $yellow: #fc6;
 $green: #3f6;
-$darkGreen: #386; // TODO: consider color for falling sideways objects
+$darkGreen: #0a3; // TODO: consider color for falling sideways objects
 $brightLightBlue: #3cf;
 $dullLightBlue: #69f;
 $dullBlue: #29c;
@@ -47,7 +46,8 @@ $lessDarkGreyGreen: #456;
 $mediumGrey: #aaa;
 $lightGrey: #ccc;
 $lightGreyBlue: #ccf;
-$transparentLightGrey: rgba(150, 150, 150, .6);
+$transparentLightGrey: rgba(150, 150, 150, 0.6);
+$transparentLightGreen: rgba(200, 255, 220, 0.6);
 $white: #fff;
 
 // DAY
@@ -59,13 +59,13 @@ $cloudyDayBgColor: $lightGreyBlue;
 $nightBgColor: $veryDarkGreyBlue;
 
 // CLOUDS
-$lightCloudDayColor: rgba(255, 255, 255, .7);
-$lightCloudNightColor: rgba(150, 150, 150, .7);
-$lightCloudTransforms:  scale(.7) translateY(-30%);
-$cloudDayColor: rgba(255, 255, 255, .8);
-$cloudNightColor: rgba(150, 150, 150, .8);
-$heavyCloudDayColor: rgba(255, 255, 255, .9);
-$heavyCloudNightColor: rgba(150, 150, 150, .9);
+$lightCloudDayColor: rgba(255, 255, 255, 0.7);
+$lightCloudNightColor: rgba(150, 150, 150, 0.7);
+$lightCloudTransforms: scale(0.7) translateY(-30%);
+$cloudDayColor: rgba(255, 255, 255, 0.8);
+$cloudNightColor: rgba(150, 150, 150, 0.8);
+$heavyCloudDayColor: rgba(255, 255, 255, 0.9);
+$heavyCloudNightColor: rgba(150, 150, 150, 0.9);
 $heavyCloudTransforms: scale(1.6) translateY(-30%);
 
 // LIGHTNING
@@ -73,16 +73,16 @@ $lightningDayFlashColor: rgba(255, 255, 230, 1);
 $lightningNightFlashColor: rgba(255, 255, 200, 1);
 
 // MIST
-$mistDayColor: rgba(200, 200, 255, .5);
-$mistNightColor: rgba(150, 150, 200, .4);
-$mistTransforms: translateY(140px) scaleY(.4);
+$mistDayColor: rgba(200, 200, 255, 0.5);
+$mistNightColor: rgba(150, 150, 200, 0.4);
+$mistTransforms: translateY(140px) scaleY(0.4);
 
 // THE RAIN IS COMING
-$lightRainColor: rgba(100, 130, 255, .6);
-$mediumRainColor: rgba(100, 130, 255, .75);
-$heavyRainColor: rgba(100, 130, 255, .9);
+$lightRainColor: rgba(100, 130, 255, 0.6);
+$mediumRainColor: rgba(100, 130, 255, 0.75);
+$heavyRainColor: rgba(100, 130, 255, 0.9);
 
 // SMOKE
-$smokeDayColor: rgba(200, 160, 120, .3);
-$smokeNightColor: rgba(150, 100, 50, .2);
+$smokeDayColor: rgba(200, 160, 120, 0.3);
+$smokeNightColor: rgba(150, 100, 50, 0.2);
 $smokeTransforms: translateX(-80px) translateY(30px) scaleY(2.5);
