@@ -1,5 +1,5 @@
 const logError = require('./utils/logError')
-const { subscribe, unsubscribe } = require('./DOMutils')
+const { subscribe, unsubscribe, getRandomIdentifier } = require('./DOMutils')
 
 function fetchJsonResource(URI, successCallback, failureCallback, isHealthyResponseCallback) {
     let startTime = Date.now()
@@ -43,13 +43,6 @@ function unsubscribeHandler(nextCallback, eventName, eventHandlerLookup) {
 function handleFailure(error, failureCallback) {
     if (error) logError(error)
     failureCallback()
-}
-
-function getRandomIdentifier() {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues
-    let array = new Uint32Array(2)
-    window.crypto.getRandomValues(array)
-    return array.join()
 }
 
 module.exports = fetchJsonResource
