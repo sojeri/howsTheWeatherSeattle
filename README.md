@@ -20,29 +20,32 @@ Inspired by the 100 days of CSS challenge -- specifically, inspired by day 9 -- 
 
 To load the current assets, open this project's [index.html](./index.html) in your favorite browser. Set breakpoints & muck about with CSS, etc to your heart's desire.
 
-You'll need Node.js 8.0.0+ installed to build new assets. I've been developing this on 11.4.0, but you should be able to get by with an older version if that's what you have.
-
 To install dependencies:
+
 ```
 yarn
 ```
 
 To bundle the scripts once:
+
 ```
 yarn build
 ```
 
 To bundle the scripts every time you change a file eventually imported through `src/index.js`:
+
 ```
 yarn build:watch
 ```
 
 To see random notes I've left for myself
+
 ```
 yarn todo
 ```
 
-To run the tests, you'll have to write some first. Poor choices that will come back to haunt me include.... @_@
+To run the tests, you'll have to write some first. Poor choices that will come back to haunt me include.... @\_@
 
 To see my loose to do list:
-- [check out the issues in this repository](https://github.com/sojeri/howsTheWeatherSeattle/issues)
+
+-   [check out the issues in this repository](https://github.com/sojeri/howsTheWeatherSeattle/issues)
