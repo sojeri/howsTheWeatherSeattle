@@ -20,7 +20,7 @@ let loadedModules = { weather: false, moon: false }
 function reportModuleLoaded(moduleName) {
     loadedModules[moduleName] = true
 
-    if (loadedModules.weather && loadedModules.moon) {
+    if (loadedModules.weather && loadedModules.moon && loadedModules.aqi && loadedModules.uv) {
         removeLoadingPanel()
     }
 }

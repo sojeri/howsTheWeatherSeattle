@@ -6,6 +6,7 @@ const convertStringNumberToNumber = sn => Number(sn)
 // FIXME: this logic may be broken. verify API returns always: current moon rise & set always in that order
 //        (eg, never previously set at 04:30 and back up at 21:00 when current time is 16:00 same day)
 function isMoonVisible(moonRiseTime, moonSetTime) {
+    if (!moonSetTime) return false
     let time = new Date(Date.now())
     let currentHour = time.getUTCHours() - 7
     if (currentHour < 1) currentHour += 24
