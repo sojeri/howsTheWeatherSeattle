@@ -5,7 +5,7 @@ function subscribe(eventName, eventResponse, eventResponseLookupString) {
 
 function unsubscribe(eventName, eventResponseLookupString) {
     const listenerToClear = window.localStorage.getItem(eventResponseLookupString)
-    if (listenerToClear) {
+    if (typeof listenerToClear === 'object') {
         document.removeEventListener(eventName, listenerToClear)
         window.localStorage.removeItem(eventResponseLookupString)
     }
