@@ -1,9 +1,11 @@
 const logError = require('./utils/logError')
 const { subscribe, unsubscribe, getRandomIdentifier } = require('./DOMutils')
 
-function fetchJsonResource(URI, successCallback, failureCallback, isHealthyResponseCallback) {
+function fetchJsonResource(URI, successCallback, failureCallback, isHealthyResponseCallback, headers) {
     let startTime = Date.now()
-    fetch(URI)
+    let requestOptions
+    if (headers) requestOptions = { headers }
+    fetch(URI, requestOptions)
         .then(res => handleResponse(res))
         .then(blob => checkResponseBody(blob, isHealthyResponseCallback, successCallback, failureCallback, startTime))
         .catch(err => handleFailure(err, failureCallback))
