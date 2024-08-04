@@ -5,8 +5,10 @@ function subscribe(eventName, eventResponse, eventResponseLookupString) {
 
 function unsubscribe(eventName, eventResponseLookupString) {
     const listenerToClear = window.localStorage.getItem(eventResponseLookupString)
-    document.removeEventListener(eventName, listenerToClear)
-    window.localStorage.removeItem(eventResponseLookupString)
+    if (listenerToClear) {
+        document.removeEventListener(eventName, listenerToClear)
+        window.localStorage.removeItem(eventResponseLookupString)
+    }
 }
 
 function getRandomIdentifier() {
