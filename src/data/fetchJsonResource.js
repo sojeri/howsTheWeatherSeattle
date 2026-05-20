@@ -13,6 +13,8 @@ function fetchJsonResource(URI, successCallback, failureCallback, isHealthyRespo
 
 function handleResponse(apiResponse) {
     if (!apiResponse.ok) throw new Error(`Unhealthy response returned by API. Response code: ${apiResponse.status}.`)
+    // uncomment next line to play with hard-coded weather n_n
+    // throw new Error('temp intentional failure')
     return apiResponse.json()
 }
 

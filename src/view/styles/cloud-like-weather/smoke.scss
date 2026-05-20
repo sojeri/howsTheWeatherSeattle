@@ -1,5 +1,5 @@
-@import '../variables';
-@import './clouds.scss';
+@use '../variables';
+@use './clouds.scss';
 
 // TODO: add poison symbols? ☣︎ ☠️
 .smoke {
@@ -7,8 +7,8 @@
     .puff,
     .cloud:after,
     .puff:after {
-        background: $smokeDayColor;
-        transform: $smokeTransforms;
+        background: variables.$smokeDayColor;
+        transform: variables.$smokeTransforms;
         filter: blur(calc(var(--base-width) * 0.3));
     }
 

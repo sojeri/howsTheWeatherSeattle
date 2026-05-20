@@ -1,33 +1,34 @@
-@import './variables';
+@use "sass:math";
+@use './variables';
 
 .night {
-    background: $nightBgColor;
+    background: variables.$nightBgColor;
 
     .cloud, .puff, .cloud:after, .puff:after {
-        background: $cloudNightColor;
+        background: variables.$cloudNightColor;
     }
 
     &.light {
         .cloud, .puff, .cloud:after, .puff:after {
-            background: $lightCloudNightColor;
+            background: variables.$lightCloudNightColor;
         }
     }
     
     &.heavy {
         .cloud, .puff, .cloud:after, .puff:after {
-            background: $heavyCloudNightColor;
+            background: variables.$heavyCloudNightColor;
         }
     }
 
     &.mist {
         .cloud, .puff, .cloud:after, .puff:after {
-            background: $mistNightColor;
+            background: variables.$mistNightColor;
         }
     }
 
     &.smoke {
         .cloud, .puff, .cloud:after, .puff:after {
-            background: $smokeNightColor;
+            background: variables.$smokeNightColor;
         }
     }
 }
@@ -37,14 +38,14 @@
         $name: star + '-' + $i;
     
         .#{$name} {
-            top: random(100) * 1%;
-            left: random(100) * 1%;
+            top: math.random(100) * 1%;
+            left: math.random(100) * 1%;
         }
     }
 }
 
 .star {
-    z-index: $backgroundWeather;
+    z-index: variables.$backgroundWeather;
     position: absolute;
     box-shadow: 0 0 1px 1px #fff;
 }

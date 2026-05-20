@@ -1,9 +1,9 @@
-@import '../cloud-like-weather/clouds.scss';
-@import '../variables';
-@import './falling';
+@use '../cloud-like-weather/clouds.scss';
+@use '../variables';
+@use './falling';
 
 .isFalling .weather {
-    z-index: $foregroundBackgroundWeather;
+    z-index: variables.$foregroundBackgroundWeather;
     position: absolute;
     top: calc(var(--frame-width) / -40);
     opacity: 0;
@@ -13,8 +13,8 @@
 .tiny.weather {
     height: 16px;
     width: 8px;
-    background: $lightRainColor;
+    background: variables.$lightRainColor;
 }
 
-@include baseAnimations();
-@include falling(tiny);
+@include falling.baseAnimations();
+@include falling.falling(tiny);

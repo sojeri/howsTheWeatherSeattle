@@ -6,7 +6,7 @@ const OWM_APPID = '231512774f62e8fcb7d1a19af041b94d'
 const WEATHER_ENDPOINT = `https://api.openweathermap.org/data/2.5/weather?lat=${SEATTLE_LAT}&lon=${SEATTLE_LONG}&units=imperial&appid=${OWM_APPID}`
 const FALLBACK_WEATHER = {
     weather: [{ id: 601 }],
-    wind: { speed: 25, deg: 90 },
+    wind: { speed: 15, deg: 90 },
     main: {
         humidity: 84,
         temp: 52,
@@ -31,7 +31,9 @@ const FALLBACK_MOON = {
 }
 
 function getMoonUrl(lat, long) {
-    return `https://api.solunar.org/solunar/${lat},${long},${REPLACE},-7`
+    return null;
+    // RIP solunar ;_;
+    // return `https://api.solunar.org/solunar/${lat},${long},${REPLACE},-7`
 }
 
 // https://openweathermap.org/api/air-pollution

@@ -1,13 +1,13 @@
-@import '../variables';
-@import './clouds.scss';
+@use '../variables';
+@use './clouds.scss';
 
 .mist {
     .cloud,
     .puff,
     .cloud:after,
     .puff:after {
-        background: $mistDayColor;
-        transform: $mistTransforms;
+        background: variables.$mistDayColor;
+        transform: variables.$mistTransforms;
         filter: blur(calc(var(--base-width) * 0.3));
     }
 }

@@ -1,4 +1,6 @@
-$spacing: 400px / 11; // FIXME: use css var base value here & refactor css vars to use same bases
+@use "sass:math";
+
+$spacing: calc(400px / 11);
 
 // wind names
 $east: '-east';
@@ -10,26 +12,25 @@ $westHigh: $west + '-high';
 
 // wind drift / translate
 $noWindDrift: 10px;
-$westWindDrift: $spacing / 2;
-$eastWindDrift: -$westWindDrift;
+$westWindDrift: calc($spacing / 2);
+$eastWindDrift: calc(-1 * $westWindDrift);
 $eastOffsetModifier: $westWindDrift;
 $westOffsetModifier: $eastWindDrift;
 $highWindInitialModifier: 5;
 $highWindDriftModifier: 8;
-$medWindInitialModifier: $highWindInitialModifier / 2;
-$medWindDriftModifier: $highWindDriftModifier / 2;
-
+$medWindInitialModifier: calc($highWindInitialModifier / 2);
+$medWindDriftModifier: calc($highWindDriftModifier / 2);
 
 @mixin generateDropAnimation($dropName, $windName, $windTranslate, $initial, $initialTranslate) {
     $id: $dropName + $windName;
-    $left: $initial + $initialTranslate;
+    $left: calc($initial + $initialTranslate);
     
     left: $left;
     @keyframes #{$id} {
         100% {
             opacity: .4;
             top: calc(var(--weather-height) + var(--weather-height) / 4);
-            left: $left + $windTranslate + $windTranslate / 4;
+            left: calc($left + $windTranslate + calc($windTranslate / 4));
         }
     }
 }
@@ -39,9 +40,9 @@ $medWindDriftModifier: $highWindDriftModifier / 2;
     @for $i from 1 through 10 {
         $name: weather + '-' + $i;
         $dropName: falling + '-' + $i;
-        $baseOffset: $spacing * $i;
-        $offset: 0;
-        $leftOffset: $offset + $baseOffset;
+        $baseOffset: calc($spacing * $i);
+        $offset: 0px; // has to be px for calc unit handling -- because $spacing is px
+        $leftOffset: calc($offset + $baseOffset);
 
         .#{$name} {
             @include generateDropAnimation($dropName, '', $noWindDrift, $leftOffset, 0px);
@@ -52,23 +53,23 @@ $medWindDriftModifier: $highWindDriftModifier / 2;
         }
 
         .wind-east.wind-med .#{$name} {
-            @include generateDropAnimation($dropName, $eastMed, $eastWindDrift * $medWindDriftModifier, $leftOffset, $eastOffsetModifier * $medWindInitialModifier);
+            @include generateDropAnimation($dropName, $eastMed, calc($eastWindDrift * $medWindDriftModifier), $leftOffset, calc($eastOffsetModifier * $medWindInitialModifier));
             }
             
         .wind-east.wind-high .#{$name} {
-            @include generateDropAnimation($dropName, $eastHigh, $eastWindDrift * $highWindDriftModifier, $leftOffset, $eastOffsetModifier * $highWindInitialModifier);
+            @include generateDropAnimation($dropName, $eastHigh, calc($eastWindDrift * $highWindDriftModifier), $leftOffset, calc($eastOffsetModifier * $highWindInitialModifier));
         }
 
         .wind-west .#{$name} {
-            @include generateDropAnimation($dropName, $westMed, $westWindDrift * $highWindDriftModifier, $leftOffset, $westOffsetModifier * $highWindInitialModifier);
+            @include generateDropAnimation($dropName, $westMed, calc($westWindDrift * $highWindDriftModifier), $leftOffset, calc($westOffsetModifier * $highWindInitialModifier));
         }
 
         .wind-west.wind-med .#{$name} {
-            @include generateDropAnimation($dropName, $westMed, $westWindDrift * $medWindDriftModifier, $leftOffset, $westOffsetModifier * $medWindInitialModifier);
+            @include generateDropAnimation($dropName, $westMed, calc($westWindDrift * $medWindDriftModifier), $leftOffset, calc($westOffsetModifier * $medWindInitialModifier));
         }
 
         .wind-west.wind-high .#{$name} {
-            @include generateDropAnimation($dropName, $westHigh, $westWindDrift * $highWindDriftModifier, $leftOffset, $westOffsetModifier * $highWindInitialModifier);
+            @include generateDropAnimation($dropName, $westHigh, calc($westWindDrift * $highWindDriftModifier), $leftOffset, calc($westOffsetModifier * $highWindInitialModifier));
         }
     }
 }
@@ -84,8 +85,8 @@ $medWindDriftModifier: $highWindDriftModifier / 2;
     @for $i from 1 through 10 {
         $name: weather + '-' + $i;
         $dropName: falling + '-' + $i;
-        $animationOffset: random(15)/10 + s;
-        $fallDuration: 1 + random(20)/10 + s;
+        $animationOffset: calc(math.random(15)/10) + s;
+        $fallDuration: 1 + calc(math.random(20)/10) + s;
     
         .#{$baseClass}.#{$name} {
             @include drop($dropName, '', $fallDuration, $animationOffset);

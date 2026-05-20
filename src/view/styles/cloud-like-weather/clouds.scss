@@ -1,13 +1,13 @@
-@import '../variables';
+@use '../variables';
 
 .cloud,
 .puff,
 .cloud:after,
 .puff:after {
     position: absolute;
-    background: $cloudDayColor;
+    background: variables.$cloudDayColor;
     border-radius: 50%;
-    z-index: $foregroundWeather;
+    z-index: variables.$foregroundWeather;
 }
 
 .light {
@@ -16,8 +16,8 @@
     .puff,
     .cloud:after,
     .puff:after {
-        background: $lightCloudDayColor;
-        transform: $lightCloudTransforms;
+        background: variables.$lightCloudDayColor;
+        transform: variables.$lightCloudTransforms;
     }
 }
 
@@ -26,8 +26,8 @@
     .puff,
     .cloud:after,
     .puff:after {
-        background: $heavyCloudDayColor;
-        transform: $heavyCloudTransforms;
+        background: variables.$heavyCloudDayColor;
+        transform: variables.$heavyCloudTransforms;
     }
 }
 
@@ -36,7 +36,7 @@
     .puff,
     .cloud:after,
     .puff:after {
-        background: $cloudDayColor;
+        background: variables.$cloudDayColor;
     }
 }
 

@@ -1,9 +1,11 @@
-@import './mediumFalling.scss';
+@use './falling';
+@use './mediumFalling.scss';
+@use '../variables';
 
 .large.weather {
     height: 30px;
     width: 16px;
-    background: $heavyRainColor;
+    background: variables.$heavyRainColor;
 }
 
-@include falling(large);
+@include falling.falling(large);

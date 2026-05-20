@@ -1,4 +1,4 @@
-@import './variables';
+@use './variables';
 
 @mixin wind($speed) {
     &.wind-east {
@@ -90,5 +90,5 @@
     }
 }
 
-@include windAnimationWithTransform(Mist, $mistTransforms);
-@include windAnimationWithTransform(Smoke, $smokeTransforms);
+@include windAnimationWithTransform(Mist, variables.$mistTransforms);
+@include windAnimationWithTransform(Smoke, variables.$smokeTransforms);

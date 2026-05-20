@@ -33,7 +33,13 @@ function loadMoon() {
 
 function actuallyLoadMoon() {
     const date = getDateParam(new Date(Date.now()))
-    fetchJsonResource(moonURI.replace(REPLACE, date), addMoonToDOM, useFallbackMoon, isSuccessfulReponseBody)
+    
+    // RIP solunar ;_;
+    // TODO: find new moon API
+    console.error('RIP solunar.org moon API. using fallback hard-coded moon data for now.');
+    return useFallbackMoon(); 
+
+    // fetchJsonResource(moonURI.replace(REPLACE, date), addMoonToDOM, useFallbackMoon, isSuccessfulReponseBody)
 }
 
 function isSuccessfulReponseBody(blob) {

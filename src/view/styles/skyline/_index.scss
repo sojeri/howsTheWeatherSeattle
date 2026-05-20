@@ -1,4 +1,8 @@
-@import '../variables';
+@use '../variables';
+@use './greatWheel';
+@use './smithTower';
+@use './columbiaTower';
+@use './i5corridor';
 
 $buildingDayColor: #666;
 $buildingNightColor: #123;
@@ -7,7 +11,8 @@ $wamuRoofNightColor: rgba(51,204,255,.4);
 $greenRoofColor: rgba(100,200,200,.5);
 
 %skylinePseudo {
-    @extend %pseudoElement;
+    content: '';
+    position: absolute;
     height: 100%;
     width: 100%;
 }
@@ -65,8 +70,3 @@ $greenRoofColor: rgba(100,200,200,.5);
         }
     }
 }
-
-@import './greatWheel';
-@import './smithTower';
-@import './columbiaTower';
-@import './i5corridor';

@@ -1,15 +1,18 @@
-@import '../variables';
+@use '../variables';
 
 // colors
-$buildingDayColor: $mediumGrey;
-$buildingNightColor: $darkGreyGreen;
-$globeDayColor: $white;
+$buildingDayColor: variables.$mediumGrey;
+$buildingNightColor: variables.$darkGreyGreen;
+$globeDayColor: variables.$white;
 $globeDayGlow: 0 0 0 0 $globeDayColor;
-$globeNightColor: $brightLightBlue;
+$globeNightColor: variables.$brightLightBlue;
 $globeNightGlow: 0 0 8px 1px $globeNightColor;
 
 #smith-tower {
-    @extend %skylineForeground;
+    // FIXME: fr @extend %skylineForeground
+    z-index: variables.$skylineForeground;
+
+    // orig styles
     position: absolute;
     top: 80%;
     left: 34%;
@@ -20,7 +23,14 @@ $globeNightGlow: 0 0 8px 1px $globeNightColor;
 }
 
 #smith-tower-globe {
-    @extend %skylinePseudo;
+    // FIXME: fr @extend %skylinePseudo
+    height: 100%;
+    width: 100%;
+    // FIXME: fr @extend %pseudoElement in %skylinePseudo
+    content: '';
+    position: absolute;
+
+    // orig styles
     top: 79.5%;
     left: 35.2%;
     height: calc(var(--frame-width) / 200);

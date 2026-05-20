@@ -1,8 +1,8 @@
-@import '../variables';
+@use '../variables';
 
-$buildingDayColor: $lessDarkGreyGreen;
-$buildingNightColor: $veryDarkGreyGreen;
-$lightColor: $purplePink;
+$buildingDayColor: variables.$lessDarkGreyGreen;
+$buildingNightColor: variables.$veryDarkGreyGreen;
+$lightColor: variables.$purplePink;
 $lightGlow: 0 0 4px 1px $lightColor;
 
 .columbia-tower {

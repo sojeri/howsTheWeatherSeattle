@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../variables';
 
 // IMPORTANT: be careful when modifying these values & animation defs below.
 //            less than 3 flashes per second is the max threshhold.
@@ -7,7 +7,7 @@ $lightningDuration: 6s;
 $lightningOffset: -4s;
 
 #lightning {
-    z-index: $absoluteForegroundLayer;
+    z-index: variables.$absoluteForegroundLayer;
     position: absolute;
     top: 0;
     left: 0;
@@ -23,12 +23,12 @@ $lightningOffset: -4s;
 
 @keyframes lightningDay {
     98.5% { opacity: 0; }
-    99% { opacity: 1; background: $lightningDayFlashColor; }
+    99% { opacity: 1; background: variables.$lightningDayFlashColor; }
     100% { opacity: 0; }
 }
 
 @keyframes lightningNight {
     98.5% { opacity: 0; }
-    99% { opacity: 1; background: $lightningNightFlashColor; }
+    99% { opacity: 1; background: variables.$lightningNightFlashColor; }
     100% { opacity: 0; }
 }

@@ -1,5 +1,5 @@
-@import './variables';
-@import './skyline/index';
+@use './variables';
+@use './skyline/index';
 
 // TODO: consider fallback values for native CSS vars
 // TODO: refactor positions & sizing to support media queries
@@ -51,7 +51,7 @@
 }
 
 #loading {
-    z-index: $absoluteForegroundLayer;
+    z-index: variables.$absoluteForegroundLayer;
     position: absolute;
     height: var(--frame-width);
     width: var(--frame-width);
@@ -123,13 +123,13 @@
 .clouds,
 .rain,
 .snow {
-    background: $cloudyDayBgColor;
+    background: variables.$cloudyDayBgColor;
 }
 
 .clear,
 .mist,
 .smoke {
-    background: $clearDayBgColor;
+    background: variables.$clearDayBgColor;
 }
 
 #data {
@@ -137,7 +137,7 @@
     width: var(--frame-width);
     flex-flow: row nowrap;
     justify-content: space-around;
-    background: $dataBgColor;
+    background: variables.$dataBgColor;
 }
 
 .temperatures {

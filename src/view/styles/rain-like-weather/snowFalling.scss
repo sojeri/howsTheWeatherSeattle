@@ -1,7 +1,8 @@
-@import '../variables';
+@use "sass:math";
+@use '../variables';
 
-$spacing: 400px / 11; // FIXME: use css var base value here & refactor css vars to use same bases
 $defaultDrift: 20px;
+$spacing: calc(400px / 11);
 
 @mixin generateFlake($name, $left) {
     left: $left;
@@ -9,12 +10,12 @@ $defaultDrift: 20px;
     @keyframes #{$name} {
         25% {
             opacity: .1;
-            left: $left - $defaultDrift;
+            left: calc($left - $defaultDrift);
             top: calc(var(--weather-height) * .2);
         }
         50% {
             opacity: .4;
-            left: $left - ($defaultDrift * 2);
+            left: calc($left - ($defaultDrift * 2));
             top: calc(var(--weather-height) * .5);
         }
         75% {
@@ -25,17 +26,16 @@ $defaultDrift: 20px;
         100% {
             opacity: .4;
             top: calc(var(--weather-height) * 1.1);
-            left: $left + $defaultDrift;
+            left: calc($left + $defaultDrift);
         }
     }
 }
-
 
 @mixin generateSnow() {
     @for $i from 1 through 10 {
         $name: weather + '-' + $i;
         $flake: falling + '-' + $i;
-        $left: $spacing * $i;
+        $left: calc($spacing * $i);
 
         @include generateFlake($flake, $left);
     }
@@ -51,8 +51,8 @@ $defaultDrift: 20px;
     @for $i from 1 through 10 {
         $name: weather + '-' + $i;
         $dropName: falling + '-' + $i;
-        $animationOffset: random(40)/10 + s;
-        $fallDuration: 3 + random(40)/10 + s;
+        $animationOffset: calc(math.random(40)/10) + s;
+        $fallDuration: 3 + calc(math.random(40)/10) + s;
     
         .#{$baseClass}.#{$name} {
             @include snowflake($dropName, $fallDuration, $animationOffset);
@@ -61,7 +61,7 @@ $defaultDrift: 20px;
 }
 
 .snow .weather {
-    z-index: $foregroundBackgroundWeather;
+    z-index: variables.$foregroundBackgroundWeather;
     position: absolute;
     top: calc(var(--frame-width) / -1);
     opacity: 0;
@@ -71,21 +71,21 @@ $defaultDrift: 20px;
     @include generateSnow();
 
     &.tiny {
-        background-image: radial-gradient($white 4%, transparent 0);
+        background-image: radial-gradient(variables.$white 4%, transparent 0);
         background-size: 40px 30px;
         background-position: 0 0, 10px 10px;
     
     }
 
     &.small {
-        background-image: radial-gradient($white 3%, transparent 0);
+        background-image: radial-gradient(variables.$white 3%, transparent 0);
         background-size: 50px 38px;
         background-position: 0 0, 10px 10px;
     
     }
 
     &.large {
-        background-image: radial-gradient($white 2.5%, transparent 0);
+        background-image: radial-gradient(variables.$white 2.5%, transparent 0);
         background-size: 60px 45px;
         background-position: 0 0, 10px 10px;
        }

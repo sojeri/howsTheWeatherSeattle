@@ -1,11 +1,11 @@
-@import './variables';
+@use './variables';
 
 #about-links {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    z-index: $absoluteForegroundLayer;
-    background-color: $transparentLightGreen;
+    z-index: variables.$absoluteForegroundLayer;
+    background-color: variables.$transparentLightGreen;
     text-align: center;
 }
 
@@ -13,12 +13,12 @@
     font-weight: bold;
     font-family: 'Droid Sans', 'Verdana', sans-serif;
     text-decoration: none;
-    color: $darkGreen;
+    color: variables.$darkGreen;
     display: block;
     padding: 0.5rem;
 }
 
 #about-links a:hover,
 #about-links a:active {
-    color: $veryDarkGreyBlue;
+    color: variables.$veryDarkGreyBlue;
 }
